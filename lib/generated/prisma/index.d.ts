@@ -893,6 +893,7 @@ export namespace Prisma {
     id: number | null
     email: string | null
     name: string | null
+    lname: string | null
     password: string | null
     imageUrl: string | null
     clerkUserId: string | null
@@ -904,6 +905,7 @@ export namespace Prisma {
     id: number | null
     email: string | null
     name: string | null
+    lname: string | null
     password: string | null
     imageUrl: string | null
     clerkUserId: string | null
@@ -915,6 +917,7 @@ export namespace Prisma {
     id: number
     email: number
     name: number
+    lname: number
     password: number
     imageUrl: number
     clerkUserId: number
@@ -936,6 +939,7 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    lname?: true
     password?: true
     imageUrl?: true
     clerkUserId?: true
@@ -947,6 +951,7 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    lname?: true
     password?: true
     imageUrl?: true
     clerkUserId?: true
@@ -958,6 +963,7 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    lname?: true
     password?: true
     imageUrl?: true
     clerkUserId?: true
@@ -1056,6 +1062,7 @@ export namespace Prisma {
     id: number
     email: string
     name: string | null
+    lname: string | null
     password: string | null
     imageUrl: string | null
     clerkUserId: string
@@ -1086,6 +1093,7 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    lname?: boolean
     password?: boolean
     imageUrl?: boolean
     clerkUserId?: boolean
@@ -1097,6 +1105,7 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    lname?: boolean
     password?: boolean
     imageUrl?: boolean
     clerkUserId?: boolean
@@ -1108,6 +1117,7 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    lname?: boolean
     password?: boolean
     imageUrl?: boolean
     clerkUserId?: boolean
@@ -1119,6 +1129,7 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    lname?: boolean
     password?: boolean
     imageUrl?: boolean
     clerkUserId?: boolean
@@ -1126,7 +1137,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "password" | "imageUrl" | "clerkUserId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "lname" | "password" | "imageUrl" | "clerkUserId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1135,6 +1146,7 @@ export namespace Prisma {
       id: number
       email: string
       name: string | null
+      lname: string | null
       password: string | null
       imageUrl: string | null
       clerkUserId: string
@@ -1566,6 +1578,7 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'Int'>
     readonly email: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
+    readonly lname: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly imageUrl: FieldRef<"User", 'String'>
     readonly clerkUserId: FieldRef<"User", 'String'>
@@ -1955,6 +1968,7 @@ export namespace Prisma {
     id: 'id',
     email: 'email',
     name: 'name',
+    lname: 'lname',
     password: 'password',
     imageUrl: 'imageUrl',
     clerkUserId: 'clerkUserId',
@@ -2060,6 +2074,7 @@ export namespace Prisma {
     id?: IntFilter<"User"> | number
     email?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
+    lname?: StringNullableFilter<"User"> | string | null
     password?: StringNullableFilter<"User"> | string | null
     imageUrl?: StringNullableFilter<"User"> | string | null
     clerkUserId?: StringFilter<"User"> | string
@@ -2071,6 +2086,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrderInput | SortOrder
+    lname?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
     clerkUserId?: SortOrder
@@ -2086,6 +2102,7 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringNullableFilter<"User"> | string | null
+    lname?: StringNullableFilter<"User"> | string | null
     password?: StringNullableFilter<"User"> | string | null
     imageUrl?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -2096,6 +2113,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrderInput | SortOrder
+    lname?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
     clerkUserId?: SortOrder
@@ -2115,6 +2133,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"User"> | number
     email?: StringWithAggregatesFilter<"User"> | string
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
+    lname?: StringNullableWithAggregatesFilter<"User"> | string | null
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
     imageUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     clerkUserId?: StringWithAggregatesFilter<"User"> | string
@@ -2125,6 +2144,7 @@ export namespace Prisma {
   export type UserCreateInput = {
     email: string
     name?: string | null
+    lname?: string | null
     password?: string | null
     imageUrl?: string | null
     clerkUserId: string
@@ -2136,6 +2156,7 @@ export namespace Prisma {
     id?: number
     email: string
     name?: string | null
+    lname?: string | null
     password?: string | null
     imageUrl?: string | null
     clerkUserId: string
@@ -2146,6 +2167,7 @@ export namespace Prisma {
   export type UserUpdateInput = {
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    lname?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     clerkUserId?: StringFieldUpdateOperationsInput | string
@@ -2157,6 +2179,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    lname?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     clerkUserId?: StringFieldUpdateOperationsInput | string
@@ -2168,6 +2191,7 @@ export namespace Prisma {
     id?: number
     email: string
     name?: string | null
+    lname?: string | null
     password?: string | null
     imageUrl?: string | null
     clerkUserId: string
@@ -2178,6 +2202,7 @@ export namespace Prisma {
   export type UserUpdateManyMutationInput = {
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    lname?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     clerkUserId?: StringFieldUpdateOperationsInput | string
@@ -2189,6 +2214,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    lname?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     clerkUserId?: StringFieldUpdateOperationsInput | string
@@ -2257,6 +2283,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    lname?: SortOrder
     password?: SortOrder
     imageUrl?: SortOrder
     clerkUserId?: SortOrder
@@ -2272,6 +2299,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    lname?: SortOrder
     password?: SortOrder
     imageUrl?: SortOrder
     clerkUserId?: SortOrder
@@ -2283,6 +2311,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    lname?: SortOrder
     password?: SortOrder
     imageUrl?: SortOrder
     clerkUserId?: SortOrder

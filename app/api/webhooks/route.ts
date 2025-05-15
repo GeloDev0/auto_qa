@@ -54,13 +54,14 @@ export async function POST(req: Request) {
   // console.log('Webhook payload:', body)
 
   if(evt.type === 'user.created') {
-    const { id, email_addresses, first_name, image_url } = evt.data
+    const { id, email_addresses, first_name, last_name, image_url } = evt.data
     try {
       const newUser = await prisma.user.create({
         data: {
           clerkUserId: id,
           email: email_addresses[0].email_address,
           name: first_name,
+          lname: last_name,
           imageUrl: image_url,
         }
       });
@@ -74,6 +75,53 @@ export async function POST(req: Request) {
       });
     }
   }
+
+  if (evt.type === 'user.deleted') {
+  const clerkUserId = evt.data?.id;
+
+  if (!clerkUserId) {
+    return new Response('Error: Missing user ID in event data', { status: 400 });
+  }
+
+  try {
+    await prisma.user.deleteMany({
+      where: {
+        clerkUserId,
+      },
+    });
+
+    return new Response('User deleted from database', { status: 200 });
+  } catch (error) {
+    console.error('Error: Failed to delete user from the database:', error);
+    return new Response('Error: Failed to delete user from the database', { status: 500 });
+  }
+}
+
+if (evt.type === 'user.updated') {
+  const { id, email_addresses, first_name, last_name, image_url } = evt.data;
+
+  try {
+    await prisma.user.updateMany({
+      where: {
+        clerkUserId: id,
+      },
+      data: {
+        email: email_addresses[0]?.email_address,
+        name: first_name,
+        lname: last_name,
+        imageUrl: image_url,
+      },
+    });
+
+    return new Response('User updated in database', { status: 200 });
+  } catch (error) {
+    console.error('Error: Failed to update user in the database:', error);
+    return new Response('Error: Failed to update user in the database', {
+      status: 500,
+    });
+  }
+}
+
 
   return new Response('Webhook received', { status: 200 })
 }
