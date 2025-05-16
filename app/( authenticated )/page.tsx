@@ -12,10 +12,5 @@ export default async function Dashboard() {
     where: { clerkUserId: userId },
   });
 
-  return (
-    <div>
-      <h1 className='text-3xl font-bold'>welcome, {dbUser?.name || "User"}</h1>
-      <p className='text-gray-500 mt-1'>manage your test cases and codes</p>
-    </div>
-  );
+  return;
 }

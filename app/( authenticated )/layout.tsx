@@ -1,4 +1,6 @@
-import Header from "@/components/layout/header";
+import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
+import { SiteHeader } from "@/components/layout/sidebar/site-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { auth } from "@clerk/nextjs/server";
 import React from "react";
 
@@ -12,9 +14,19 @@ export default async function DashboardLayout({
   if (!userId) return redirectToSignIn();
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 container mx-auto p-4">{children}</main>
-    </div>
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "calc(var(--spacing) * 72)",
+          "--header-height": "calc(var(--spacing) * 12)",
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader />
+        <main>{children}</main>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
