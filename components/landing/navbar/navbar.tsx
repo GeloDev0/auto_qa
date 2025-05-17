@@ -12,10 +12,7 @@ const Navbar = () => {
         <div className="flex items-center gap-3">
           <SignedOut>
             <SignInButton>
-              <Button
-                variant="outline"
-                className="hidden sm:inline-flex rounded-full"
-              >
+              <Button variant="outline" className="sm:inline-flex rounded-full">
                 Sign In
               </Button>
             </SignInButton>

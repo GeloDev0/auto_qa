@@ -2,24 +2,13 @@
 
 import * as React from "react";
 import {
-  IconCamera,
-  IconChartBar,
   IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
   IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
   IconTestPipe,
-  IconUsers,
+  IconSettings,
+  IconHelp,
+  type Icon,
 } from "@tabler/icons-react";
-
 import {
   Sidebar,
   SidebarContent,
@@ -28,41 +17,63 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-
 import { NavMain } from "./nav-main";
 import Image from "next/image";
+import { useUser } from "@clerk/nextjs";
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
+// Define navigation item type
+interface NavItem {
+  title: string;
+  url: string;
+  icon: Icon;
+  roles?: string[]; // Optional - if not specified, available to all roles
+}
+
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useUser();
+
+  // Get user role from Clerk metadata
+  const userRole = (user?.publicMetadata?.role as string) || "user";
+
+  // Define all possible navigation items
+  const allNavItems: NavItem[] = [
     {
       title: "Dashboard",
-      url: "/admin/dashboard",
+      url: "/dashboard",
       icon: IconDashboard,
+      roles: ["admin", "user"],
     },
     {
       title: "Projects",
-      url: "/admin/projects",
+      url: "/projects",
       icon: IconFolder,
+      roles: ["admin", "user"],
     },
     {
-      title: "Test Case ",
-      url: "/admin/testcase",
+      title: "Test Cases",
+      url: "/test-cases",
       icon: IconTestPipe,
+      roles: ["admin", "tester"],
     },
     {
-      title: "Settings",
-      url: "/admin/settings",
+      title: "Admin Panel",
+      url: "/admin",
       icon: IconSettings,
+      roles: ["admin"],
     },
-  ],
-};
+    {
+      title: "Help Center",
+      url: "/help",
+      icon: IconHelp,
+      roles: ["admin", "user"],
+    },
+  ];
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  // Filter items based on user role
+  const filteredNavItems = allNavItems.filter(
+    (item) => !item.roles || item.roles.includes(userRole)
+  );
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -71,9 +82,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuButton
               asChild
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <a href="/admin/dashboard">
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+              <a href="/dashboard">
                 <Image
                   src="/Vector.svg"
                   alt="AutoQA Logo"
@@ -87,7 +97,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={filteredNavItems} />
       </SidebarContent>
     </Sidebar>
   );
