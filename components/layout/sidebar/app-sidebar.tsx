@@ -39,13 +39,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const allNavItems: NavItem[] = [
     {
       title: "Dashboard",
-      url: "/dashboard",
+      url: userRole === "admin" ? "/admin/dashboard" : "/user/dashboard",
       icon: IconDashboard,
       roles: ["admin", "user"],
     },
     {
       title: "Projects",
-      url: "/projects",
+      url: userRole === "admin" ? "/admin/projects" : "/user/projects",
       icon: IconFolder,
       roles: ["admin", "user"],
     },

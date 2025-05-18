@@ -106,7 +106,7 @@ async function getData(): Promise<Project[]> {
   ];
 }
 
-export default async function AdminDashboard() {
+export default async function AdminProjects() {
   const data = await getData();
   // Protect the page from users who are not admins
   const isAdmin = await checkRole("admin");
