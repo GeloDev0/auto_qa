@@ -56,7 +56,7 @@ export async function POST(req: Request) {
   if(evt.type === 'user.created') {
     const { id, email_addresses, first_name, last_name, image_url } = evt.data
     try {
-      const newUser = await prisma.user.create({
+      const newUser = await prisma.user.createMany({
         data: {
           clerkUserId: id,
           email: email_addresses[0].email_address,
