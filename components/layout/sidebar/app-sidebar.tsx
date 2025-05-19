@@ -17,25 +17,22 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { NavMain } from "./nav-main";
+import { NavMain } from "@/components/layout/sidebar/nav-main";
 import Image from "next/image";
-import { useUser } from "@clerk/nextjs";
 
-// Define navigation item type
+// ✅ Fix the prop type
+interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+  userRole: string;
+}
+
 interface NavItem {
   title: string;
   url: string;
   icon: Icon;
-  roles?: string[]; // Optional - if not specified, available to all roles
+  roles?: string[];
 }
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { user } = useUser();
-
-  // Get user role from Clerk metadata
-  const userRole = (user?.publicMetadata?.role as string) || 'user';
-
-  // Define all possible navigation items
+export function AppSidebar({ userRole, ...props }: AppSidebarProps) {
   const allNavItems: NavItem[] = [
     {
       title: "Dashboard",
@@ -56,8 +53,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       title: "Admin Panel",
       url: "/admin",
       icon: IconSettings,
-      roles: ["admin"], // 👈 only visible to admin
-     
+      roles: ["admin"],
     },
     {
       title: "Help Center",
@@ -66,7 +62,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     },
   ];
 
-  // Filter items based on user role
   const filteredNavItems = allNavItems.filter(
     (item) => !item.roles || item.roles.includes(userRole)
   );
@@ -79,7 +74,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuButton
               asChild
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            >
               <a href={userRole === "admin" ? "/admin/dashboard" : "/user/dashboard"}>
                 <Image
                   src="/Vector.svg"
@@ -99,4 +95,3 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   );
 }
-
