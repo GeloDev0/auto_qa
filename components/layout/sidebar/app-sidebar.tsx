@@ -33,7 +33,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useUser();
 
   // Get user role from Clerk metadata
-  const userRole = (user?.publicMetadata?.role as string) || "user";
+  const userRole = (user?.publicMetadata?.role as string) || 'user';
 
   // Define all possible navigation items
   const allNavItems: NavItem[] = [
@@ -41,31 +41,28 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       title: "Dashboard",
       url: userRole === "admin" ? "/admin/dashboard" : "/user/dashboard",
       icon: IconDashboard,
-      roles: ["admin", "user"],
     },
     {
       title: "Projects",
       url: userRole === "admin" ? "/admin/projects" : "/user/projects",
       icon: IconFolder,
-      roles: ["admin", "user"],
     },
     {
       title: "Test Cases",
       url: "/test-cases",
       icon: IconTestPipe,
-      roles: ["admin", "tester"],
     },
     {
       title: "Admin Panel",
       url: "/admin",
       icon: IconSettings,
-      roles: ["admin"],
+      roles: ["admin"], // 👈 only visible to admin
+     
     },
     {
       title: "Help Center",
       url: "/help",
       icon: IconHelp,
-      roles: ["admin", "user"],
     },
   ];
 
@@ -83,7 +80,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-              <a href="/dashboard">
+              <a href={userRole === "admin" ? "/admin/dashboard" : "/user/dashboard"}>
                 <Image
                   src="/Vector.svg"
                   alt="AutoQA Logo"
@@ -102,3 +99,4 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   );
 }
+
