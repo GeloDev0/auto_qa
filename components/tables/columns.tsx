@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreVerticalIcon } from "lucide-react";
+import { MoreHorizontalIcon, MoreVerticalIcon } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -85,14 +86,12 @@ export const columns: ColumnDef<Project>[] = [
   },
 
   {
-    accessorKey: "actions",
-    header: "Actions",
     id: "actions",
     cell: ({ row }) => {
       const Project = row.original;
 
       return (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center ">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -101,12 +100,14 @@ export const columns: ColumnDef<Project>[] = [
                 size="icon"
               >
                 <span className="sr-only">Open menu</span>
-                <MoreVerticalIcon className="h-4 w-4" />
+                <MoreHorizontalIcon className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>View</DropdownMenuItem>
+              <Link href="/admin/testcase">
+                <DropdownMenuItem>View</DropdownMenuItem>
+              </Link>
               <DropdownMenuItem>Edit</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Delete</DropdownMenuItem>
