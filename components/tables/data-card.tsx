@@ -12,7 +12,6 @@ import { Eye, Pencil, Trash2 } from "lucide-react";
 
 interface ProjectCardProps {
   project: {
-    id: string;
     title: string;
     description: string;
     status?: string;
@@ -23,7 +22,7 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <Card className="w-full sm:max-w-xs md:max-w-md overflow-hidden shadow-md p-0 gap-2">
+    <Card className="w-full sm:max-w-xs md:max-w-md overflow-hidden shadow-md p-0 gap-2 g-gradient-to-t from-blue-100 to-white dark:from-gray-800 dark:to-gray-900">
       <CardHeader className="p-0 h-16 bg-blue-200" /> {/* Reduced height */}
       <CardContent className="p-4 pt-2">
         {" "}
@@ -32,11 +31,11 @@ export function ProjectCard({ project }: ProjectCardProps) {
           <h3 className="text-lg font-bold">{project.title}</h3>{" "}
           {/* Slightly smaller text */}
         </div>
-        <p className="text-gray-500 text-sm mb-2">{project.description}</p>{" "}
+        <p className="text-gray-500 text-sm mb-4">{project.description}</p>{" "}
         {/* Smaller text and margin */}
         <div className="flex items-center text-sm">
-          <span className="text-gray-400 mr-1">Created By</span>
-          <span>{project.createdBy}</span>
+          <span className="text-gray-500 mr-1">Created By</span>
+          <span className="text-gray-400">{project.createdBy}</span>
         </div>
       </CardContent>
       <CardFooter className="flex justify-between items-center pt-0 p-4 gap-2 border-t">
