@@ -45,11 +45,6 @@ export function AppSidebar({ userRole, ...props }: AppSidebarProps) {
       icon: IconFolder,
     },
     {
-      title: "Test Cases",
-      url: "/test-cases",
-      icon: IconTestPipe,
-    },
-    {
       title: "Admin Panel",
       url: "/admin",
       icon: IconSettings,
@@ -76,7 +71,11 @@ export function AppSidebar({ userRole, ...props }: AppSidebarProps) {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
-              <a href={userRole === "admin" ? "/admin/dashboard" : "/user/dashboard"}>
+              <a
+                href={
+                  userRole === "admin" ? "/admin/dashboard" : "/user/dashboard"
+                }
+              >
                 <Image
                   src="/Vector.svg"
                   alt="AutoQA Logo"

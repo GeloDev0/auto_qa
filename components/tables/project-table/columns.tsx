@@ -1,7 +1,7 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreVerticalIcon } from "lucide-react";
+import { MoreHorizontalIcon, MoreVerticalIcon } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -20,9 +21,9 @@ export type Project = {
   id: "PRJ-001" | "PRJ-002" | "PRJ-003" | "PRJ-004";
   title: string;
   description: string;
-  status: "active" | "inactive" | "completed";
+  status: "active" | "inactive";
   createdBy: string;
-  assignedTo: string;
+  priority: "high" | "medium" | "low";
 };
 
 export const columns: ColumnDef<Project>[] = [
@@ -65,34 +66,60 @@ export const columns: ColumnDef<Project>[] = [
     header: "Description",
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="w-32">
-        <Badge className="rounded-full">
-          {row.original.status === "active" && "Active"}
-        </Badge>
-      </div>
-    ),
-  },
-  {
     accessorKey: "createdBy",
     header: "Created By",
   },
   {
-    accessorKey: "assignedTo",
-    header: "Assignee",
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const status = row.original.status;
+      const statusColor = {
+        active: "bg-green-500",
+        inactive: "bg-blue-400",
+      };
+
+      return (
+        <Badge
+          className={`${
+            statusColor[status] || "bg-gray-200"
+          } text-white rounded-full`}
+        >
+          {status.charAt(0).toUpperCase() + status.slice(1)}
+        </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "priority",
+    header: "Priority",
+    cell: ({ row }) => {
+      const priority = row.original.priority;
+      const priorityColor = {
+        high: "bg-red-500",
+        medium: "bg-yellow-500",
+        low: "bg-blue-500",
+      };
+
+      return (
+        <Badge
+          className={`${
+            priorityColor[priority] || "bg-gray-200"
+          } text-white rounded-full`}
+        >
+          {priority.charAt(0).toUpperCase() + priority.slice(1)}
+        </Badge>
+      );
+    },
   },
 
   {
-    accessorKey: "actions",
-    header: "Actions",
     id: "actions",
     cell: ({ row }) => {
       const Project = row.original;
 
       return (
-        <div className="flex items-center justify-center">
+        <div className="flex items-center ">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -101,12 +128,14 @@ export const columns: ColumnDef<Project>[] = [
                 size="icon"
               >
                 <span className="sr-only">Open menu</span>
-                <MoreVerticalIcon className="h-4 w-4" />
+                <MoreHorizontalIcon className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem>View</DropdownMenuItem>
+              <Link href="/admin/testcase">
+                <DropdownMenuItem>View</DropdownMenuItem>
+              </Link>
               <DropdownMenuItem>Edit</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Delete</DropdownMenuItem>
