@@ -109,7 +109,7 @@ export function CreateProject() {
               )}
             />
 
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-2 gap-2">
               <FormField
                 control={form.control}
                 name="status"
@@ -129,6 +129,31 @@ export function CreateProject() {
                         <SelectItem value="active">Active</SelectItem>
                         <SelectItem value="inactive">Inactive</SelectItem>
                         <SelectItem value="completed">Completed</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Priority</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="active">High</SelectItem>
+                        <SelectItem value="inactive">Medium</SelectItem>
+                        <SelectItem value="completed">Low</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

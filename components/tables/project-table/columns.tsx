@@ -21,9 +21,9 @@ export type Project = {
   id: "PRJ-001" | "PRJ-002" | "PRJ-003" | "PRJ-004";
   title: string;
   description: string;
-  status: "active" | "inactive" | "completed";
+  status: "active" | "inactive";
   createdBy: string;
-  assignedTo: string;
+  priority: "high" | "medium" | "low";
 };
 
 export const columns: ColumnDef<Project>[] = [
@@ -66,23 +66,51 @@ export const columns: ColumnDef<Project>[] = [
     header: "Description",
   },
   {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="w-32">
-        <Badge className="rounded-full">
-          {row.original.status === "active" && "Active"}
-        </Badge>
-      </div>
-    ),
-  },
-  {
     accessorKey: "createdBy",
     header: "Created By",
   },
   {
-    accessorKey: "assignedTo",
-    header: "Assignee",
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => {
+      const status = row.original.status;
+      const statusColor = {
+        active: "bg-green-500",
+        inactive: "bg-blue-400",
+      };
+
+      return (
+        <Badge
+          className={`${
+            statusColor[status] || "bg-gray-200"
+          } text-white rounded-full`}
+        >
+          {status.charAt(0).toUpperCase() + status.slice(1)}
+        </Badge>
+      );
+    },
+  },
+  {
+    accessorKey: "priority",
+    header: "Priority",
+    cell: ({ row }) => {
+      const priority = row.original.priority;
+      const priorityColor = {
+        high: "bg-red-500",
+        medium: "bg-yellow-500",
+        low: "bg-blue-500",
+      };
+
+      return (
+        <Badge
+          className={`${
+            priorityColor[priority] || "bg-gray-200"
+          } text-white rounded-full`}
+        >
+          {priority.charAt(0).toUpperCase() + priority.slice(1)}
+        </Badge>
+      );
+    },
   },
 
   {

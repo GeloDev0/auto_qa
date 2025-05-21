@@ -1,5 +1,5 @@
-import { columns, Project } from "@/components/tables/columns";
-import { DataTable } from "@/components/tables/data-table";
+import { columns, Project } from "@/components/tables/project-table/columns";
+import { DataTable } from "@/components/tables/project-table/data-table";
 import { checkRole } from "@/utils/roles";
 import { redirect } from "next/navigation";
 
@@ -10,96 +10,105 @@ async function getData(): Promise<Project[]> {
       id: "PRJ-001",
       title: "Project 1",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      status: "active",
       createdBy: "John Doe",
-      assignedTo: "Jane Smith",
+      status: "active",
+      priority: "high",
     },
     {
       id: "PRJ-001",
       title: "Project 1",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      status: "active",
       createdBy: "John Doe",
-      assignedTo: "Jane Smith",
-    },
-
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       status: "active",
-      createdBy: "John Doe",
-      assignedTo: "Jane Smith",
-    },
-
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      status: "active",
-      createdBy: "John Doe",
-      assignedTo: "Jane Smith",
-    },
-
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      status: "active",
-      createdBy: "John Doe",
-      assignedTo: "Jane Smith",
-    },
-
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      status: "active",
-      createdBy: "John Doe",
-      assignedTo: "Jane Smith",
-    },
-
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      status: "active",
-      createdBy: "John Doe",
-      assignedTo: "Jane Smith",
-    },
-
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      status: "active",
-      createdBy: "John Doe",
-      assignedTo: "Jane Smith",
+      priority: "high",
     },
     {
       id: "PRJ-001",
       title: "Project 1",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      status: "active",
       createdBy: "John Doe",
-      assignedTo: "Jane Smith",
-    },
-
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
       status: "active",
-      createdBy: "John Doe",
-      assignedTo: "Jane Smith",
+      priority: "high",
     },
     {
       id: "PRJ-001",
       title: "Project 1",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      status: "active",
       createdBy: "John Doe",
-      assignedTo: "Jane Smith",
+      status: "active",
+      priority: "high",
+    },
+    {
+      id: "PRJ-001",
+      title: "Project 1",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      createdBy: "John Doe",
+      status: "active",
+      priority: "high",
+    },
+    {
+      id: "PRJ-001",
+      title: "Project 1",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      createdBy: "John Doe",
+      status: "active",
+      priority: "high",
+    },
+    {
+      id: "PRJ-001",
+      title: "Project 1",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      createdBy: "John Doe",
+      status: "active",
+      priority: "high",
+    },
+    {
+      id: "PRJ-001",
+      title: "Project 1",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      createdBy: "John Doe",
+      status: "active",
+      priority: "high",
+    },
+    {
+      id: "PRJ-001",
+      title: "Project 1",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      createdBy: "John Doe",
+      status: "active",
+      priority: "high",
+    },
+    {
+      id: "PRJ-001",
+      title: "Project 1",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      createdBy: "John Doe",
+      status: "active",
+      priority: "high",
+    },
+    {
+      id: "PRJ-001",
+      title: "Project 1",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      createdBy: "John Doe",
+      status: "active",
+      priority: "high",
+    },
+    {
+      id: "PRJ-001",
+      title: "Project 1",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      createdBy: "John Doe",
+      status: "active",
+      priority: "high",
+    },
+    {
+      id: "PRJ-001",
+      title: "Project 1",
+      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      createdBy: "John Doe",
+      status: "active",
+      priority: "high",
     },
 
     // ...
