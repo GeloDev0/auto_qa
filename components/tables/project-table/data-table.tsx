@@ -43,6 +43,8 @@ import { Input } from "@/components/ui/input";
 
 import { CreateProject } from "../../dialogs/project-dialog";
 import { DataTablePagination } from "./pagination";
+import { DeleteDialog } from "@/components/dialogs/delete-dialog";
+import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
 
 interface ProjectCardProps {
   project: {
@@ -193,17 +195,34 @@ export function DataTable<TData, TValue>({
                     </Badge>
                   )}
                 </div>
-
+                {/* Actions Button */}
                 <div className="flex">
                   <Button size="icon" variant="ghost">
                     <Eye className="w-4 h-4 text-blue-600" />
                   </Button>
-                  <Button size="icon" variant="ghost">
-                    <Pencil className="w-4 h-4 text-green-600" />
-                  </Button>
-                  <Button size="icon" variant="ghost">
-                    <Trash2 className="w-4 h-4 text-red-600" />
-                  </Button>
+                  <EditProjectDialog
+                    project={{
+                      title: project.title,
+                      description: project.description,
+                      status: project.status ?? "active",
+                      priority: project.priority ?? "medium",
+                    }}
+                    onEdit={(updatedProject) => {
+                      console.log("Updated Project:", updatedProject);
+                      // Update local state or call API here
+                    }}
+                  >
+                    <Button size="icon" variant="ghost">
+                      <Pencil className="w-4 h-4 text-green-600" />
+                    </Button>
+                  </EditProjectDialog>
+                  <DeleteDialog
+                    onDelete={() => console.log("Deleting project...")}
+                  >
+                    <Button size="icon" variant="ghost">
+                      <Trash2 className="w-4 h-4 text-red-600" />
+                    </Button>
+                  </DeleteDialog>
                 </div>
               </CardFooter>
             </Card>
@@ -216,7 +235,10 @@ export function DataTable<TData, TValue>({
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      className="text-muted-foreground font-medium"
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
