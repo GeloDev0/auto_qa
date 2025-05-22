@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 
 const projectSchema = z.object({
-  name: z.string().min(1).optional(),
+  title: z.string().min(1).optional(),
   description: z.string().optional(),
   status: z.enum(["ACTIVE", "INACTIVE", "COMPLETED"]).optional(),
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),

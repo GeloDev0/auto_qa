@@ -73,6 +73,18 @@ export function DataTable<TData, TValue>({
   const [rowSelection, setRowSelection] = React.useState({});
   const [isCardView, setIsCardView] = React.useState(false); // 👈 Card view toggle
 
+  const statusColor: Record<"ACTIVE" | "INACTIVE", string> = {
+  ACTIVE: "bg-green-500",
+  INACTIVE: "bg-blue-400",
+};
+
+const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
+  HIGH: "bg-red-500",
+  MEDIUM: "bg-yellow-400",
+  LOW: "bg-blue-500",
+};
+
+
   const table = useReactTable({
     data,
     columns,
@@ -183,18 +195,26 @@ export function DataTable<TData, TValue>({
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center pt- p-4 gap-2 border-t">
-                <div className="flex items-center gap-2 ">
-                  {project.status && (
-                    <Badge className="bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">
-                      {project.status}
-                    </Badge>
-                  )}
-                  {project.priority && (
-                    <Badge className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
-                      {project.priority}
-                    </Badge>
-                  )}
-                </div>
+                  <div className="flex items-center gap-2 ">
+  {project.status && (
+    <Badge
+      className={`${
+        statusColor[project.status.toUpperCase() as keyof typeof statusColor] || "bg-gray-200"
+      } text-white text-xs px-2 py-0.5 rounded-full`}
+    >
+      {project.status.toLowerCase()}
+    </Badge>
+  )}
+  {project.priority && (
+    <Badge
+      className={`${
+        priorityColor[project.priority.toUpperCase() as keyof typeof priorityColor] || "bg-gray-200"
+      } text-white text-xs px-2 py-0.5 rounded-full`}
+    >
+      {project.priority.toLowerCase()}
+    </Badge>
+  )}
+</div>
                 {/* Actions Button */}
                 <div className="flex">
                   <Button size="icon" variant="ghost">
@@ -216,13 +236,13 @@ export function DataTable<TData, TValue>({
                       <Pencil className="w-4 h-4 text-green-600" />
                     </Button>
                   </EditProjectDialog>
-                  <DeleteDialog
+                  {/* <DeleteDialog
                     onDelete={() => console.log("Deleting project...")}
                   >
                     <Button size="icon" variant="ghost">
                       <Trash2 className="w-4 h-4 text-red-600" />
                     </Button>
-                  </DeleteDialog>
+                  </DeleteDialog> */}
                 </div>
               </CardFooter>
             </Card>

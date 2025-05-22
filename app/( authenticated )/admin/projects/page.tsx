@@ -3,125 +3,27 @@ import { DataTable } from "@/components/tables/project-table/data-table";
 import { checkRole } from "@/utils/roles";
 import { redirect } from "next/navigation";
 
+// Updated fetchData function to call your API route
 async function getData(): Promise<Project[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
-    {
-      id: "PRJ-001",
-      title: "Project 1",
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      createdBy: "John Doe",
-      status: "active",
-      priority: "high",
-    },
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/projects`, {
+    cache: "no-store",
+  });
 
-    // ...
-  ];
+  if (!res.ok) {
+    throw new Error("Failed to fetch projects");
+  }
+
+  const data = await res.json();
+  return data;
 }
 
 export default async function AdminProjects() {
-  const data = await getData();
-  // Protect the page from users who are not admins
   const isAdmin = await checkRole("admin");
   if (!isAdmin) {
     redirect("/");
   }
+
+  const data = await getData();
 
   return (
     <div className="flex flex-1 flex-col">

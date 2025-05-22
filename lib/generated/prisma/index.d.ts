@@ -2094,32 +2094,32 @@ export namespace Prisma {
 
   export type ProjectMinAggregateOutputType = {
     id: number | null
-    name: string | null
     description: string | null
     status: $Enums.ProjectStatus | null
     priority: $Enums.ProjectPriority | null
     createdAt: Date | null
     updatedAt: Date | null
+    title: string | null
   }
 
   export type ProjectMaxAggregateOutputType = {
     id: number | null
-    name: string | null
     description: string | null
     status: $Enums.ProjectStatus | null
     priority: $Enums.ProjectPriority | null
     createdAt: Date | null
     updatedAt: Date | null
+    title: string | null
   }
 
   export type ProjectCountAggregateOutputType = {
     id: number
-    name: number
     description: number
     status: number
     priority: number
     createdAt: number
     updatedAt: number
+    title: number
     _all: number
   }
 
@@ -2134,32 +2134,32 @@ export namespace Prisma {
 
   export type ProjectMinAggregateInputType = {
     id?: true
-    name?: true
     description?: true
     status?: true
     priority?: true
     createdAt?: true
     updatedAt?: true
+    title?: true
   }
 
   export type ProjectMaxAggregateInputType = {
     id?: true
-    name?: true
     description?: true
     status?: true
     priority?: true
     createdAt?: true
     updatedAt?: true
+    title?: true
   }
 
   export type ProjectCountAggregateInputType = {
     id?: true
-    name?: true
     description?: true
     status?: true
     priority?: true
     createdAt?: true
     updatedAt?: true
+    title?: true
     _all?: true
   }
 
@@ -2251,12 +2251,12 @@ export namespace Prisma {
 
   export type ProjectGroupByOutputType = {
     id: number
-    name: string
     description: string | null
     status: $Enums.ProjectStatus
     priority: $Enums.ProjectPriority
     createdAt: Date
     updatedAt: Date
+    title: string | null
     _count: ProjectCountAggregateOutputType | null
     _avg: ProjectAvgAggregateOutputType | null
     _sum: ProjectSumAggregateOutputType | null
@@ -2280,57 +2280,57 @@ export namespace Prisma {
 
   export type ProjectSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
     description?: boolean
     status?: boolean
     priority?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    title?: boolean
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
     description?: boolean
     status?: boolean
     priority?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    title?: boolean
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
     description?: boolean
     status?: boolean
     priority?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    title?: boolean
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectScalar = {
     id?: boolean
-    name?: boolean
     description?: boolean
     status?: boolean
     priority?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    title?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "status" | "priority" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "status" | "priority" | "createdAt" | "updatedAt" | "title", ExtArgs["result"]["project"]>
 
   export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Project"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      name: string
       description: string | null
       status: $Enums.ProjectStatus
       priority: $Enums.ProjectPriority
       createdAt: Date
       updatedAt: Date
+      title: string | null
     }, ExtArgs["result"]["project"]>
     composites: {}
   }
@@ -2755,12 +2755,12 @@ export namespace Prisma {
    */
   interface ProjectFieldRefs {
     readonly id: FieldRef<"Project", 'Int'>
-    readonly name: FieldRef<"Project", 'String'>
     readonly description: FieldRef<"Project", 'String'>
     readonly status: FieldRef<"Project", 'ProjectStatus'>
     readonly priority: FieldRef<"Project", 'ProjectPriority'>
     readonly createdAt: FieldRef<"Project", 'DateTime'>
     readonly updatedAt: FieldRef<"Project", 'DateTime'>
+    readonly title: FieldRef<"Project", 'String'>
   }
     
 
@@ -3158,12 +3158,12 @@ export namespace Prisma {
 
   export const ProjectScalarFieldEnum: {
     id: 'id',
-    name: 'name',
     description: 'description',
     status: 'status',
     priority: 'priority',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    title: 'title'
   };
 
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
@@ -3364,22 +3364,22 @@ export namespace Prisma {
     OR?: ProjectWhereInput[]
     NOT?: ProjectWhereInput | ProjectWhereInput[]
     id?: IntFilter<"Project"> | number
-    name?: StringFilter<"Project"> | string
     description?: StringNullableFilter<"Project"> | string | null
     status?: EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
     priority?: EnumProjectPriorityFilter<"Project"> | $Enums.ProjectPriority
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
+    title?: StringNullableFilter<"Project"> | string | null
   }
 
   export type ProjectOrderByWithRelationInput = {
     id?: SortOrder
-    name?: SortOrder
     description?: SortOrderInput | SortOrder
     status?: SortOrder
     priority?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    title?: SortOrderInput | SortOrder
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -3387,22 +3387,22 @@ export namespace Prisma {
     AND?: ProjectWhereInput | ProjectWhereInput[]
     OR?: ProjectWhereInput[]
     NOT?: ProjectWhereInput | ProjectWhereInput[]
-    name?: StringFilter<"Project"> | string
     description?: StringNullableFilter<"Project"> | string | null
     status?: EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
     priority?: EnumProjectPriorityFilter<"Project"> | $Enums.ProjectPriority
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
+    title?: StringNullableFilter<"Project"> | string | null
   }, "id">
 
   export type ProjectOrderByWithAggregationInput = {
     id?: SortOrder
-    name?: SortOrder
     description?: SortOrderInput | SortOrder
     status?: SortOrder
     priority?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    title?: SortOrderInput | SortOrder
     _count?: ProjectCountOrderByAggregateInput
     _avg?: ProjectAvgOrderByAggregateInput
     _max?: ProjectMaxOrderByAggregateInput
@@ -3415,12 +3415,12 @@ export namespace Prisma {
     OR?: ProjectScalarWhereWithAggregatesInput[]
     NOT?: ProjectScalarWhereWithAggregatesInput | ProjectScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Project"> | number
-    name?: StringWithAggregatesFilter<"Project"> | string
     description?: StringNullableWithAggregatesFilter<"Project"> | string | null
     status?: EnumProjectStatusWithAggregatesFilter<"Project"> | $Enums.ProjectStatus
     priority?: EnumProjectPriorityWithAggregatesFilter<"Project"> | $Enums.ProjectPriority
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
+    title?: StringNullableWithAggregatesFilter<"Project"> | string | null
   }
 
   export type UserCreateInput = {
@@ -3505,70 +3505,70 @@ export namespace Prisma {
   }
 
   export type ProjectCreateInput = {
-    name: string
     description?: string | null
     status?: $Enums.ProjectStatus
     priority?: $Enums.ProjectPriority
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
   }
 
   export type ProjectUncheckedCreateInput = {
     id?: number
-    name: string
     description?: string | null
     status?: $Enums.ProjectStatus
     priority?: $Enums.ProjectPriority
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
   }
 
   export type ProjectUpdateInput = {
-    name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     priority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProjectUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     priority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProjectCreateManyInput = {
     id?: number
-    name: string
     description?: string | null
     status?: $Enums.ProjectStatus
     priority?: $Enums.ProjectPriority
     createdAt?: Date | string
     updatedAt?: Date | string
+    title?: string | null
   }
 
   export type ProjectUpdateManyMutationInput = {
-    name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     priority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ProjectUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
     priority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -3754,12 +3754,12 @@ export namespace Prisma {
 
   export type ProjectCountOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
     description?: SortOrder
     status?: SortOrder
     priority?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    title?: SortOrder
   }
 
   export type ProjectAvgOrderByAggregateInput = {
@@ -3768,22 +3768,22 @@ export namespace Prisma {
 
   export type ProjectMaxOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
     description?: SortOrder
     status?: SortOrder
     priority?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    title?: SortOrder
   }
 
   export type ProjectMinOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
     description?: SortOrder
     status?: SortOrder
     priority?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    title?: SortOrder
   }
 
   export type ProjectSumOrderByAggregateInput = {

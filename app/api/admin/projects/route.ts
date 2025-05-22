@@ -6,7 +6,7 @@ import { z } from "zod";
 
 // Schema
 const projectSchema = z.object({
-  name: z.string().min(1),
+  title: z.string().min(1),
   description: z.string().optional(),
   status: z.enum(["ACTIVE", "INACTIVE", "COMPLETED"]).optional(),
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
