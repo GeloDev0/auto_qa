@@ -4,6 +4,7 @@ import { AppSidebar } from "@/components/layout/sidebar/app-sidebar";
 import { SiteHeader } from "@/components/layout/sidebar/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { auth, currentUser } from "@clerk/nextjs/server"; // <-- Add this
+import { Toaster } from "@/components/ui/sonner";
 import React from "react";
 
 export default async function DashboardLayout({
@@ -32,6 +33,7 @@ export default async function DashboardLayout({
         <SiteHeader />
         <main>{children}</main>
       </SidebarInset>
+       <Toaster richColors />
     </SidebarProvider>
   );
 }

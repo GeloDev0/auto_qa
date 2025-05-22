@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,6 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useState } from "react";
+import { ButtonLoader } from "../loader/Loader";
 
 // Shared schema
 const projectFormSchema = z.object({
@@ -61,17 +63,34 @@ export function EditProjectDialog({
   children,
 }: EditProjectDialogProps) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof projectFormSchema>>({
     resolver: zodResolver(projectFormSchema),
     defaultValues: project,
   });
 
-  function handleSubmit(values: z.infer<typeof projectFormSchema>) {
-    onEdit(values);
-    setOpen(false);
-  }
+  async function onSubmit(values: z.infer<typeof projectFormSchema>) {
+    setLoading(true);
+    try {
+      // Simulated API delay
+      await new Promise((res) => setTimeout(res, 1500));
+      console.log("Submitted values:", values);
 
+      toast.success("Project has been successfully changed", {
+        description: new Date().toLocaleString(),
+      });
+
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong!", {
+        description: "Please try again later.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -83,10 +102,7 @@ export function EditProjectDialog({
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="title"
@@ -160,7 +176,14 @@ export function EditProjectDialog({
               />
             </div>
             <DialogFooter>
-              <Button type="submit">Save Changes</Button>
+              <Button
+                type="submit"
+                disabled={loading}
+                className="flex items-center justify-center gap-2 min-w-[100px]"
+              >
+                {loading && <ButtonLoader />}
+                {loading ? "Changing..." : "Save Changes"}
+              </Button>
             </DialogFooter>
           </form>
         </Form>
