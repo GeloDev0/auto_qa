@@ -38,7 +38,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 
 import { CreateProject } from "../../dialogs/project-dialog";
@@ -84,6 +84,7 @@ const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
   LOW: "bg-blue-500",
 };
 
+  const router = useRouter();
 
   const table = useReactTable({
     data,
@@ -237,12 +238,27 @@ const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
                     </Button>
                   </EditProjectDialog>
                   {/* <DeleteDialog
-                    onDelete={() => console.log("Deleting project...")}
-                  >
-                    <Button size="icon" variant="ghost">
-                      <Trash2 className="w-4 h-4 text-red-600" />
-                    </Button>
-                  </DeleteDialog> */}
+  onDelete={async () => {
+    try {
+      const res = await fetch(`/api/admin/projects/${row.original.id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to delete project");
+      }
+
+      router.refresh(); // Refresh the table to show updated data
+    } catch (err) {
+      console.error("Delete error:", err);
+    }
+  }}
+>
+  <Button size="icon" variant="ghost">
+    <Trash2 className="w-4 h-4 text-red-600" />
+  </Button>
+</DeleteDialog> */}
+
                 </div>
               </CardFooter>
             </Card>

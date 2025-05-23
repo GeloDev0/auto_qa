@@ -11,13 +11,14 @@ const projectSchema = z.object({
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
 });
 
-// API request to Fetch project record
+// GET /api/admin/projects/[id]
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id, 10);
+    const { id: idString } = await context.params;
+    const id = parseInt(idString, 10);
 
     if (isNaN(id)) {
       return NextResponse.json({ error: "Invalid project ID" }, { status: 400 });
@@ -38,13 +39,15 @@ export async function GET(
   }
 }
 
-// API request to Update project record
+// PUT /api/admin/projects/[id]
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const id = parseInt(params.id, 10);
+    const { id: idString } = await context.params;
+    const id = parseInt(idString, 10);
+
     if (isNaN(id)) {
       return NextResponse.json({ error: "Invalid project ID" }, { status: 400 });
     }
@@ -67,25 +70,27 @@ export async function PUT(
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
-
-// API request to Delete project record
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
-  try {
-    const id = parseInt(params.id, 10);
-    if (isNaN(id)) {
-      return NextResponse.json({ error: "Invalid project ID" }, { status: 400 });
-    }
+  const { id: idString } = await context.params;
+  const id = parseInt(idString, 10);
 
+  if (isNaN(id)) {
+    return NextResponse.json({ error: "Invalid project ID" }, { status: 400 });
+  }
+
+  try {
     await prisma.project.delete({
       where: { id },
     });
 
     return NextResponse.json({ message: "Project deleted" }, { status: 200 });
-  } catch (err) {
-    console.error("Delete Project Error:", err);
+  } catch (error) {
+    console.error("Delete Project Error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
+
