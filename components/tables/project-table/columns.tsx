@@ -167,13 +167,14 @@ import Link from "next/link";
 import { DeleteDialog } from "@/components/dialogs/delete-dialog";
 import { useRouter } from "next/navigation";
 import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
+import { toast } from "sonner";
 
 // Helper to capitalize first letter
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
  
 export type Project = {
-  id: "PRJ-001" | "PRJ-002" | "PRJ-003" | "PRJ-004";
+  id: number;
   title: string;
   description: string;
   status: "active" | "inactive" | "completed";
@@ -295,27 +296,39 @@ export const columns: ColumnDef<Project>[] = [
             </Link>
            <EditProjectDialog
   project={{
+    id: project.id,
     title: project.title,
     description: project.description,
     status: project.status,
     priority: project.priority,
   }}
   onEdit={async (updatedProject) => {
-    try {
-      const res = await fetch(`/api/admin/projects/${project.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedProject),
-      });
+  try {
+    // Convert lowercase enums to uppercase for backend
+    const backendProject = {
+      ...updatedProject,
+      status: updatedProject.status.toUpperCase(),
+      priority: updatedProject.priority.toUpperCase(),
+    };
 
-      if (!res.ok) throw new Error("Failed to update project");
-      router.refresh();
-    } catch (err) {
-      console.error("Update error:", err);
-    }
-  }}
+    const res = await fetch(`/api/admin/projects/${project.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(backendProject),
+    });
+
+    if (!res.ok) throw new Error("Failed to update project");
+
+    toast.success("Project updated successfully!");
+    router.refresh();
+  } catch (err) {
+    console.error("Update error:", err);
+    toast.error("Failed to update project.");
+  }
+}}
+
 >
   <Button
   variant="ghost"
