@@ -34,6 +34,12 @@ import {
 import { useState } from "react";
 import { ButtonLoader } from "../loader/Loader";
 
+function capitalizeOnlyFirstLetter(str: string): string {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+
 // Shared schema
 const projectFormSchema = z.object({
   title: z.string().min(2, {
@@ -46,14 +52,17 @@ const projectFormSchema = z.object({
   priority: z.enum(["high", "medium", "low"]),
 });
 
+type ProjectFormData = z.infer<typeof projectFormSchema> & { id: number };
+
 interface EditProjectDialogProps {
   project: {
+    id: number;
     title: string;
     description: string;
     status: "active" | "inactive" | "completed";
     priority: "high" | "medium" | "low";
   };
-  onEdit: (updatedProject: z.infer<typeof projectFormSchema>) => void;
+  onEdit: (updatedProject: ProjectFormData) => void;
   children: React.ReactElement;
 }
 
@@ -67,21 +76,25 @@ export function EditProjectDialog({
 
   const form = useForm<z.infer<typeof projectFormSchema>>({
     resolver: zodResolver(projectFormSchema),
-    defaultValues: project,
+    defaultValues: {
+      title: project.title,
+      description: project.description,
+      status: project.status,
+      priority: project.priority,
+    },
   });
 
   async function onSubmit(values: z.infer<typeof projectFormSchema>) {
     setLoading(true);
     try {
-      // Simulated API delay
       await new Promise((res) => setTimeout(res, 1500));
+
       console.log("Submitted values:", values);
 
-      toast.success("Project has been successfully changed", {
-        description: new Date().toLocaleString(),
-      });
+      // 👇 Include the ID when calling onEdit
+      onEdit({ ...values, id: project.id });
 
-      form.reset();
+      setOpen(false);
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong!", {
@@ -91,6 +104,7 @@ export function EditProjectDialog({
       setLoading(false);
     }
   }
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -137,17 +151,21 @@ export function EditProjectDialog({
                   <FormItem>
                     <FormLabel>Status</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="active">Active</SelectItem>
-                        <SelectItem value="inactive">Inactive</SelectItem>
-                        <SelectItem value="completed">Completed</SelectItem>
-                      </SelectContent>
-                    </Select>
+  <FormControl>
+    <SelectTrigger className="w-full">
+      <SelectValue>
+        {field.value ? capitalizeOnlyFirstLetter(field.value) : "Select status"}
+      </SelectValue>
+    </SelectTrigger>
+  </FormControl>
+  <SelectContent>
+    <SelectItem value="active">Active</SelectItem>
+    <SelectItem value="inactive">Inactive</SelectItem>
+    <SelectItem value="completed">Completed</SelectItem>
+  </SelectContent>
+</Select>
+
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -161,7 +179,9 @@ export function EditProjectDialog({
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger className="w-full">
-                          <SelectValue placeholder="Select status" />
+                          <SelectValue>
+                            {field.value ? capitalizeOnlyFirstLetter(field.value) : "Select priority"}
+                          </SelectValue>
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>

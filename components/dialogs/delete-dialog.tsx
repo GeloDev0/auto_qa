@@ -52,7 +52,14 @@ export function DeleteDialog({ onDelete, children }: DeleteDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogTrigger
+  asChild
+  onClick={(e) => {
+    e.stopPropagation();  // Prevent dropdown menu from closing on trigger click
+  }}
+>
+  {children}
+</DialogTrigger>
       <DialogContent className="max-w-sm rounded-xl px-6 py-8">
         <DialogHeader className="flex flex-col items-center text-center space-y-3">
           <div className="flex h-14 w-14 items-center justify-center rounded-full bg-red-100 text-red-600 shadow-sm">
@@ -82,7 +89,7 @@ export function DeleteDialog({ onDelete, children }: DeleteDialogProps) {
               disabled={loading}
             >
               {loading && <ButtonLoader />}
-              {loading ? "Deleting..." : "Deleted"}
+              {loading ? "Deleting..." : "Delete"}
             </Button>
           </div>
         </DialogFooter>

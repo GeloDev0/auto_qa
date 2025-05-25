@@ -164,12 +164,17 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { DeleteDialog } from "@/components/dialogs/delete-dialog";
+import { useRouter } from "next/navigation";
+import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
+import { toast } from "sonner";
 
 // Helper to capitalize first letter
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
+ 
 export type Project = {
-  id: "PRJ-001" | "PRJ-002" | "PRJ-003" | "PRJ-004";
+  id: number;
   title: string;
   description: string;
   status: "active" | "inactive" | "completed";
@@ -266,35 +271,101 @@ export const columns: ColumnDef<Project>[] = [
     },
   },
   {
-    id: "actions",
-    cell: ({ row }) => {
-      const project = row.original;
+  id: "actions",
+  cell: ({ row }) => {
+    const project = row.original;
+    const router = useRouter();
 
-      return (
-        <div className="flex items-center ">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+    return (
+      <div className="flex items-center space-x-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
+              size="icon"
+            >
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontalIcon className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <Link href="/admin/testcase">
+              <DropdownMenuItem>View</DropdownMenuItem>
+            </Link>
+           <EditProjectDialog
+  project={{
+    id: project.id,
+    title: project.title,
+    description: project.description,
+    status: project.status,
+    priority: project.priority,
+  }}
+  onEdit={async (updatedProject) => {
+  try {
+    // Convert lowercase enums to uppercase for backend
+    const backendProject = {
+      ...updatedProject,
+      status: updatedProject.status.toUpperCase(),
+      priority: updatedProject.priority.toUpperCase(),
+    };
+
+    const res = await fetch(`/api/admin/projects/${project.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(backendProject),
+    });
+
+    if (!res.ok) throw new Error("Failed to update project");
+
+    toast.success("Project updated successfully!");
+    router.refresh();
+  } catch (err) {
+    console.error("Update error:", err);
+    toast.error("Failed to update project.");
+  }
+}}
+
+>
+  <Button
+  variant="ghost"
+  className="w-full justify-start text-left pl-3 text-red-600"
+>
+  Edit
+</Button>
+</EditProjectDialog>
+
+
+            <DropdownMenuSeparator />
+            <DeleteDialog
+              onDelete={async () => {
+                try {
+                  const res = await fetch(`/api/admin/projects/${project.id}`, {
+                    method: "DELETE",
+                  });
+                  if (!res.ok) throw new Error("Failed to delete project");
+                  router.refresh();
+                } catch (err) {
+                  console.error("Delete error:", err);
+                }
+              }}
+            >
               <Button
-                variant="ghost"
-                className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
-                size="icon"
-              >
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontalIcon className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <Link href="/admin/testcase">
-                <DropdownMenuItem>View</DropdownMenuItem>
-              </Link>
-              <DropdownMenuItem>Edit</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Delete</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      );
-    },
+  variant="ghost"
+  className="w-full justify-start text-left pl-3 text-red-600"
+>
+  Delete
+</Button>
+
+            </DeleteDialog>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    );
   },
+},
+
 ];

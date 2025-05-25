@@ -38,16 +38,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 
 import { CreateProject } from "../../dialogs/project-dialog";
 import { DataTablePagination } from "./pagination";
 import { DeleteDialog } from "@/components/dialogs/delete-dialog";
 import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
+import { toast } from "sonner";
 
 interface ProjectCardProps {
   project: {
+    id: number;
     title: string;
     description: string;
     createdBy: string;
@@ -84,6 +86,7 @@ const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
   LOW: "bg-blue-500",
 };
 
+  const router = useRouter();
 
   const table = useReactTable({
     data,
@@ -220,29 +223,67 @@ const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
                   <Button size="icon" variant="ghost">
                     <Eye className="w-4 h-4 text-blue-600" />
                   </Button>
-                  <EditProjectDialog
-                    project={{
-                      title: project.title,
-                      description: project.description,
-                      status: project.status ?? "active",
-                      priority: project.priority ?? "medium",
-                    }}
-                    onEdit={(updatedProject) => {
-                      console.log("Updated Project:", updatedProject);
-                      // Update local state or call API here
-                    }}
-                  >
-                    <Button size="icon" variant="ghost">
-                      <Pencil className="w-4 h-4 text-green-600" />
-                    </Button>
-                  </EditProjectDialog>
-                  {/* <DeleteDialog
-                    onDelete={() => console.log("Deleting project...")}
-                  >
-                    <Button size="icon" variant="ghost">
-                      <Trash2 className="w-4 h-4 text-red-600" />
-                    </Button>
-                  </DeleteDialog> */}
+                        <EditProjectDialog
+          project={{
+            id: project.id,
+            title: project.title,
+            description: project.description,
+            status: project.status ?? "active",
+            priority: project.priority ?? "medium",
+          }}
+          onEdit={async (updatedProject) => {
+  try {
+    // Convert lowercase enums to uppercase for backend
+    const backendProject = {
+      ...updatedProject,
+      status: updatedProject.status.toUpperCase(),
+      priority: updatedProject.priority.toUpperCase(),
+    };
+
+    const res = await fetch(`/api/admin/projects/${project.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(backendProject),
+    });
+
+    if (!res.ok) throw new Error("Failed to update project");
+
+    toast.success("Project updated successfully!");
+    router.refresh();
+  } catch (err) {
+    console.error("Update error:", err);
+    toast.error("Failed to update project.");
+  }
+}}
+
+        >
+          <Button size="icon" variant="ghost">
+            <Pencil className="w-4 h-4 text-green-600" />
+          </Button>
+        </EditProjectDialog>
+                  <DeleteDialog
+  onDelete={async () => {
+    try {
+      const res = await fetch(`/api/admin/projects/${project.id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) throw new Error("Failed to delete project");
+
+      router.refresh(); // Refresh data
+    } catch (err) {
+      console.error("Delete error:", err);
+    }
+  }}
+>
+  <Button size="icon" variant="ghost">
+    <Trash2 className="w-4 h-4 text-red-600" />
+  </Button>
+</DeleteDialog>
+
+
                 </div>
               </CardFooter>
             </Card>
