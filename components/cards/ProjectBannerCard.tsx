@@ -1,6 +1,8 @@
-// components/ProjectOverviewCard.tsx
+"use client";
 
+import { useRouter } from "next/navigation";
 import { Card, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Activity, CalendarDays, ChartBar, Target } from "lucide-react";
 import { CreateTestSuite } from "../dialogs/testsuite-dialog";
 
@@ -10,6 +12,7 @@ interface ProjectBannerCardProps {
   testSuitesCount?: number;
   testCasesCount?: number;
   createdAt?: string;
+  projectId: string; // 🔥 Add this prop
 }
 
 export function ProjectBannerCard({
@@ -18,7 +21,10 @@ export function ProjectBannerCard({
   testSuitesCount,
   testCasesCount,
   createdAt,
+  projectId,
 }: ProjectBannerCardProps) {
+  const router = useRouter();
+
   return (
     <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-blue-100 pb-0">
       <CardHeader className="pb-6">
@@ -44,12 +50,7 @@ export function ProjectBannerCard({
               <CalendarDays className="h-4 w-4 text-blue-600" />
               <span className="font-medium">Created {createdAt ?? "N/A"}</span>
             </div>
-            <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-sm">
-              <Activity className="h-4 w-4 text-green-600" />
-              <span className="font-medium">
-                {testSuitesCount ?? 0} Test Suites
-              </span>
-            </div>
+
             <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-sm">
               <Target className="h-4 w-4 text-purple-600" />
               <span className="font-medium">
@@ -62,8 +63,18 @@ export function ProjectBannerCard({
             </div>
           </div>
 
-          {/* Right side: create dialog */}
-          <CreateTestSuite />
+          {/* Right side: Create & Generate buttons */}
+          <div className="flex items-center gap-2">
+            <CreateTestSuite />
+            <Button
+              onClick={() =>
+                router.push(`/admin/projects/${projectId}/generate-test-cases`)
+              }
+              variant="secondary"
+            >
+              + Generate Test Cases
+            </Button>
+          </div>
         </div>
       </CardHeader>
     </Card>

@@ -1,63 +1,43 @@
-// app/admin/projects/[projectId]/page.tsx
-
 import { ProjectBannerCard } from "@/components/cards/ProjectBannerCard";
-import { TestSuiteCard } from "@/components/cards/TestSuiteCard";
+import { columns, TestCase } from "@/components/tables/testcase-table/column";
+import { DataTable } from "@/components/tables/testcase-table/data-table";
 
-export default function ProjectDetailPage({
-  params,
-}: {
+// ✅ Get projectId from params
+interface PageProps {
   params: { projectId: string };
-}) {
+}
+
+async function getData(): Promise<TestCase[]> {
+  return [
+    {
+      id: "TC-001",
+      description: "Verify user can add items to the cart",
+      module: "Shopping Cart",
+      priority: "High",
+      type: "Functional",
+      status: "Passed",
+      createdBy: "John Doe",
+    },
+    // ...
+  ];
+}
+
+// ✅ Accept props and extract projectId
+export default async function ProjectPage({ params }: PageProps) {
+  const data = await getData();
   const { projectId } = params;
 
-  // Dummy data – in a real app you'd fetch this
-  const testSuites = [
-    {
-      id: "suite-1", // 👈 required
-      projectId, // 👈 passed from route param
-      title: "Checkout Flow",
-      description: "Tests related to cart, payment, and order confirmation.",
-      status: "active" as const,
-      testCaseCount: 8,
-      deadline: "2025-06-15",
-      assignedTo: "Jane Doe",
-    },
-    {
-      id: "suite-2",
-      projectId,
-      title: "User Management",
-      description: "Covers login, registration, profile updates.",
-      status: "pending" as const,
-      testCaseCount: 6,
-      deadline: "2025-06-10",
-      assignedTo: "John Smith",
-    },
-    {
-      id: "suite-3",
-      projectId,
-      title: "Product Catalog",
-      description: "Handles product listings, filters, and categories.",
-      status: "completed" as const,
-      testCaseCount: 4,
-      deadline: "2025-06-10",
-      assignedTo: "Alice Nguyen",
-    },
-  ];
-
   return (
-    <div className="p-6 space-y-6">
+    <div className="flex flex-1 flex-col p-6 space-y-6 max-w-7xl mx-auto">
       <ProjectBannerCard
         title="E-commerce Platform"
         description="Testing suite for the main e-commerce application including checkout, user management, and product catalog."
         testSuitesCount={3}
         testCasesCount={18}
         createdAt="May 2025"
+        projectId={projectId} // ✅ Pass it in
       />
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {testSuites.map((suite, index) => (
-          <TestSuiteCard key={index} testSuite={suite} />
-        ))}
-      </div>
+      <DataTable columns={columns} data={data} />
     </div>
   );
 }

@@ -224,7 +224,11 @@ export function DataTable<TData, TValue>({
                 </div>
                 {/* Actions Button */}
                 <div className="flex">
-                  <Button size="icon" variant="ghost">
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    onClick={() => router.push(`/admin/projects/${project.id}`)}
+                  >
                     <Eye className="w-4 h-4 text-blue-600" />
                   </Button>
                   <EditProjectDialog
@@ -352,11 +356,7 @@ export function DataTable<TData, TValue>({
         </div>
       )}
 
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          <DataTablePagination table={table} />
-        </div>
-      </div>
+      <div className="flex items-center justify-end space-x-2 py-4"></div>
     </div>
   );
 }

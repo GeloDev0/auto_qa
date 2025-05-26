@@ -292,10 +292,16 @@ export const columns: ColumnDef<Project>[] = [
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <Link href="/admin/testcase">
-                <DropdownMenuItem>View</DropdownMenuItem>
-              </Link>
+              <DropdownMenuLabel className="w-full justify-start text-left pl-3 text-grey-600">
+                Actions
+              </DropdownMenuLabel>
+              <Button
+                variant="ghost"
+                className="w-full justify-start text-left pl-3 text-grey-600"
+                onClick={() => router.push(`/admin/projects/${project.id}`)}
+              >
+                View
+              </Button>
               <EditProjectDialog
                 project={{
                   id: project.id,
@@ -336,7 +342,7 @@ export const columns: ColumnDef<Project>[] = [
               >
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-left pl-3 text-red-600"
+                  className="w-full justify-start text-left pl-3 text-grey-600"
                 >
                   Edit
                 </Button>
