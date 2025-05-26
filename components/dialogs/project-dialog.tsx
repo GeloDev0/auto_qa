@@ -375,7 +375,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -422,7 +422,14 @@ const projectFormSchema = z.object({
   }),
   status: z.enum(["ACTIVE", "INACTIVE", "COMPLETED"]),
   priority: z.enum(["HIGH", "MEDIUM", "LOW"]),
+  members: z.array(z.number()).optional(),
 });
+type User = {
+  id: number;
+  name: string;
+  lname: string;
+  imageUrl?: string;
+};
 
 export function CreateProject() {
   const [loading, setLoading] = useState(false);
@@ -436,8 +443,26 @@ export function CreateProject() {
       description: "",
       status: "ACTIVE",
       priority: "MEDIUM",
+      members: [],
     },
   });
+
+  const [users, setUsers] = useState<User[]>([]);
+
+useEffect(() => {
+  async function fetchUsers() {
+    try {
+      const res = await fetch("/api/admin/users");
+      const data = await res.json();
+      setUsers(data);
+    } catch (err) {
+      console.error("Failed to fetch users", err);
+    }
+  }
+
+  fetchUsers();
+}, []);
+
 
   async function onSubmit(values: z.infer<typeof projectFormSchema>) {
     setLoading(true);
@@ -578,6 +603,50 @@ export function CreateProject() {
                 )}
               />
             </div>
+            <FormField
+  control={form.control}
+  name="members"
+  render={() => (
+    <FormItem>
+      <FormLabel>Assign Members</FormLabel>
+      <div className="flex flex-col gap-2 max-h-64 overflow-y-auto rounded-md border p-2">
+        {users.map((user) => {
+          const isChecked = form.watch("members")?.includes(user.id);
+          return (
+            <label key={user.id} className="flex items-center gap-3">
+              <input
+                type="checkbox"
+                value={user.id}
+                checked={isChecked}
+                onChange={(e) => {
+                  const checked = e.target.checked;
+                  const value = Number(e.target.value);
+                  const current = form.getValues("members") || [];
+
+                  if (checked) {
+                    form.setValue("members", [...current, value]);
+                  } else {
+                    form.setValue(
+                      "members",
+                      current.filter((id) => id !== value)
+                    );
+                  }
+                }}
+              />
+              <img
+                src={user.imageUrl || "/default-avatar.png"}
+                alt={user.name}
+                className="w-6 h-6 rounded-full object-cover"
+              />
+              <span className="text-sm">{user.name} {user.lname}</span>
+            </label>
+          );
+        })}
+      </div>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
 
             <DialogFooter>
               <Button
