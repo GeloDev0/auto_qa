@@ -76,15 +76,15 @@ export function DataTable<TData, TValue>({
   const [isCardView, setIsCardView] = React.useState(false); // 👈 Card view toggle
 
   const statusColor: Record<"ACTIVE" | "INACTIVE", string> = {
-  ACTIVE: "bg-green-500",
-  INACTIVE: "bg-blue-400",
-};
+    ACTIVE: "bg-green-500",
+    INACTIVE: "bg-blue-400",
+  };
 
-const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
-  HIGH: "bg-red-500",
-  MEDIUM: "bg-yellow-400",
-  LOW: "bg-blue-500",
-};
+  const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
+    HIGH: "bg-red-500",
+    MEDIUM: "bg-yellow-400",
+    LOW: "bg-blue-500",
+  };
 
   const router = useRouter();
 
@@ -198,92 +198,101 @@ const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center pt- p-4 gap-2 border-t">
-                  <div className="flex items-center gap-2 ">
-  {project.status && (
-    <Badge
-      className={`${
-        statusColor[project.status.toUpperCase() as keyof typeof statusColor] || "bg-gray-200"
-      } text-white text-xs px-2 py-0.5 rounded-full`}
-    >
-      {project.status.toLowerCase()}
-    </Badge>
-  )}
-  {project.priority && (
-    <Badge
-      className={`${
-        priorityColor[project.priority.toUpperCase() as keyof typeof priorityColor] || "bg-gray-200"
-      } text-white text-xs px-2 py-0.5 rounded-full`}
-    >
-      {project.priority.toLowerCase()}
-    </Badge>
-  )}
-</div>
+                <div className="flex items-center gap-2 ">
+                  {project.status && (
+                    <Badge
+                      className={`${
+                        statusColor[
+                          project.status.toUpperCase() as keyof typeof statusColor
+                        ] || "bg-gray-200"
+                      } text-white text-xs px-2 py-0.5 rounded-full`}
+                    >
+                      {project.status.toLowerCase()}
+                    </Badge>
+                  )}
+                  {project.priority && (
+                    <Badge
+                      className={`${
+                        priorityColor[
+                          project.priority.toUpperCase() as keyof typeof priorityColor
+                        ] || "bg-gray-200"
+                      } text-white text-xs px-2 py-0.5 rounded-full`}
+                    >
+                      {project.priority.toLowerCase()}
+                    </Badge>
+                  )}
+                </div>
                 {/* Actions Button */}
                 <div className="flex">
                   <Button size="icon" variant="ghost">
                     <Eye className="w-4 h-4 text-blue-600" />
                   </Button>
-                        <EditProjectDialog
-          project={{
-            id: project.id,
-            title: project.title,
-            description: project.description,
-            status: project.status ?? "active",
-            priority: project.priority ?? "medium",
-          }}
-          onEdit={async (updatedProject) => {
-  try {
-    // Convert lowercase enums to uppercase for backend
-    const backendProject = {
-      ...updatedProject,
-      status: updatedProject.status.toUpperCase(),
-      priority: updatedProject.priority.toUpperCase(),
-    };
+                  <EditProjectDialog
+                    project={{
+                      id: project.id,
+                      title: project.title,
+                      description: project.description,
+                      status: project.status ?? "active",
+                      priority: project.priority ?? "medium",
+                    }}
+                    onEdit={async (updatedProject) => {
+                      try {
+                        // Convert lowercase enums to uppercase for backend
+                        const backendProject = {
+                          ...updatedProject,
+                          status: updatedProject.status.toUpperCase(),
+                          priority: updatedProject.priority.toUpperCase(),
+                        };
 
-    const res = await fetch(`/api/admin/projects/${project.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(backendProject),
-    });
+                        const res = await fetch(
+                          `/api/admin/projects/${project.id}`,
+                          {
+                            method: "PUT",
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(backendProject),
+                          }
+                        );
 
-    if (!res.ok) throw new Error("Failed to update project");
+                        if (!res.ok)
+                          throw new Error("Failed to update project");
 
-    toast.success("Project updated successfully!");
-    router.refresh();
-  } catch (err) {
-    console.error("Update error:", err);
-    toast.error("Failed to update project.");
-  }
-}}
-
-        >
-          <Button size="icon" variant="ghost">
-            <Pencil className="w-4 h-4 text-green-600" />
-          </Button>
-        </EditProjectDialog>
+                        toast.success("Project updated successfully!");
+                        router.refresh();
+                      } catch (err) {
+                        console.error("Update error:", err);
+                        toast.error("Failed to update project.");
+                      }
+                    }}
+                  >
+                    <Button size="icon" variant="ghost">
+                      <Pencil className="w-4 h-4 text-green-600" />
+                    </Button>
+                  </EditProjectDialog>
                   <DeleteDialog
-  onDelete={async () => {
-    try {
-      const res = await fetch(`/api/admin/projects/${project.id}`, {
-        method: "DELETE",
-      });
+                    onDelete={async () => {
+                      try {
+                        const res = await fetch(
+                          `/api/admin/projects/${project.id}`,
+                          {
+                            method: "DELETE",
+                          }
+                        );
 
-      if (!res.ok) throw new Error("Failed to delete project");
+                        if (!res.ok)
+                          throw new Error("Failed to delete project");
 
-      router.refresh(); // Refresh data
-    } catch (err) {
-      console.error("Delete error:", err);
-    }
-  }}
->
-  <Button size="icon" variant="ghost">
-    <Trash2 className="w-4 h-4 text-red-600" />
-  </Button>
-</DeleteDialog>
-
-
+                        router.refresh(); // Refresh data
+                      } catch (err) {
+                        console.error("Delete error:", err);
+                      }
+                    }}
+                  >
+                    <Button size="icon" variant="ghost">
+                      <Trash2 className="w-4 h-4 text-red-600" />
+                    </Button>
+                  </DeleteDialog>
                 </div>
               </CardFooter>
             </Card>
