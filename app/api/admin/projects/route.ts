@@ -28,8 +28,13 @@ export async function POST(req: Request) {
   return NextResponse.json(project, { status: 201 });
 }
 
-// 🔵 Get All Projects
+// 🔵 Get All Projects, ordered by id ascending
 export async function GET() {
-  const projects = await prisma.project.findMany();
+  const projects = await prisma.project.findMany({
+    orderBy: {
+      id: "asc", // ascending order by id
+    },
+  });
+
   return NextResponse.json(projects);
 }
