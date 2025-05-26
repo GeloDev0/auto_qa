@@ -10,7 +10,9 @@ const projectSchema = z.object({
   description: z.string().optional(),
   status: z.enum(["ACTIVE", "INACTIVE", "COMPLETED"]).optional(),
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
+  members: z.array(z.number()).optional(),  // user IDs array
 });
+
 
 // 🟢 API request to Create a project record
 export async function POST(req: Request) {
@@ -21,19 +23,27 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
+  const { members, ...projectData } = parsed.data;
+
   const project = await prisma.project.create({
-    data: parsed.data,
+    data: {
+      ...projectData,
+      members: members ? {
+        connect: members.map((id) => ({ id })),
+      } : undefined,
+    },
+    include: {
+      members: true,
+    },
   });
 
   return NextResponse.json(project, { status: 201 });
 }
-
 // 🔵 Get All Projects, ordered by id ascending
 export async function GET() {
   const projects = await prisma.project.findMany({
-    orderBy: {
-      id: "asc", // ascending order by id
-    },
+    orderBy: { id: "asc" },
+    include: { members: true },
   });
 
   return NextResponse.json(projects);
