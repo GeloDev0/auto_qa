@@ -79,8 +79,8 @@ export function EditProjectDialog({
     defaultValues: {
       title: project.title,
       description: project.description,
-      status: project.status,
-      priority: project.priority,
+     status: project.status.toLowerCase() as "active" | "inactive" | "completed",
+      priority: project.priority.toLowerCase() as "high" | "medium" | "low",
     },
   });
 
@@ -145,55 +145,57 @@ export function EditProjectDialog({
             />
             <div className="grid grid-cols-2 gap-2">
               <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Status</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
-  <FormControl>
-    <SelectTrigger className="w-full">
-      <SelectValue>
-        {field.value ? capitalizeOnlyFirstLetter(field.value) : "Select status"}
-      </SelectValue>
-    </SelectTrigger>
-  </FormControl>
-  <SelectContent>
-    <SelectItem value="active">Active</SelectItem>
-    <SelectItem value="inactive">Inactive</SelectItem>
-    <SelectItem value="completed">Completed</SelectItem>
-  </SelectContent>
-</Select>
+  control={form.control}
+  name="status"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Status</FormLabel>
+      <Select
+        onValueChange={field.onChange}
+        value={field.value?.toLowerCase()} // normalize if needed
+      >
+        <FormControl>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select status" />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent>
+          <SelectItem value="active">Active</SelectItem>
+          <SelectItem value="inactive">Inactive</SelectItem>
+          <SelectItem value="completed">Completed</SelectItem>
+        </SelectContent>
+      </Select>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
 
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
-                control={form.control}
-                name="priority"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Priority</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue>
-                            {field.value ? capitalizeOnlyFirstLetter(field.value) : "Select priority"}
-                          </SelectValue>
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="high">High</SelectItem>
-                        <SelectItem value="medium">Medium</SelectItem>
-                        <SelectItem value="low">Low</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+  control={form.control}
+  name="priority"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Priority</FormLabel>
+      <Select
+        onValueChange={field.onChange}
+        value={field.value?.toLowerCase()} // normalize if needed
+      >
+        <FormControl>
+          <SelectTrigger className="w-full">
+            <SelectValue placeholder="Select priority" />
+          </SelectTrigger>
+        </FormControl>
+        <SelectContent>
+          <SelectItem value="high">High</SelectItem>
+          <SelectItem value="medium">Medium</SelectItem>
+          <SelectItem value="low">Low</SelectItem>
+        </SelectContent>
+      </Select>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
             </div>
             <DialogFooter>
               <Button
