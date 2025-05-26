@@ -65,7 +65,6 @@ export function ProjectBannerCard({
 
           {/* Right side: Create & Generate buttons */}
           <div className="flex items-center gap-2">
-            <CreateTestSuite />
             <Button
               onClick={() =>
                 router.push(`/admin/projects/${projectId}/generate-test-cases`)

@@ -4,7 +4,7 @@ import { DataTable } from "@/components/tables/testcase-table/data-table";
 
 // ✅ Get projectId from params
 interface PageProps {
-  params: { projectId: string };
+  params: { id: string };
 }
 
 async function getData(): Promise<TestCase[]> {
@@ -25,7 +25,7 @@ async function getData(): Promise<TestCase[]> {
 // ✅ Accept props and extract projectId
 export default async function ProjectPage({ params }: PageProps) {
   const data = await getData();
-  const { projectId } = params;
+  const { id } = params;
 
   return (
     <div className="flex flex-1 flex-col p-6 space-y-6 max-w-7xl mx-auto">
@@ -35,7 +35,7 @@ export default async function ProjectPage({ params }: PageProps) {
         testSuitesCount={3}
         testCasesCount={18}
         createdAt="May 2025"
-        projectId={projectId} // ✅ Pass it in
+        projectId={id} // ✅ Pass it in
       />
       <DataTable columns={columns} data={data} />
     </div>
