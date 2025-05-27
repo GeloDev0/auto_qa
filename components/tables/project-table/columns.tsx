@@ -172,6 +172,13 @@ import { toast } from "sonner";
 // Helper to capitalize first letter
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
+export type Member = {
+  id: number;
+  email: string;
+  name: string;
+  lname: string;
+  imageUrl?: string;
+};
  
 export type Project = {
   id: number;
@@ -180,6 +187,7 @@ export type Project = {
   status: "active" | "inactive" | "completed";
   createdBy: string;
   priority: "high" | "medium" | "low";
+  members: Member[]; 
 };
 
 export const columns: ColumnDef<Project>[] = [
@@ -301,6 +309,7 @@ export const columns: ColumnDef<Project>[] = [
     description: project.description,
     status: project.status,
     priority: project.priority,
+    members: project.members,
   }}
   onEdit={async (updatedProject) => {
   try {

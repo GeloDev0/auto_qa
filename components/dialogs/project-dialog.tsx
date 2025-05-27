@@ -375,7 +375,7 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -434,8 +434,9 @@ type User = {
 export function CreateProject() {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
-
+  
   const form = useForm<z.infer<typeof projectFormSchema>>({
     resolver: zodResolver(projectFormSchema),
     defaultValues: {
@@ -448,6 +449,12 @@ export function CreateProject() {
   });
 
   const [users, setUsers] = useState<User[]>([]);
+
+  const filteredUsers = useMemo(() => {
+  return users.filter((user) =>
+    `${user.name} ${user.lname}`.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+}, [users, searchTerm]);
 
 useEffect(() => {
   async function fetchUsers() {
@@ -603,50 +610,124 @@ useEffect(() => {
                 )}
               />
             </div>
-            <FormField
+          <FormField
   control={form.control}
   name="members"
-  render={() => (
-    <FormItem>
-      <FormLabel>Assign Members</FormLabel>
-      <div className="flex flex-col gap-2 max-h-64 overflow-y-auto rounded-md border p-2">
-        {users.map((user) => {
-          const isChecked = form.watch("members")?.includes(user.id);
-          return (
-            <label key={user.id} className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                value={user.id}
-                checked={isChecked}
-                onChange={(e) => {
-                  const checked = e.target.checked;
-                  const value = Number(e.target.value);
-                  const current = form.getValues("members") || [];
+  render={() => {
+    const selectedIds = form.watch("members") || [];
+    const selectedUsers = users.filter((u) => selectedIds.includes(u.id));
 
-                  if (checked) {
-                    form.setValue("members", [...current, value]);
-                  } else {
-                    form.setValue(
-                      "members",
-                      current.filter((id) => id !== value)
-                    );
-                  }
-                }}
-              />
+    return (
+      <FormItem>
+        <FormLabel className="text-base font-semibold">Assign Members</FormLabel>
+
+        {/* Selected Users Display */}
+        <div className="flex flex-wrap gap-2 mb-3">
+          {selectedUsers.map((user) => (
+            <div
+              key={user.id}
+              className="flex items-center gap-2 bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm"
+            >
               <img
                 src={user.imageUrl || "/default-avatar.png"}
                 alt={user.name}
-                className="w-6 h-6 rounded-full object-cover"
+                className="w-5 h-5 rounded-full object-cover"
               />
-              <span className="text-sm">{user.name} {user.lname}</span>
-            </label>
-          );
-        })}
-      </div>
-      <FormMessage />
-    </FormItem>
-  )}
+              <span>{user.name} {user.lname}</span>
+              <button
+                type="button"
+                onClick={() => {
+                  const current = form.getValues("members") || [];
+                  form.setValue(
+                    "members",
+                    current.filter((id) => id !== user.id)
+                  );
+                }}
+                className="ml-1 text-red-500 hover:text-red-700"
+              >
+                &times;
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* Search Input */}
+        <input
+          type="text"
+          placeholder="Search members..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="mb-3 w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
+        />
+
+        {/* Select All */}
+        {filteredUsers.length > 0 && (
+          <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+            <input
+              type="checkbox"
+              checked={filteredUsers.every((user) =>
+                selectedIds.includes(user.id)
+              )}
+              onChange={(e) => {
+                const filteredIds = filteredUsers.map((u) => u.id);
+                const newValues = e.target.checked
+                  ? Array.from(new Set([...selectedIds, ...filteredIds]))
+                  : selectedIds.filter((id) => !filteredIds.includes(id));
+                form.setValue("members", newValues);
+              }}
+            />
+            Select All
+          </label>
+        )}
+
+        {/* Scrollable User List */}
+        <div className="flex flex-col gap-2 max-h-[180px] overflow-y-auto rounded-md border p-2">
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map((user) => {
+              const isChecked = selectedIds.includes(user.id);
+              return (
+                <label
+                  key={user.id}
+                  className="flex items-center gap-3 rounded-md px-2 py-1 transition hover:bg-gray-50"
+                >
+                  <input
+                    type="checkbox"
+                    value={user.id}
+                    checked={isChecked}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      const current = form.getValues("members") || [];
+                      form.setValue(
+                        "members",
+                        checked
+                          ? [...current, user.id]
+                          : current.filter((id) => id !== user.id)
+                      );
+                    }}
+                  />
+                  <img
+                    src={user.imageUrl || "/default-avatar.png"}
+                    alt={`${user.name} ${user.lname}`}
+                    className="w-7 h-7 rounded-full object-cover"
+                  />
+                  <span className="text-sm font-medium text-gray-800">
+                    {user.name} {user.lname}
+                  </span>
+                </label>
+              );
+            })
+          ) : (
+            <span className="text-sm text-gray-500 italic">No users found.</span>
+          )}
+        </div>
+
+        <FormMessage />
+      </FormItem>
+    );
+  }}
 />
+
+
 
             <DialogFooter>
               <Button
