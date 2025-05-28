@@ -171,7 +171,6 @@ import { toast } from "sonner";
 // Helper to capitalize first letter
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
-
 export type Member = {
   id: number;
   email: string;
@@ -179,7 +178,6 @@ export type Member = {
   lname: string;
   imageUrl?: string;
 };
- 
 
 export type Project = {
   id: number;
@@ -188,7 +186,7 @@ export type Project = {
   status: "active" | "inactive" | "completed";
   createdBy: string;
   priority: "high" | "medium" | "low";
-  members: Member[]; 
+  members: Member[];
 };
 
 export const columns: ColumnDef<Project>[] = [
@@ -225,10 +223,26 @@ export const columns: ColumnDef<Project>[] = [
   {
     accessorKey: "title",
     header: "Title",
+    cell: ({ row }) => {
+      const title = row.original.title;
+      return (
+        <span className="block max-w-[200px] truncate" title={title}>
+          {title}
+        </span>
+      );
+    },
   },
   {
     accessorKey: "description",
     header: "Description",
+    cell: ({ row }) => {
+      const desc = row.original.description;
+      return (
+        <span className="block max-w-[200px] truncate" title={desc}>
+          {desc}
+        </span>
+      );
+    },
   },
   {
     accessorKey: "createdBy",
@@ -284,105 +298,110 @@ export const columns: ColumnDef<Project>[] = [
     },
   },
   {
-  id: "actions",
-  cell: ({ row }) => {
-    const project = row.original;
-    const router = useRouter();
+    id: "actions",
+    cell: ({ row }) => {
+      const project = row.original;
+      const router = useRouter();
 
-    return (
-      <div className="flex items-center space-x-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
-              size="icon"
-            >
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontalIcon className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+      return (
+        <div className="flex items-center space-x-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="ghost"
+                className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
+                size="icon"
+              >
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontalIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
-            <Button
-              variant="ghost"
-              className="w-full justify-start text-left pl-3 text-grey-600"
-              onClick={() => router.push(`/admin/projects/${project.id}`)}
-            >
-              View
-            </Button>
-
-            <EditProjectDialog
-              project={{
-                id: project.id,
-                title: project.title,
-                description: project.description,
-                status: project.status,
-                priority: project.priority,
-                members: project.members,
-              }}
-              onEdit={async (updatedProject) => {
-                try {
-                  const backendProject = {
-                    ...updatedProject,
-                    status: updatedProject.status.toUpperCase(),
-                    priority: updatedProject.priority.toUpperCase(),
-                  };
-
-                  const res = await fetch(`/api/admin/projects/${project.id}`, {
-                    method: "PUT",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(backendProject),
-                  });
-
-                  if (!res.ok) throw new Error("Failed to update project");
-
-                  toast.success("Project updated successfully!");
-                  router.refresh();
-                } catch (err) {
-                  console.error("Update error:", err);
-                  toast.error("Failed to update project.");
-                }
-              }}
-            >
               <Button
                 variant="ghost"
                 className="w-full justify-start text-left pl-3 text-grey-600"
+                onClick={() => router.push(`/admin/projects/${project.id}`)}
               >
-                Edit
+                View
               </Button>
-            </EditProjectDialog>
 
-            <DropdownMenuSeparator />
+              <EditProjectDialog
+                project={{
+                  id: project.id,
+                  title: project.title,
+                  description: project.description,
+                  status: project.status,
+                  priority: project.priority,
+                  members: project.members,
+                }}
+                onEdit={async (updatedProject) => {
+                  try {
+                    const backendProject = {
+                      ...updatedProject,
+                      status: updatedProject.status.toUpperCase(),
+                      priority: updatedProject.priority.toUpperCase(),
+                    };
 
-            <DeleteDialog
-              onDelete={async () => {
-                try {
-                  const res = await fetch(`/api/admin/projects/${project.id}`, {
-                    method: "DELETE",
-                  });
-                  if (!res.ok) throw new Error("Failed to delete project");
-                  router.refresh();
-                } catch (err) {
-                  console.error("Delete error:", err);
-                }
-              }}
-            >
-              <Button
-                variant="ghost"
-                className="w-full justify-start text-left pl-3 text-red-600"
+                    const res = await fetch(
+                      `/api/admin/projects/${project.id}`,
+                      {
+                        method: "PUT",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(backendProject),
+                      }
+                    );
+
+                    if (!res.ok) throw new Error("Failed to update project");
+
+                    toast.success("Project updated successfully!");
+                    router.refresh();
+                  } catch (err) {
+                    console.error("Update error:", err);
+                    toast.error("Failed to update project.");
+                  }
+                }}
               >
-                Delete
-              </Button>
-            </DeleteDialog>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    );
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-left pl-3 text-grey-600"
+                >
+                  Edit
+                </Button>
+              </EditProjectDialog>
+
+              <DropdownMenuSeparator />
+
+              <DeleteDialog
+                onDelete={async () => {
+                  try {
+                    const res = await fetch(
+                      `/api/admin/projects/${project.id}`,
+                      {
+                        method: "DELETE",
+                      }
+                    );
+                    if (!res.ok) throw new Error("Failed to delete project");
+                    router.refresh();
+                  } catch (err) {
+                    console.error("Delete error:", err);
+                  }
+                }}
+              >
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-left pl-3 text-red-600"
+                >
+                  Delete
+                </Button>
+              </DeleteDialog>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
   },
-},
-
 ];
