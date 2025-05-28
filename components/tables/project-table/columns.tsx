@@ -147,7 +147,6 @@
 //   },
 // ];
 
-
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
@@ -172,6 +171,7 @@ import { toast } from "sonner";
 // Helper to capitalize first letter
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
+
 export type Member = {
   id: number;
   email: string;
@@ -180,6 +180,7 @@ export type Member = {
   imageUrl?: string;
 };
  
+
 export type Project = {
   id: number;
   title: string;
@@ -239,15 +240,17 @@ export const columns: ColumnDef<Project>[] = [
     cell: ({ row }) => {
       // Normalize and typecast the status key
       const status = row.original.status.toLowerCase() as "active" | "inactive";
-     const statusColor: Record<"active" | "inactive" | "completed", string> = {
-  active: "bg-blue-500",       // Blue for in-progress (common in Jira)
-  inactive: "bg-gray-400",     // Gray for paused/inactive
-  completed: "bg-green-500",   // Green for done/completed
-};
+      const statusColor: Record<"active" | "inactive" | "completed", string> = {
+        active: "bg-blue-500", // Blue for in-progress (common in Jira)
+        inactive: "bg-gray-400", // Gray for paused/inactive
+        completed: "bg-green-500", // Green for done/completed
+      };
 
       return (
         <Badge
-          className={`${statusColor[status] || "bg-gray-200"} text-white rounded-full`}
+          className={`${
+            statusColor[status] || "bg-gray-200"
+          } text-white rounded-full`}
         >
           {capitalize(status)}
         </Badge>
@@ -271,7 +274,9 @@ export const columns: ColumnDef<Project>[] = [
 
       return (
         <Badge
-          className={`${priorityColor[priority] || "bg-gray-200"} text-white rounded-full`}
+          className={`${
+            priorityColor[priority] || "bg-gray-200"
+          } text-white rounded-full`}
         >
           {capitalize(priority)}
         </Badge>
@@ -279,6 +284,7 @@ export const columns: ColumnDef<Project>[] = [
     },
   },
   {
+
   id: "actions",
   cell: ({ row }) => {
     const project = row.original;
@@ -330,51 +336,110 @@ export const columns: ColumnDef<Project>[] = [
 
     if (!res.ok) throw new Error("Failed to update project");
 
-    toast.success("Project updated successfully!");
-    router.refresh();
-  } catch (err) {
-    console.error("Update error:", err);
-    toast.error("Failed to update project.");
-  }
-}}
-
->
-  <Button
-  variant="ghost"
-  className="w-full justify-start text-left pl-3 text-red-600"
->
-  Edit
-</Button>
-</EditProjectDialog>
+    id: "actions",
+    cell: ({ row }) => {
+      const project = row.original;
+      const router = useRouter();
 
 
-            <DropdownMenuSeparator />
-            <DeleteDialog
-              onDelete={async () => {
-                try {
-                  const res = await fetch(`/api/admin/projects/${project.id}`, {
-                    method: "DELETE",
-                  });
-                  if (!res.ok) throw new Error("Failed to delete project");
-                  router.refresh();
-                } catch (err) {
-                  console.error("Delete error:", err);
-                }
-              }}
-            >
+      return (
+        <div className="flex items-center space-x-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
               <Button
-  variant="ghost"
-  className="w-full justify-start text-left pl-3 text-red-600"
->
-  Delete
-</Button>
+                variant="ghost"
+                className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
+                size="icon"
+              >
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontalIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel className="w-full justify-start text-left pl-3 text-grey-600">
+                Actions
+              </DropdownMenuLabel>
+              <Button
+                variant="ghost"
+                className="w-full justify-start text-left pl-3 text-grey-600"
+                onClick={() => router.push(`/admin/projects/${project.id}`)}
+              >
+                View
+              </Button>
+              <EditProjectDialog
+                project={{
+                  id: project.id,
+                  title: project.title,
+                  description: project.description,
+                  status: project.status,
+                  priority: project.priority,
+                }}
+                onEdit={async (updatedProject) => {
+                  try {
+                    // Convert lowercase enums to uppercase for backend
+                    const backendProject = {
+                      ...updatedProject,
+                      status: updatedProject.status.toUpperCase(),
+                      priority: updatedProject.priority.toUpperCase(),
+                    };
 
-            </DeleteDialog>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    );
+                    const res = await fetch(
+                      `/api/admin/projects/${project.id}`,
+                      {
+                        method: "PUT",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(backendProject),
+                      }
+                    );
+
+                    if (!res.ok) throw new Error("Failed to update project");
+
+                    toast.success("Project updated successfully!");
+                    router.refresh();
+                  } catch (err) {
+                    console.error("Update error:", err);
+                    toast.error("Failed to update project.");
+                  }
+                }}
+              >
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-left pl-3 text-grey-600"
+                >
+                  Edit
+                </Button>
+              </EditProjectDialog>
+
+              <DropdownMenuSeparator />
+              <DeleteDialog
+                onDelete={async () => {
+                  try {
+                    const res = await fetch(
+                      `/api/admin/projects/${project.id}`,
+                      {
+                        method: "DELETE",
+                      }
+                    );
+                    if (!res.ok) throw new Error("Failed to delete project");
+                    router.refresh();
+                  } catch (err) {
+                    console.error("Delete error:", err);
+                  }
+                }}
+              >
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-left pl-3 text-red-600"
+                >
+                  Delete
+                </Button>
+              </DeleteDialog>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
   },
-},
-
 ];
