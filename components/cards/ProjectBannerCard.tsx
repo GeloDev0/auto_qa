@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Activity, CalendarDays, ChartBar, Target } from "lucide-react";
-import { CreateTestSuite } from "../dialogs/testsuite-dialog";
 
 interface ProjectBannerCardProps {
   title: string;
@@ -68,9 +67,7 @@ export function ProjectBannerCard({
             <Button
               onClick={() =>
                 router.push(`/admin/projects/${projectId}/generate-test-cases`)
-              }
-              variant="secondary"
-            >
+              }>
               + Generate Test Cases
             </Button>
           </div>

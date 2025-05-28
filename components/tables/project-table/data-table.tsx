@@ -8,7 +8,14 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Eye, LayoutGrid, Pencil, TableIcon, Trash2 } from "lucide-react";
+import {
+  BarChart3,
+  Eye,
+  LayoutGrid,
+  Pencil,
+  TableIcon,
+  Trash2,
+} from "lucide-react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -46,14 +53,8 @@ import { DataTablePagination } from "./pagination";
 import { DeleteDialog } from "@/components/dialogs/delete-dialog";
 import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
 import { toast } from "sonner";
-
-export type Member = {
-  id: number;
-  email: string;
-  name: string;
-  lname: string;
-  imageUrl?: string;
-};
+import { FaCalendar, FaCalendarCheck, FaFolder, FaUser } from "react-icons/fa";
+import { Progress } from "@/components/ui/progress";
 
 interface ProjectCardProps {
   project: {
@@ -63,7 +64,6 @@ interface ProjectCardProps {
     createdBy: string;
     status?: string;
     priority?: string;
-    members: Member[]; 
   };
 }
 interface DataTableProps<TData, TValue> {
@@ -94,6 +94,7 @@ export function DataTable<TData, TValue>({
     MEDIUM: "bg-yellow-400",
     LOW: "bg-blue-500",
   };
+  const progressValue = 68; // Progress percentage
 
   const router = useRouter();
 
@@ -187,7 +188,7 @@ export function DataTable<TData, TValue>({
             >
               <CardHeader className="p-0 h-16 bg-blue-200" />{" "}
               {/* Reduced height */}
-              <CardContent className="p-4 pt-2">
+              <CardContent className="p-4 pt-2 pb-2 overflow-hidden flex-1">
                 <div className="flex items-center justify-between mb-1">
                   <h3 className="text-lg font-bold truncate w-full">
                     {project.title}
@@ -195,18 +196,42 @@ export function DataTable<TData, TValue>({
                   {/* Slightly smaller text */}
                 </div>
                 <p
-                  className="text-gray-500 text-sm mb-4 line-clamp-2"
+                  className="text-gray-500 text-sm mb-4 truncate "
                   title={project.description}
                 >
                   {project.description}
                 </p>
                 {/* Smaller text and margin */}
-                <div className="flex items-center text-sm">
-                  <span className="text-gray-400 mr-1">Created By</span>
-                  <span className="text-gray-400">{project.createdBy}</span>
+
+                <div className="text-sm text-gray-500 flex flex-col gap-2 ">
+                  <div className=" space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium ">Progress</span>
+                      <span className="text-sm ml-auto font-medium ">
+                        {progressValue}%
+                      </span>
+                    </div>
+                    <Progress value={progressValue} className="h-2" />
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <FaFolder className="text-yellow-400 w-4 h-4" />
+                    <span className="font-medium">Test Cases:</span>{" "}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <FaCalendar className="text-red-400 w-4 h-4" />
+                    <span className="font-medium">Start Date:</span>{" "}
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <FaCalendarCheck className="text-green-400 w-4 h-4" />
+                    <span className="font-medium">Date Completed:</span>{" "}
+                  </div>
+                  <div className="flex items-center text-sm gap-1">
+                    <FaUser className="text-purple-400 w-4 h-4" />
+                    <span className="font-medium">Created By: </span>{" "}
+                  </div>
                 </div>
               </CardContent>
-              <CardFooter className="flex justify-between items-center pt- p-4 gap-2 border-t">
+              <CardFooter className="flex justify-between items-center p-4 gap-2 ">
                 <div className="flex items-center gap-2 ">
                   {project.status && (
                     <Badge
@@ -234,31 +259,13 @@ export function DataTable<TData, TValue>({
                 {/* Actions Button */}
                 <div className="flex">
                   <Button
+                    className="w-6 h-6"
                     size="icon"
                     variant="ghost"
                     onClick={() => router.push(`/admin/projects/${project.id}`)}
                   >
                     <Eye className="w-4 h-4 text-blue-600" />
                   </Button>
-
-                        <EditProjectDialog
-  project={{
-    id: project.id,
-    title: project.title,
-    description: project.description,
-    status: project.status,
-    priority: project.priority,
-    members: project.members,
-  }}
-  onEdit={async (updatedProject) => {
-  try {
-    // Convert lowercase enums to uppercase for backend
-    const backendProject = {
-      ...updatedProject,
-      status: updatedProject.status.toUpperCase(),
-      priority: updatedProject.priority.toUpperCase(),
-    };
-
                   <EditProjectDialog
                     project={{
                       id: project.id,
@@ -276,7 +283,6 @@ export function DataTable<TData, TValue>({
                           priority: updatedProject.priority.toUpperCase(),
                         };
 
-
                         const res = await fetch(
                           `/api/admin/projects/${project.id}`,
                           {
@@ -291,21 +297,6 @@ export function DataTable<TData, TValue>({
                         if (!res.ok)
                           throw new Error("Failed to update project");
 
-
-    toast.success("Project updated successfully!");
-    router.refresh();
-  } catch (err) {
-    console.error("Update error:", err);
-    toast.error("Failed to update project.");
-  }
-}}
-
->
-          <Button size="icon" variant="ghost">
-            <Pencil className="w-4 h-4 text-green-600" />
-          </Button>
-        </EditProjectDialog>
-
                         toast.success("Project updated successfully!");
                         router.refresh();
                       } catch (err) {
@@ -314,11 +305,10 @@ export function DataTable<TData, TValue>({
                       }
                     }}
                   >
-                    <Button size="icon" variant="ghost">
+                    <Button className="w-6 h-6" size="icon" variant="ghost">
                       <Pencil className="w-4 h-4 text-green-600" />
                     </Button>
                   </EditProjectDialog>
-
                   <DeleteDialog
                     onDelete={async () => {
                       try {
@@ -338,7 +328,7 @@ export function DataTable<TData, TValue>({
                       }
                     }}
                   >
-                    <Button size="icon" variant="ghost">
+                    <Button className="w-6 h-6" size="icon" variant="ghost">
                       <Trash2 className="w-4 h-4 text-red-600" />
                     </Button>
                   </DeleteDialog>

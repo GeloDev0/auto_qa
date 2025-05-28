@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { BellIcon, X } from "lucide-react"; // Or any icon library
+import { X } from "lucide-react";
 import { GoBellFill } from "react-icons/go";
-const notifications = [
+
+const initialNotifications = [
   {
     id: 1,
     user: "Sara Jhonson",
     action: "added a new project",
     link: "WebApp QA Phase 2",
     time: "2 min ago",
+    read: false,
   },
   {
     id: 2,
@@ -15,12 +17,14 @@ const notifications = [
     action: "created a new test case",
     link: "Verify Email Validation",
     time: "10 min ago",
+    read: true,
   },
   {
     id: 3,
     user: "Matt Hardy",
     action: "requested to upgrade plan",
-    type: "action", // show buttons
+    type: "action",
+    read: false,
   },
   {
     id: 4,
@@ -28,6 +32,7 @@ const notifications = [
     action: "updated test case",
     link: "Login with Invalid Password",
     time: "20 min ago",
+    read: true,
   },
   {
     id: 5,
@@ -35,16 +40,37 @@ const notifications = [
     action: "deleted project",
     link: "Old Android App Tests",
     time: "20 min ago",
+    read: false,
   },
 ];
 
 export default function NotificationDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+  const [notifications, setNotifications] = useState(initialNotifications);
   const ref = useRef<HTMLDivElement>(null);
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
-  // Close when clicking outside
+  const toggleDropdown = () => {
+    setIsOpen((prev) => {
+      const next = !prev;
+      // Mark as read on open
+      if (next) {
+        setNotifications((prevNotifs) =>
+          prevNotifs.map((n) => ({ ...n, read: true }))
+        );
+      }
+      return next;
+    });
+  };
+
+  const markAllAsRead = () => {
+    setNotifications((prevNotifs) =>
+      prevNotifs.map((n) => ({ ...n, read: true }))
+    );
+  };
+
+  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -59,21 +85,27 @@ export default function NotificationDropdown() {
     <div className="relative" ref={ref}>
       <button
         onClick={toggleDropdown}
-        className="p-2 rounded-full bg-yellow-100 hover:bg-yellow-200 focus:outline-none"
+        className="p-2 rounded-full bg-yellow-100 hover:bg-yellow-200 focus:outline-none relative"
       >
-        <GoBellFill className="w-4 h-4 text-yellow-400 " />
+        <GoBellFill className="w-4 h-4 text-yellow-400" />
+        {unreadCount > 0 && !isOpen && (
+          <span className="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded-full">
+            {unreadCount}
+          </span>
+        )}
       </button>
 
       {isOpen && (
         <div className="absolute right-0 mt-3 w-[380px] bg-white rounded-2xl shadow-xl ring-1 ring-black/10 z-50 overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-            <div>
-              <p className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                <GoBellFill className="w-4 h-4 text-yellow-400" />
-                Notifications
-              </p>
-            </div>
-            <button className="text-sm text-blue-600 hover:underline">
+            <p className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+              <GoBellFill className="w-4 h-4 text-yellow-400" />
+              Notifications
+            </p>
+            <button
+              onClick={markAllAsRead}
+              className="text-sm text-blue-500 hover:underline"
+            >
               Mark all as read
             </button>
           </div>
