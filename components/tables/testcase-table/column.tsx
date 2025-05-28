@@ -17,6 +17,7 @@ import {
 // You can use a Zod schema here if you want.
 export type TestCase = {
   id: string;
+  testcase: string;
   description: string;
   module: string;
   priority: string;
@@ -51,6 +52,10 @@ export const columns: ColumnDef<TestCase>[] = [
   {
     accessorKey: "id",
     header: "Test Case ID",
+  },
+  {
+    accessorKey: "testcase",
+    header: "Test Case ",
   },
   {
     accessorKey: "description",

@@ -11,6 +11,7 @@ async function getData(): Promise<TestCase[]> {
   return [
     {
       id: "TC-001",
+      testcase: "Add Item to Cart",
       description: "Verify user can add items to the cart",
       module: "Shopping Cart",
       priority: "High",

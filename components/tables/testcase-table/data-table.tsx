@@ -96,8 +96,7 @@ export function DataTable<TData, TValue>({
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
-                    }
-                  >
+                    }>
                     {column.id}
                   </DropdownMenuCheckboxItem>
                 );
@@ -107,12 +106,14 @@ export function DataTable<TData, TValue>({
       </div>
       <div className="rounded-md border">
         <Table>
-          <TableHeader>
+          <TableHeader className="sticky top-0 z-10 bg-blue-50">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      className="text-muted-foreground font-medium">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -131,9 +132,9 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                >
+                  className="odd:bg-white even:bg-gray-50">
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="text-sm text-gray-700">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -146,8 +147,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                  className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>

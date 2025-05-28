@@ -68,9 +68,7 @@ export function ProjectBannerCard({
             <Button
               onClick={() =>
                 router.push(`/admin/projects/${projectId}/generate-test-cases`)
-              }
-              variant="secondary"
-            >
+              }>
               + Generate Test Cases
             </Button>
           </div>
