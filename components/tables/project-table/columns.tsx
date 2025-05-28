@@ -264,8 +264,7 @@ export const columns: ColumnDef<Project>[] = [
         <Badge
           className={`${
             statusColor[status] || "bg-gray-200"
-          } text-white rounded-full`}
-        >
+          } text-white rounded-full`}>
           {capitalize(status)}
         </Badge>
       );
@@ -290,12 +289,15 @@ export const columns: ColumnDef<Project>[] = [
         <Badge
           className={`${
             priorityColor[priority] || "bg-gray-200"
-          } text-white rounded-full`}
-        >
+          } text-white rounded-full`}>
           {capitalize(priority)}
         </Badge>
       );
     },
+  },
+  {
+    accessorKey: "progress",
+    header: "Progress",
   },
   {
     id: "actions",
@@ -310,8 +312,7 @@ export const columns: ColumnDef<Project>[] = [
               <Button
                 variant="ghost"
                 className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
-                size="icon"
-              >
+                size="icon">
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontalIcon className="h-4 w-4" />
               </Button>
@@ -322,8 +323,7 @@ export const columns: ColumnDef<Project>[] = [
               <Button
                 variant="ghost"
                 className="w-full justify-start text-left pl-3 text-grey-600"
-                onClick={() => router.push(`/admin/projects/${project.id}`)}
-              >
+                onClick={() => router.push(`/admin/projects/${project.id}`)}>
                 View
               </Button>
 
@@ -363,12 +363,10 @@ export const columns: ColumnDef<Project>[] = [
                     console.error("Update error:", err);
                     toast.error("Failed to update project.");
                   }
-                }}
-              >
+                }}>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-left pl-3 text-grey-600"
-                >
+                  className="w-full justify-start text-left pl-3 text-grey-600">
                   Edit
                 </Button>
               </EditProjectDialog>
@@ -389,12 +387,10 @@ export const columns: ColumnDef<Project>[] = [
                   } catch (err) {
                     console.error("Delete error:", err);
                   }
-                }}
-              >
+                }}>
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-left pl-3 text-red-600"
-                >
+                  className="w-full justify-start text-left pl-3 text-red-600">
                   Delete
                 </Button>
               </DeleteDialog>

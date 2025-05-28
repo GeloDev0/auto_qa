@@ -1,3 +1,4 @@
+import { ProjectBannerCard1 } from "@/components/cards/ProjectBannerCard1";
 import { columns, Project } from "@/components/tables/project-table/columns";
 import { DataTable } from "@/components/tables/project-table/data-table";
 import { checkRole } from "@/utils/roles";
@@ -32,6 +33,15 @@ export default async function AdminProjects() {
     <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">
         <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+          {/* Consistent padding wrapper */}
+          <div className="px-4 lg:px-6">
+            <ProjectBannerCard1
+              title="Projects"
+              description="Access a complete list of testing projects, track their progress, and manage related test cases and modules."
+            />
+          </div>
+
+          {/* Table section with matching padding */}
           <div className="px-4 lg:px-6">
             <DataTable columns={columns} data={data} />
           </div>
