@@ -1,3 +1,4 @@
+// edit-project-dialog.tsx
 "use client";
 
 import { toast } from "sonner";
@@ -31,14 +32,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ButtonLoader } from "../loader/Loader";
+import { Divide } from "lucide-react";
+import { useRouter } from 'next/navigation';
 
 function capitalizeOnlyFirstLetter(str: string): string {
   if (!str) return "";
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
+export type Member = {
+  id: number;
+  email: string;
+  name: string;
+  lname: string;
+  imageUrl?: string;
+};
 
 // Shared schema
 const projectFormSchema = z.object({
@@ -50,17 +60,19 @@ const projectFormSchema = z.object({
   }),
   status: z.enum(["active", "inactive", "completed"]),
   priority: z.enum(["high", "medium", "low"]),
+  members: z.array(z.number()).optional(),
 });
 
 type ProjectFormData = z.infer<typeof projectFormSchema> & { id: number };
 
 interface EditProjectDialogProps {
-  project: {
+  project: {  
     id: number;
     title: string;
     description: string;
     status: "active" | "inactive" | "completed";
     priority: "high" | "medium" | "low";
+    members?: Member[];
   };
   onEdit: (updatedProject: ProjectFormData) => void;
   children: React.ReactElement;
@@ -73,6 +85,8 @@ export function EditProjectDialog({
 }: EditProjectDialogProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [users, setUsers] = useState<Member[]>([]);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof projectFormSchema>>({
     resolver: zodResolver(projectFormSchema),
@@ -81,8 +95,24 @@ export function EditProjectDialog({
       description: project.description,
      status: project.status.toLowerCase() as "active" | "inactive" | "completed",
       priority: project.priority.toLowerCase() as "high" | "medium" | "low",
+      members: project.members ? project.members.map((m) => m.id) : [],
     },
   });
+
+  useEffect(() => {
+    if (open) {
+      async function fetchUsers() {
+        try {
+          const res = await fetch("/api/admin/users");
+          const data = await res.json();
+          setUsers(data);
+        } catch (err) {
+          console.error("Failed to fetch users", err);
+        }
+      }
+      fetchUsers();
+    }
+  }, [open]);
 
   async function onSubmit(values: z.infer<typeof projectFormSchema>) {
     setLoading(true);
@@ -95,6 +125,8 @@ export function EditProjectDialog({
       onEdit({ ...values, id: project.id });
 
       setOpen(false);
+
+      router.refresh();
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong!", {
@@ -115,6 +147,7 @@ export function EditProjectDialog({
             Update the project details below.
           </DialogDescription>
         </DialogHeader>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -195,8 +228,127 @@ export function EditProjectDialog({
     </FormItem>
   )}
 />
+</div>
 
+<FormField
+  control={form.control}
+  name="members"
+  render={() => {
+    const selectedIds = form.watch("members") || [];
+    const selectedUsers = users.filter((u) => selectedIds.includes(u.id));
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const filteredUsers = users.filter((user) =>
+      `${user.name} ${user.lname}`.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return (
+      <FormItem>
+        <FormLabel className="text-base font-semibold">Assigned Members</FormLabel>
+
+        {/* Selected Users Display */}
+        <div className="flex flex-wrap gap-2 mb-3">
+          {selectedUsers.map((user) => (
+            <div
+              key={user.id}
+              className="flex items-center gap-2 bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm"
+            >
+              <img
+                src={user.imageUrl || "/default-avatar.png"}
+                alt={user.name}
+                className="w-5 h-5 rounded-full object-cover"
+              />
+              <span>{user.name} {user.lname}</span>
+              <button
+                type="button"
+                onClick={() => {
+                  const current = form.getValues("members") || [];
+                  form.setValue(
+                    "members",
+                    current.filter((id) => id !== user.id)
+                  );
+                }}
+                className="ml-1 text-red-500 hover:text-red-700"
+              >
+                &times;
+              </button>
             </div>
+          ))}
+        </div>
+
+        {/* Search Input */}
+        <input
+          type="text"
+          placeholder="Search members..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="mb-3 w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
+        />
+
+        {/* Select All */}
+        {filteredUsers.length > 0 && (
+          <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+            <input
+              type="checkbox"
+              checked={filteredUsers.every((user) => selectedIds.includes(user.id))}
+              onChange={(e) => {
+                const filteredIds = filteredUsers.map((u) => u.id);
+                const newValues = e.target.checked
+                  ? Array.from(new Set([...selectedIds, ...filteredIds]))
+                  : selectedIds.filter((id) => !filteredIds.includes(id));
+                form.setValue("members", newValues);
+              }}
+            />
+            Select All
+          </label>
+        )}
+
+        {/* Scrollable List */}
+        <div className="flex flex-col gap-2 max-h-[180px] overflow-y-auto rounded-md border p-2">
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map((user) => {
+              const isChecked = selectedIds.includes(user.id);
+              return (
+                <label
+                  key={user.id}
+                  className="flex items-center gap-3 rounded-md px-2 py-1 transition hover:bg-gray-50"
+                >
+                  <input
+                    type="checkbox"
+                    value={user.id}
+                    checked={isChecked}
+                    onChange={(e) => {
+                      const checked = e.target.checked;
+                      const current = form.getValues("members") || [];
+                      form.setValue(
+                        "members",
+                        checked
+                          ? [...current, user.id]
+                          : current.filter((id) => id !== user.id)
+                      );
+                    }}
+                  />
+                  <img
+                    src={user.imageUrl || "/default-avatar.png"}
+                    alt={`${user.name} ${user.lname}`}
+                    className="w-7 h-7 rounded-full object-cover"
+                  />
+                  <span className="text-sm font-medium text-gray-800">
+                    {user.name} {user.lname}
+                  </span>
+                </label>
+              );
+            })
+          ) : (
+            <span className="text-sm text-gray-500 italic">No users found.</span>
+          )}
+        </div>
+
+        <FormMessage />
+      </FormItem>
+    );
+  }}
+/>
             <DialogFooter>
               <Button
                 type="submit"

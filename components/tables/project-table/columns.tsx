@@ -171,6 +171,16 @@ import { toast } from "sonner";
 // Helper to capitalize first letter
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
+
+export type Member = {
+  id: number;
+  email: string;
+  name: string;
+  lname: string;
+  imageUrl?: string;
+};
+ 
+
 export type Project = {
   id: number;
   title: string;
@@ -178,6 +188,7 @@ export type Project = {
   status: "active" | "inactive" | "completed";
   createdBy: string;
   priority: "high" | "medium" | "low";
+  members: Member[]; 
 };
 
 export const columns: ColumnDef<Project>[] = [
@@ -273,10 +284,63 @@ export const columns: ColumnDef<Project>[] = [
     },
   },
   {
+
+  id: "actions",
+  cell: ({ row }) => {
+    const project = row.original;
+    const router = useRouter();
+
+    return (
+      <div className="flex items-center space-x-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
+              size="icon"
+            >
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontalIcon className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <Link href="/admin/testcase">
+              <DropdownMenuItem>View</DropdownMenuItem>
+            </Link>
+           <EditProjectDialog
+  project={{
+    id: project.id,
+    title: project.title,
+    description: project.description,
+    status: project.status,
+    priority: project.priority,
+    members: project.members,
+  }}
+  onEdit={async (updatedProject) => {
+  try {
+    // Convert lowercase enums to uppercase for backend
+    const backendProject = {
+      ...updatedProject,
+      status: updatedProject.status.toUpperCase(),
+      priority: updatedProject.priority.toUpperCase(),
+    };
+
+    const res = await fetch(`/api/admin/projects/${project.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(backendProject),
+    });
+
+    if (!res.ok) throw new Error("Failed to update project");
+
     id: "actions",
     cell: ({ row }) => {
       const project = row.original;
       const router = useRouter();
+
 
       return (
         <div className="flex items-center space-x-2">

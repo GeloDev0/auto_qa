@@ -47,6 +47,14 @@ import { DeleteDialog } from "@/components/dialogs/delete-dialog";
 import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
 import { toast } from "sonner";
 
+export type Member = {
+  id: number;
+  email: string;
+  name: string;
+  lname: string;
+  imageUrl?: string;
+};
+
 interface ProjectCardProps {
   project: {
     id: number;
@@ -55,6 +63,7 @@ interface ProjectCardProps {
     createdBy: string;
     status?: string;
     priority?: string;
+    members: Member[]; 
   };
 }
 interface DataTableProps<TData, TValue> {
@@ -231,6 +240,25 @@ export function DataTable<TData, TValue>({
                   >
                     <Eye className="w-4 h-4 text-blue-600" />
                   </Button>
+
+                        <EditProjectDialog
+  project={{
+    id: project.id,
+    title: project.title,
+    description: project.description,
+    status: project.status,
+    priority: project.priority,
+    members: project.members,
+  }}
+  onEdit={async (updatedProject) => {
+  try {
+    // Convert lowercase enums to uppercase for backend
+    const backendProject = {
+      ...updatedProject,
+      status: updatedProject.status.toUpperCase(),
+      priority: updatedProject.priority.toUpperCase(),
+    };
+
                   <EditProjectDialog
                     project={{
                       id: project.id,
@@ -248,6 +276,7 @@ export function DataTable<TData, TValue>({
                           priority: updatedProject.priority.toUpperCase(),
                         };
 
+
                         const res = await fetch(
                           `/api/admin/projects/${project.id}`,
                           {
@@ -262,6 +291,21 @@ export function DataTable<TData, TValue>({
                         if (!res.ok)
                           throw new Error("Failed to update project");
 
+
+    toast.success("Project updated successfully!");
+    router.refresh();
+  } catch (err) {
+    console.error("Update error:", err);
+    toast.error("Failed to update project.");
+  }
+}}
+
+>
+          <Button size="icon" variant="ghost">
+            <Pencil className="w-4 h-4 text-green-600" />
+          </Button>
+        </EditProjectDialog>
+
                         toast.success("Project updated successfully!");
                         router.refresh();
                       } catch (err) {
@@ -274,6 +318,7 @@ export function DataTable<TData, TValue>({
                       <Pencil className="w-4 h-4 text-green-600" />
                     </Button>
                   </EditProjectDialog>
+
                   <DeleteDialog
                     onDelete={async () => {
                       try {
