@@ -47,6 +47,14 @@ import { DeleteDialog } from "@/components/dialogs/delete-dialog";
 import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
 import { toast } from "sonner";
 
+export type Member = {
+  id: number;
+  email: string;
+  name: string;
+  lname: string;
+  imageUrl?: string;
+};
+
 interface ProjectCardProps {
   project: {
     id: number;
@@ -55,6 +63,7 @@ interface ProjectCardProps {
     createdBy: string;
     status?: string;
     priority?: string;
+    members: Member[]; 
   };
 }
 interface DataTableProps<TData, TValue> {
@@ -224,14 +233,15 @@ const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
                     <Eye className="w-4 h-4 text-blue-600" />
                   </Button>
                         <EditProjectDialog
-          project={{
-            id: project.id,
-            title: project.title,
-            description: project.description,
-            status: project.status ?? "active",
-            priority: project.priority ?? "medium",
-          }}
-          onEdit={async (updatedProject) => {
+  project={{
+    id: project.id,
+    title: project.title,
+    description: project.description,
+    status: project.status,
+    priority: project.priority,
+    members: project.members,
+  }}
+  onEdit={async (updatedProject) => {
   try {
     // Convert lowercase enums to uppercase for backend
     const backendProject = {
@@ -258,7 +268,7 @@ const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
   }
 }}
 
-        >
+>
           <Button size="icon" variant="ghost">
             <Pencil className="w-4 h-4 text-green-600" />
           </Button>

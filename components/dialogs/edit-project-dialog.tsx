@@ -1,3 +1,4 @@
+// edit-project-dialog.tsx
 "use client";
 
 import { toast } from "sonner";
@@ -34,6 +35,7 @@ import {
 import { useEffect, useState } from "react";
 import { ButtonLoader } from "../loader/Loader";
 import { Divide } from "lucide-react";
+import { useRouter } from 'next/navigation';
 
 function capitalizeOnlyFirstLetter(str: string): string {
   if (!str) return "";
@@ -64,7 +66,7 @@ const projectFormSchema = z.object({
 type ProjectFormData = z.infer<typeof projectFormSchema> & { id: number };
 
 interface EditProjectDialogProps {
-  project: {
+  project: {  
     id: number;
     title: string;
     description: string;
@@ -84,6 +86,7 @@ export function EditProjectDialog({
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<Member[]>([]);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof projectFormSchema>>({
     resolver: zodResolver(projectFormSchema),
@@ -122,6 +125,8 @@ export function EditProjectDialog({
       onEdit({ ...values, id: project.id });
 
       setOpen(false);
+
+      router.refresh();
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong!", {
@@ -223,6 +228,7 @@ export function EditProjectDialog({
     </FormItem>
   )}
 />
+</div>
 
 <FormField
   control={form.control}
@@ -343,8 +349,6 @@ export function EditProjectDialog({
     );
   }}
 />
-
-            </div>
             <DialogFooter>
               <Button
                 type="submit"
