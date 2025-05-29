@@ -10,16 +10,17 @@ datasource db {
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
-  email       String   @unique
-  name        String?
-  lname       String?
-  password    String?
-  imageUrl    String?
-  clerkUserId String   @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  projects  Project[]  @relation("UserProjects")
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  name          String?
+  lname         String?
+  password      String?
+  imageUrl      String?
+  clerkUserId   String         @unique
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  notifications Notification[]
+  projects      Project[]      @relation("UserProjects")
 }
 
 model Project {
@@ -30,7 +31,16 @@ model Project {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   title       String?
-  members   User[]            @relation("UserProjects")
+  members     User[]          @relation("UserProjects")
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  message   String
+  userId    Int
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id])
 }
 
 enum ProjectStatus {
