@@ -12,8 +12,6 @@ const projectSchema = z.object({
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
   members: z.array(z.number()).optional(),  // user IDs array
 });
-
-
 // 🟢 API request to Create a project record
 export async function POST(req: Request) {
   const body = await req.json();
@@ -37,8 +35,22 @@ export async function POST(req: Request) {
     },
   });
 
+   // 🔔 Create notifications for each member
+  if (members && members.length > 0) {
+    const notificationsData = members.map((userId) => ({
+      userId,
+      message: `You have been assigned to project "${project.title}"`,
+    }));
+
+    await prisma.notification.createMany({
+      data: notificationsData,
+    });
+  }
+
   return NextResponse.json(project, { status: 201 });
 }
+
+
 // 🔵 Get All Projects, ordered by id ascending
 export async function GET() {
   const projects = await prisma.project.findMany({
