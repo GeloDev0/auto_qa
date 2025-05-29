@@ -82,7 +82,7 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const [isCardView, setIsCardView] = React.useState(false); // 👈 Card view toggle
+  const [isCardView, setIsCardView] = React.useState(true); // 👈 Card view toggle
 
   const statusColor: Record<"ACTIVE" | "INACTIVE", string> = {
     ACTIVE: "bg-green-500",
@@ -136,20 +136,20 @@ export function DataTable<TData, TValue>({
           {/* Table and Card View: Buttons */}
           <div className="flex gap-1 ">
             <Button
-              variant={!isCardView ? "outline" : "ghost"}
-              size="icon"
-              onClick={() => setIsCardView(false)}
-              title="Table View"
-            >
-              <TableIcon className="w-5 h-5" />
-            </Button>
-            <Button
               variant={isCardView ? "outline" : "ghost"}
               size="icon"
               onClick={() => setIsCardView(true)}
               title="Card View"
             >
               <LayoutGrid className="w-5 h-5" />
+            </Button>
+            <Button
+              variant={!isCardView ? "outline" : "ghost"}
+              size="icon"
+              onClick={() => setIsCardView(false)}
+              title="Table View"
+            >
+              <TableIcon className="w-5 h-5" />
             </Button>
           </div>
           <DropdownMenu>
