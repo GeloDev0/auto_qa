@@ -96,8 +96,7 @@ export function DataTable<TData, TValue>({
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
-                    }
-                  >
+                    }>
                     {column.id}
                   </DropdownMenuCheckboxItem>
                 );
@@ -114,8 +113,7 @@ export function DataTable<TData, TValue>({
                   return (
                     <TableHead
                       key={header.id}
-                      className="text-muted-foreground font-medium"
-                    >
+                      className="text-muted-foreground font-medium">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -134,8 +132,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="odd:bg-white even:bg-gray-50"
-                >
+                  className="odd:bg-white even:bg-gray-50">
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="text-sm text-gray-700">
                       {flexRender(
@@ -150,8 +147,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                  className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>

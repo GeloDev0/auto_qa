@@ -55,6 +55,7 @@ import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
 import { toast } from "sonner";
 import { FaCalendar, FaCalendarCheck, FaFolder, FaUser } from "react-icons/fa";
 import { Progress } from "@/components/ui/progress";
+import { HiEye, HiMiniPencilSquare, HiTrash } from "react-icons/hi2";
 
 interface ProjectCardProps {
   project: {
@@ -85,14 +86,14 @@ export function DataTable<TData, TValue>({
   const [isCardView, setIsCardView] = React.useState(true); // 👈 Card view toggle
 
   const statusColor: Record<"ACTIVE" | "INACTIVE", string> = {
-    ACTIVE: "bg-green-500",
-    INACTIVE: "bg-blue-400",
+    ACTIVE: "bg-blue-400",
+    INACTIVE: "bg-gray-400",
   };
 
   const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
-    HIGH: "bg-red-500",
-    MEDIUM: "bg-yellow-400",
-    LOW: "bg-blue-500",
+    HIGH: "bg-red-400",
+    MEDIUM: "bg-orange-400",
+    LOW: "bg-yellow-400",
   };
   const progressValue = 68; // Progress percentage
 
@@ -123,7 +124,7 @@ export function DataTable<TData, TValue>({
         {/* Left: Search Input */}
 
         <Input
-          placeholder="Filter ids..."
+          placeholder="Search projects..."
           value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("id")?.setFilterValue(event.target.value)
@@ -139,16 +140,14 @@ export function DataTable<TData, TValue>({
               variant={isCardView ? "outline" : "ghost"}
               size="icon"
               onClick={() => setIsCardView(true)}
-              title="Card View"
-            >
+              title="Card View">
               <LayoutGrid className="w-5 h-5" />
             </Button>
             <Button
               variant={!isCardView ? "outline" : "ghost"}
               size="icon"
               onClick={() => setIsCardView(false)}
-              title="Table View"
-            >
+              title="Table View">
               <TableIcon className="w-5 h-5" />
             </Button>
           </div>
@@ -167,8 +166,7 @@ export function DataTable<TData, TValue>({
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
-                    }
-                  >
+                    }>
                     {column.id}
                   </DropdownMenuCheckboxItem>
                 ))}
@@ -184,8 +182,7 @@ export function DataTable<TData, TValue>({
           {data.map((project: any, index) => (
             <Card
               key={index}
-              className="w-full sm:max-w-xs md:max-w-md overflow-hidden shadow-md p-0 gap-2"
-            >
+              className="w-full sm:max-w-xs md:max-w-md overflow-hidden shadow-md p-0 gap-2">
               <CardHeader className="p-0 h-16 bg-blue-200" />{" "}
               {/* Reduced height */}
               <CardContent className="p-4 pt-2 pb-2 overflow-hidden flex-1">
@@ -197,8 +194,7 @@ export function DataTable<TData, TValue>({
                 </div>
                 <p
                   className="text-gray-500 text-sm mb-4 truncate "
-                  title={project.description}
-                >
+                  title={project.description}>
                   {project.description}
                 </p>
                 {/* Smaller text and margin */}
@@ -214,19 +210,19 @@ export function DataTable<TData, TValue>({
                     <Progress value={progressValue} className="h-2" />
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaFolder className="text-yellow-400 w-4 h-4" />
+                    <FaFolder className="text-blue-400 w-4 h-4" />
                     <span className="font-medium">Test Cases:</span>{" "}
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaCalendar className="text-red-400 w-4 h-4" />
+                    <FaCalendar className="text-blue-400 w-4 h-4" />
                     <span className="font-medium">Start Date:</span>{" "}
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaCalendarCheck className="text-green-400 w-4 h-4" />
+                    <FaCalendarCheck className="text-blue-400 w-4 h-4" />
                     <span className="font-medium">Date Completed:</span>{" "}
                   </div>
                   <div className="flex items-center text-sm gap-1">
-                    <FaUser className="text-purple-400 w-4 h-4" />
+                    <FaUser className="text-blue-400 w-4 h-4" />
                     <span className="font-medium">Created By: </span>{" "}
                   </div>
                 </div>
@@ -239,8 +235,7 @@ export function DataTable<TData, TValue>({
                         statusColor[
                           project.status.toUpperCase() as keyof typeof statusColor
                         ] || "bg-gray-200"
-                      } text-white text-xs px-2 py-0.5 rounded-full`}
-                    >
+                      } text-white text-xs px-2 py-0.5 rounded-full`}>
                       {project.status.toLowerCase()}
                     </Badge>
                   )}
@@ -250,8 +245,7 @@ export function DataTable<TData, TValue>({
                         priorityColor[
                           project.priority.toUpperCase() as keyof typeof priorityColor
                         ] || "bg-gray-200"
-                      } text-white text-xs px-2 py-0.5 rounded-full`}
-                    >
+                      } text-white text-xs px-2 py-0.5 rounded-full`}>
                       {project.priority.toLowerCase()}
                     </Badge>
                   )}
@@ -259,12 +253,13 @@ export function DataTable<TData, TValue>({
                 {/* Actions Button */}
                 <div className="flex">
                   <Button
-                    className="w-6 h-6"
+                    className="w-6 h-6 rounded-full"
                     size="icon"
                     variant="ghost"
-                    onClick={() => router.push(`/admin/projects/${project.id}`)}
-                  >
-                    <Eye className="w-4 h-4 text-blue-600" />
+                    onClick={() =>
+                      router.push(`/admin/projects/${project.id}`)
+                    }>
+                    <HiEye className="w-4 h-4 text-gray-400" />
                   </Button>
                   <EditProjectDialog
                     project={{
@@ -303,10 +298,12 @@ export function DataTable<TData, TValue>({
                         console.error("Update error:", err);
                         toast.error("Failed to update project.");
                       }
-                    }}
-                  >
-                    <Button className="w-6 h-6" size="icon" variant="ghost">
-                      <Pencil className="w-4 h-4 text-green-600" />
+                    }}>
+                    <Button
+                      className="w-6 h-6 rounded-full"
+                      size="icon"
+                      variant="ghost">
+                      <HiMiniPencilSquare className="w-4 h-4 text-gray-400" />
                     </Button>
                   </EditProjectDialog>
                   <DeleteDialog
@@ -326,10 +323,12 @@ export function DataTable<TData, TValue>({
                       } catch (err) {
                         console.error("Delete error:", err);
                       }
-                    }}
-                  >
-                    <Button className="w-6 h-6" size="icon" variant="ghost">
-                      <Trash2 className="w-4 h-4 text-red-600" />
+                    }}>
+                    <Button
+                      className="w-6 h-6 rounded-full"
+                      size="icon"
+                      variant="ghost">
+                      <HiTrash className="w-4 h-4 text-gray-400" />
                     </Button>
                   </DeleteDialog>
                 </div>
@@ -346,8 +345,7 @@ export function DataTable<TData, TValue>({
                   {headerGroup.headers.map((header) => (
                     <TableHead
                       key={header.id}
-                      className="text-muted-foreground font-medium"
-                    >
+                      className="text-muted-foreground font-medium">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -364,8 +362,7 @@ export function DataTable<TData, TValue>({
                 table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
+                    data-state={row.getIsSelected() && "selected"}>
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
                         {flexRender(
@@ -380,8 +377,7 @@ export function DataTable<TData, TValue>({
                 <TableRow>
                   <TableCell
                     colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
+                    className="h-24 text-center">
                     No results.
                   </TableCell>
                 </TableRow>

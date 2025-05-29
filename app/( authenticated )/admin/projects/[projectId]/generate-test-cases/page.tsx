@@ -451,8 +451,7 @@ export default function GenerateTestCasePage() {
               <div className="space-y-2">
                 <Label
                   htmlFor="title"
-                  className="text-sm font-medium text-gray-700"
-                >
+                  className="text-sm font-medium text-gray-700">
                   User Story Title
                 </Label>
                 <Input
@@ -468,8 +467,7 @@ export default function GenerateTestCasePage() {
               <div className="space-y-2">
                 <Label
                   htmlFor="description"
-                  className="text-sm font-semibold text-gray-800"
-                >
+                  className="text-sm font-semibold text-gray-800">
                   User Story Description
                 </Label>
 
@@ -480,24 +478,21 @@ export default function GenerateTestCasePage() {
                       variant="ghost"
                       size="sm"
                       className="h-8 w-8 p-0"
-                      aria-label="Bold"
-                    >
+                      aria-label="Bold">
                       <Bold className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="ghost"
                       size="sm"
                       className="h-8 w-8 p-0"
-                      aria-label="Italic"
-                    >
+                      aria-label="Italic">
                       <Italic className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="ghost"
                       size="sm"
                       className="h-8 w-8 p-0"
-                      aria-label="Underline"
-                    >
+                      aria-label="Underline">
                       <Underline className="h-4 w-4" />
                     </Button>
 
@@ -507,16 +502,14 @@ export default function GenerateTestCasePage() {
                       variant="ghost"
                       size="sm"
                       className="h-8 w-8 p-0"
-                      aria-label="Bullet List"
-                    >
+                      aria-label="Bullet List">
                       <List className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="ghost"
                       size="sm"
                       className="h-8 w-8 p-0"
-                      aria-label="Numbered List"
-                    >
+                      aria-label="Numbered List">
                       <ListOrdered className="h-4 w-4" />
                     </Button>
                   </div>
@@ -540,8 +533,7 @@ export default function GenerateTestCasePage() {
                   value={formData.priority}
                   onValueChange={(value: TestCase["priority"]) =>
                     setFormData((prev) => ({ ...prev, priority: value }))
-                  }
-                >
+                  }>
                   <SelectTrigger>
                     <SelectValue placeholder="Select priority level" />
                   </SelectTrigger>
@@ -605,8 +597,7 @@ export default function GenerateTestCasePage() {
                   !formData.priority ||
                   isGenerating
                 }
-                className="w-full text-base font-medium disabled:bg-gray-300"
-              >
+                className="w-full text-base font-medium disabled:bg-gray-300">
                 {isGenerating ? (
                   <div className="flex items-center gap-2">
                     <Loader2 className="h-5 w-5 animate-spin" />
@@ -700,8 +691,7 @@ export default function GenerateTestCasePage() {
               <div className="p-4 border-t">
                 <Button
                   onClick={handleAddToProject}
-                  className="w-full bg-green-600 hover:bg-green-700"
-                >
+                  className="w-full bg-green-600 hover:bg-green-700">
                   <CheckCircle2 className="h-4 w-4 mr-2" />
                   Add {selectedCount} Test Cases to Project
                 </Button>
