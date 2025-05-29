@@ -39,6 +39,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TestCaseCard } from "@/components/testcase/test-case-card";
+import { FaRobot } from "react-icons/fa";
 
 // Dummy test case templates based on common scenarios
 const testCaseTemplates = {
@@ -467,40 +468,69 @@ export default function GenerateTestCasePage() {
               <div className="space-y-2">
                 <Label
                   htmlFor="description"
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-semibold text-gray-800"
                 >
                   User Story Description
                 </Label>
 
-                {/* Rich Text Toolbar */}
-                <div className="flex items-center gap-1 p-2 border border-gray-200 rounded-t-md bg-gray-50">
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <Bold className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <Italic className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <Underline className="h-4 w-4" />
-                  </Button>
-                  <Separator orientation="vertical" className="h-6 mx-1" />
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <List className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <ListOrdered className="h-4 w-4" />
-                  </Button>
+                <div className="rounded-md border border-gray-200 shadow-sm bg-white overflow-hidden">
+                  {/* Rich Text Toolbar */}
+                  <div className="flex items-center gap-1 px-2 py-1.5 bg-gray-50 border-b border-gray-200">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                      aria-label="Bold"
+                    >
+                      <Bold className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                      aria-label="Italic"
+                    >
+                      <Italic className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                      aria-label="Underline"
+                    >
+                      <Underline className="h-4 w-4" />
+                    </Button>
+
+                    <Separator orientation="vertical" className="h-5 mx-1" />
+
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                      aria-label="Bullet List"
+                    >
+                      <List className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                      aria-label="Numbered List"
+                    >
+                      <ListOrdered className="h-4 w-4" />
+                    </Button>
+                  </div>
+
+                  <Textarea
+                    id="description"
+                    value={userStoryDescription}
+                    onChange={(e) => setUserStoryDescription(e.target.value)}
+                    placeholder={`As a [user type], I want [functionality] so that [benefit/value]...
+
+💡 Try keywords like "login", "cart", "dashboard", or "profile" to see different test case templates.`}
+                    className="min-h-[140px] text-sm px-3 py-2 border-0 rounded-none focus:outline-none focus:ring-0 resize-none"
+                  />
                 </div>
-
-                <Textarea
-                  id="description"
-                  value={userStoryDescription}
-                  onChange={(e) => setUserStoryDescription(e.target.value)}
-                  placeholder="As a [user type], I want [functionality] so that [benefit/value]...
-
-Try keywords like 'login', 'cart', 'dashboard', or 'profile' to see different test case templates."
-                  className="min-h-[120px] text-base border-gray-200 border-t-0 rounded-t-none focus:border-blue-300 focus:ring-blue-200 resize-none"
-                />
               </div>
 
               {/* Priority Selection */}
@@ -575,7 +605,7 @@ Try keywords like 'login', 'cart', 'dashboard', or 'profile' to see different te
                   !formData.priority ||
                   isGenerating
                 }
-                className="w-full h-12 text-base font-medium disabled:bg-gray-300"
+                className="w-full text-base font-medium disabled:bg-gray-300"
               >
                 {isGenerating ? (
                   <div className="flex items-center gap-2">
@@ -584,7 +614,7 @@ Try keywords like 'login', 'cart', 'dashboard', or 'profile' to see different te
                   </div>
                 ) : (
                   <div className="flex items-center gap-2">
-                    <Sparkles className="h-5 w-5" />
+                    <FaRobot />
                     <span>Generate Test Cases</span>
                   </div>
                 )}
@@ -604,29 +634,27 @@ Try keywords like 'login', 'cart', 'dashboard', or 'profile' to see different te
           {/* Right Panel - Generated Test Cases */}
           <Card className="bg-white shadow-sm border-0 flex flex-col ">
             <CardHeader className="pb-4">
-              <div className="flex items-center justify-between">
-                {generatedTestCases.length > 0 && (
+              {generatedTestCases.length > 0 && (
+                <div className="flex items-center justify-between">
+                  {/* Left: Selected count */}
+                  <span className="text-sm text-gray-600">
+                    {selectedCount} of {generatedTestCases.length} test cases
+                    selected
+                  </span>
+
+                  {/* Right: Button and Badge */}
                   <div className="flex items-center gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleSelectAll}
-                    >
+                    <Button className="" size="sm" onClick={handleSelectAll}>
                       {generatedTestCases.every((tc) => tc.selected)
                         ? "Deselect All"
                         : "Select All"}
                     </Button>
-                    <Badge variant="secondary">
+                    <Badge className="rounded-full">
+                      {" "}
                       {generatedTestCases.length} total
                     </Badge>
                   </div>
-                )}
-              </div>
-              {generatedTestCases.length > 0 && (
-                <p className="text-sm text-gray-600">
-                  {selectedCount} of {generatedTestCases.length} test cases
-                  selected
-                </p>
+                </div>
               )}
             </CardHeader>
 
@@ -648,12 +676,7 @@ Try keywords like 'login', 'cart', 'dashboard', or 'profile' to see different te
                 <div className="space-y-6">
                   {Object.entries(groupedTestCases).map(([module, cases]) => (
                     <div key={module} className="space-y-3">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-gray-900">{module}</h3>
-                        <Badge variant="outline" className="text-xs">
-                          {cases.length}
-                        </Badge>
-                      </div>
+                      <div className="flex items-center gap-2"></div>
                       <div className="space-y-3">
                         {cases.map((testCase) => (
                           <TestCaseCard
