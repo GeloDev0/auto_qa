@@ -6,8 +6,9 @@ import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { PlusIcon } from "lucide-react";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon } from "lucide-react";
 
 import {
   Dialog,
@@ -36,48 +37,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+import { ButtonLoader } from "../loader/Loader";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
-import { PlusIcon } from "lucide-react";
-import { ButtonLoader } from "../loader/Loader";
 
-// Schema matching API with date fields
-const projectFormSchema = z
-  .object({
-    title: z.string().min(2, {
-      message: "Name must be at least 2 characters.",
-    }),
-    description: z.string().min(10, {
-      message: "Description must be at least 10 characters.",
-    }),
-    status: z.enum(["ACTIVE", "INACTIVE", "COMPLETED"]),
-    priority: z.enum(["HIGH", "MEDIUM", "LOW"]),
-    members: z.array(z.number()).optional(),
-    startDate: z
-      .date({
-        required_error: "Start date is required.",
-      })
-      .optional(),
-    completedDate: z.date().optional(),
-  })
-  .refine(
-    (data) => {
-      // If completed date is provided, it should be after start date
-      if (data.completedDate && data.startDate) {
-        return data.completedDate >= data.startDate;
-      }
-      return true;
-    },
-    {
-      message: "Completion date must be after start date.",
-      path: ["completedDate"],
-    }
-  );
+// Updated schema with date fields
+const projectFormSchema = z.object({
+  title: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
+  description: z.string().min(10, {
+    message: "Description must be at least 10 characters.",
+  }),
+  status: z.enum(["ACTIVE", "INACTIVE", "COMPLETED"]),
+  priority: z.enum(["HIGH", "MEDIUM", "LOW"]),
+  dateCreated: z.date({
+    required_error: "Date created is required.",
+  }),
+  deadline: z.date().optional(),
+  members: z.array(z.number()).optional(),
+});
 
 type User = {
   id: number;
@@ -99,9 +83,8 @@ export function CreateProject() {
       description: "",
       status: "ACTIVE",
       priority: "MEDIUM",
+      dateCreated: new Date(),
       members: [],
-      startDate: undefined,
-      completedDate: undefined,
     },
   });
 
@@ -132,19 +115,12 @@ export function CreateProject() {
   async function onSubmit(values: z.infer<typeof projectFormSchema>) {
     setLoading(true);
     try {
-      // Only format dates if they exist
-      const formattedValues = {
-        ...values,
-        startDate: values.startDate?.toISOString(),
-        completedDate: values.completedDate?.toISOString(),
-      };
-
       const res = await fetch("/api/admin/projects", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formattedValues),
+        body: JSON.stringify(values),
       });
 
       if (!res.ok) {
@@ -231,7 +207,8 @@ export function CreateProject() {
                     <FormLabel>Status</FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value}>
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select status" />
@@ -256,7 +233,8 @@ export function CreateProject() {
                     <FormLabel>Priority</FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value}>
+                      defaultValue={field.value}
+                    >
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Select priority" />
@@ -278,10 +256,10 @@ export function CreateProject() {
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
-                name="startDate"
+                name="dateCreated"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Start Date</FormLabel>
+                    <FormLabel>Date Created</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -290,11 +268,12 @@ export function CreateProject() {
                             className={cn(
                               "w-full pl-3 text-left font-normal",
                               !field.value && "text-muted-foreground"
-                            )}>
+                            )}
+                          >
                             {field.value ? (
                               format(field.value, "PPP")
                             ) : (
-                              <span>Pick start date</span>
+                              <span>Pick a date</span>
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
@@ -305,11 +284,9 @@ export function CreateProject() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={(date) => {
-                            const today = new Date();
-                            today.setHours(0, 0, 0, 0);
-                            return date < today;
-                          }}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
+                          }
                           initialFocus
                         />
                       </PopoverContent>
@@ -321,10 +298,10 @@ export function CreateProject() {
 
               <FormField
                 control={form.control}
-                name="completedDate"
+                name="deadline"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel>Completion Date (Optional)</FormLabel>
+                    <FormLabel>Deadline (Optional)</FormLabel>
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -333,11 +310,12 @@ export function CreateProject() {
                             className={cn(
                               "w-full pl-3 text-left font-normal",
                               !field.value && "text-muted-foreground"
-                            )}>
+                            )}
+                          >
                             {field.value ? (
                               format(field.value, "PPP")
                             ) : (
-                              <span>Pick completion date</span>
+                              <span>Pick a date</span>
                             )}
                             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                           </Button>
@@ -348,10 +326,7 @@ export function CreateProject() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={(date) => {
-                            const startDate = form.getValues("startDate");
-                            return startDate ? date < startDate : false;
-                          }}
+                          disabled={(date) => date < new Date()}
                           initialFocus
                         />
                       </PopoverContent>
@@ -382,7 +357,8 @@ export function CreateProject() {
                       {selectedUsers.map((user) => (
                         <div
                           key={user.id}
-                          className="flex items-center gap-2 bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm">
+                          className="flex items-center gap-2 bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm"
+                        >
                           <img
                             src={user.imageUrl || "/default-avatar.png"}
                             alt={user.name}
@@ -400,7 +376,8 @@ export function CreateProject() {
                                 current.filter((id) => id !== user.id)
                               );
                             }}
-                            className="ml-1 text-red-500 hover:text-red-700">
+                            className="ml-1 text-red-500 hover:text-red-700"
+                          >
                             &times;
                           </button>
                         </div>
@@ -448,7 +425,8 @@ export function CreateProject() {
                           return (
                             <label
                               key={user.id}
-                              className="flex items-center gap-3 rounded-md px-2 py-1 transition hover:bg-gray-50">
+                              className="flex items-center gap-3 rounded-md px-2 py-1 transition hover:bg-gray-50"
+                            >
                               <input
                                 type="checkbox"
                                 value={user.id}
@@ -493,7 +471,8 @@ export function CreateProject() {
               <Button
                 type="submit"
                 disabled={loading}
-                className="flex items-center justify-center gap-2 min-w-[140px]">
+                className="flex items-center justify-center gap-2 min-w-[140px]"
+              >
                 {loading && <ButtonLoader />}
                 {loading ? "Creating..." : "Create Project"}
               </Button>

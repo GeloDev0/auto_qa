@@ -186,7 +186,7 @@ export type Project = {
   testcaseCount: number;
   progress: number; // Assuming progress is a percentage
   startDate: string; // ISO date string
-  dateCompleted?: string; // ISO date string, optional if not completed
+  deadline: string; // ISO date string
   status: "active" | "inactive" | "completed";
   createdBy: string;
   priority: "high" | "medium" | "low";
@@ -257,8 +257,8 @@ export const columns: ColumnDef<Project>[] = [
     header: "Start Date",
   },
   {
-    accessorKey: "dateCompleted",
-    header: "Date Completed",
+    accessorKey: "deadline",
+    header: "Deadline",
   },
 
   {
@@ -273,7 +273,7 @@ export const columns: ColumnDef<Project>[] = [
       const status = row.original.status.toLowerCase() as "active" | "inactive";
       const statusColor: Record<"active" | "inactive" | "completed", string> = {
         active: "bg-blue-400", // Blue for in-progress (common in Jira)
-        inactive: "bg-gray-400", // Gray for paused/inactive
+        inactive: "bg-yellow-400", // Gray for paused/inactive
         completed: "bg-green-500", // Green for done/completed
       };
 
@@ -281,7 +281,8 @@ export const columns: ColumnDef<Project>[] = [
         <Badge
           className={`${
             statusColor[status] || "bg-gray-200"
-          } text-white rounded-full`}>
+          } text-white rounded-full`}
+        >
           {capitalize(status)}
         </Badge>
       );
@@ -298,7 +299,7 @@ export const columns: ColumnDef<Project>[] = [
         | "low";
       const priorityColor: Record<"high" | "medium" | "low", string> = {
         high: "bg-red-500",
-        medium: "bg-yellow-400",
+        medium: "bg-orange-400",
         low: "bg-blue-500",
       };
 
@@ -306,7 +307,8 @@ export const columns: ColumnDef<Project>[] = [
         <Badge
           className={`${
             priorityColor[priority] || "bg-gray-200"
-          } text-white rounded-full`}>
+          } text-white rounded-full`}
+        >
           {capitalize(priority)}
         </Badge>
       );
@@ -329,7 +331,8 @@ export const columns: ColumnDef<Project>[] = [
               <Button
                 variant="ghost"
                 className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
-                size="icon">
+                size="icon"
+              >
                 <span className="sr-only">Open menu</span>
                 <MoreHorizontalIcon className="h-4 w-4" />
               </Button>
@@ -338,7 +341,8 @@ export const columns: ColumnDef<Project>[] = [
               <Button
                 variant="ghost"
                 className="w-full justify-start text-left pl-3 text-gray-600"
-                onClick={() => router.push(`/admin/projects/${project.id}`)}>
+                onClick={() => router.push(`/admin/projects/${project.id}`)}
+              >
                 View
               </Button>
 
@@ -378,10 +382,12 @@ export const columns: ColumnDef<Project>[] = [
                     console.error("Update error:", err);
                     toast.error("Failed to update project.");
                   }
-                }}>
+                }}
+              >
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-left pl-3 text-gray-600">
+                  className="w-full justify-start text-left pl-3 text-gray-600"
+                >
                   Edit
                 </Button>
               </EditProjectDialog>
@@ -402,10 +408,12 @@ export const columns: ColumnDef<Project>[] = [
                   } catch (err) {
                     console.error("Delete error:", err);
                   }
-                }}>
+                }}
+              >
                 <Button
                   variant="ghost"
-                  className="w-full justify-start text-left pl-3 text-red-400">
+                  className="w-full justify-start text-left pl-3 text-red-400"
+                >
                   Delete
                 </Button>
               </DeleteDialog>

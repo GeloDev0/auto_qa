@@ -140,14 +140,16 @@ export function DataTable<TData, TValue>({
               variant={isCardView ? "outline" : "ghost"}
               size="icon"
               onClick={() => setIsCardView(true)}
-              title="Card View">
+              title="Card View"
+            >
               <LayoutGrid className="w-5 h-5" />
             </Button>
             <Button
               variant={!isCardView ? "outline" : "ghost"}
               size="icon"
               onClick={() => setIsCardView(false)}
-              title="Table View">
+              title="Table View"
+            >
               <TableIcon className="w-5 h-5" />
             </Button>
           </div>
@@ -166,7 +168,8 @@ export function DataTable<TData, TValue>({
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
-                    }>
+                    }
+                  >
                     {column.id}
                   </DropdownMenuCheckboxItem>
                 ))}
@@ -182,7 +185,8 @@ export function DataTable<TData, TValue>({
           {data.map((project: any, index) => (
             <Card
               key={index}
-              className="w-full sm:max-w-xs md:max-w-md overflow-hidden shadow-md p-0 gap-2">
+              className="w-full sm:max-w-xs md:max-w-md overflow-hidden shadow-md p-0 gap-2"
+            >
               <CardHeader className="p-0 h-16 bg-blue-200" />{" "}
               {/* Reduced height */}
               <CardContent className="p-4 pt-2 pb-2 overflow-hidden flex-1">
@@ -194,7 +198,8 @@ export function DataTable<TData, TValue>({
                 </div>
                 <p
                   className="text-gray-500 text-sm mb-4 truncate "
-                  title={project.description}>
+                  title={project.description}
+                >
                   {project.description}
                 </p>
                 {/* Smaller text and margin */}
@@ -219,7 +224,7 @@ export function DataTable<TData, TValue>({
                   </div>
                   <div className="flex items-center gap-1">
                     <FaCalendarCheck className="text-blue-400 w-4 h-4" />
-                    <span className="font-medium">Date Completed:</span>{" "}
+                    <span className="font-medium">Deadline:</span>{" "}
                   </div>
                   <div className="flex items-center text-sm gap-1">
                     <FaUser className="text-blue-400 w-4 h-4" />
@@ -235,7 +240,8 @@ export function DataTable<TData, TValue>({
                         statusColor[
                           project.status.toUpperCase() as keyof typeof statusColor
                         ] || "bg-gray-200"
-                      } text-white text-xs px-2 py-0.5 rounded-full`}>
+                      } text-white text-xs px-2 py-0.5 rounded-full`}
+                    >
                       {project.status.toLowerCase()}
                     </Badge>
                   )}
@@ -245,7 +251,8 @@ export function DataTable<TData, TValue>({
                         priorityColor[
                           project.priority.toUpperCase() as keyof typeof priorityColor
                         ] || "bg-gray-200"
-                      } text-white text-xs px-2 py-0.5 rounded-full`}>
+                      } text-white text-xs px-2 py-0.5 rounded-full`}
+                    >
                       {project.priority.toLowerCase()}
                     </Badge>
                   )}
@@ -256,9 +263,8 @@ export function DataTable<TData, TValue>({
                     className="w-6 h-6 rounded-full"
                     size="icon"
                     variant="ghost"
-                    onClick={() =>
-                      router.push(`/admin/projects/${project.id}`)
-                    }>
+                    onClick={() => router.push(`/admin/projects/${project.id}`)}
+                  >
                     <HiEye className="w-4 h-4 text-gray-400" />
                   </Button>
                   <EditProjectDialog
@@ -298,11 +304,13 @@ export function DataTable<TData, TValue>({
                         console.error("Update error:", err);
                         toast.error("Failed to update project.");
                       }
-                    }}>
+                    }}
+                  >
                     <Button
                       className="w-6 h-6 rounded-full"
                       size="icon"
-                      variant="ghost">
+                      variant="ghost"
+                    >
                       <HiMiniPencilSquare className="w-4 h-4 text-gray-400" />
                     </Button>
                   </EditProjectDialog>
@@ -323,11 +331,13 @@ export function DataTable<TData, TValue>({
                       } catch (err) {
                         console.error("Delete error:", err);
                       }
-                    }}>
+                    }}
+                  >
                     <Button
                       className="w-6 h-6 rounded-full"
                       size="icon"
-                      variant="ghost">
+                      variant="ghost"
+                    >
                       <HiTrash className="w-4 h-4 text-gray-400" />
                     </Button>
                   </DeleteDialog>
@@ -337,61 +347,65 @@ export function DataTable<TData, TValue>({
           ))}
         </div>
       ) : (
-        <div className="rounded-md border ">
-          <Table>
-            <TableHeader className="sticky top-0 z-10 bg-blue-50">
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <TableHead
-                      key={header.id}
-                      className="text-muted-foreground font-medium">
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}>
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
+        <>
+          <div className="rounded-md border ">
+            <Table>
+              <TableHeader className="sticky top-0 z-10 bg-blue-50">
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <TableHead
+                        key={header.id}
+                        className="text-muted-foreground font-medium"
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
                     ))}
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center">
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex-1 text-sm text-muted-foreground">
+              <DataTablePagination table={table} />
+            </div>
+          </div>
+        </>
       )}
-
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          <DataTablePagination table={table} />
-        </div>
-      </div>
     </div>
   );
 }
