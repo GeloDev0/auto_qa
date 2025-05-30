@@ -55,6 +55,7 @@ import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
 import { toast } from "sonner";
 import { FaCalendar, FaCalendarCheck, FaFolder, FaUser } from "react-icons/fa";
 import { Progress } from "@/components/ui/progress";
+import { HiEye, HiMiniPencilSquare, HiTrash } from "react-icons/hi2";
 
 interface ProjectCardProps {
   project: {
@@ -85,14 +86,14 @@ export function DataTable<TData, TValue>({
   const [isCardView, setIsCardView] = React.useState(true); // 👈 Card view toggle
 
   const statusColor: Record<"ACTIVE" | "INACTIVE", string> = {
-    ACTIVE: "bg-green-500",
-    INACTIVE: "bg-blue-400",
+    ACTIVE: "bg-blue-400",
+    INACTIVE: "bg-gray-400",
   };
 
   const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
-    HIGH: "bg-red-500",
-    MEDIUM: "bg-yellow-400",
-    LOW: "bg-blue-500",
+    HIGH: "bg-red-400",
+    MEDIUM: "bg-orange-400",
+    LOW: "bg-yellow-400",
   };
   const progressValue = 68; // Progress percentage
 
@@ -123,7 +124,7 @@ export function DataTable<TData, TValue>({
         {/* Left: Search Input */}
 
         <Input
-          placeholder="Filter ids..."
+          placeholder="Search projects..."
           value={(table.getColumn("id")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("id")?.setFilterValue(event.target.value)
@@ -214,19 +215,19 @@ export function DataTable<TData, TValue>({
                     <Progress value={progressValue} className="h-2" />
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaFolder className="text-yellow-400 w-4 h-4" />
+                    <FaFolder className="text-blue-400 w-4 h-4" />
                     <span className="font-medium">Test Cases:</span>{" "}
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaCalendar className="text-red-400 w-4 h-4" />
+                    <FaCalendar className="text-blue-400 w-4 h-4" />
                     <span className="font-medium">Start Date:</span>{" "}
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaCalendarCheck className="text-green-400 w-4 h-4" />
-                    <span className="font-medium">Date Completed:</span>{" "}
+                    <FaCalendarCheck className="text-blue-400 w-4 h-4" />
+                    <span className="font-medium">Deadline:</span>{" "}
                   </div>
                   <div className="flex items-center text-sm gap-1">
-                    <FaUser className="text-purple-400 w-4 h-4" />
+                    <FaUser className="text-blue-400 w-4 h-4" />
                     <span className="font-medium">Created By: </span>{" "}
                   </div>
                 </div>
@@ -259,12 +260,12 @@ export function DataTable<TData, TValue>({
                 {/* Actions Button */}
                 <div className="flex">
                   <Button
-                    className="w-6 h-6"
+                    className="w-6 h-6 rounded-full"
                     size="icon"
                     variant="ghost"
                     onClick={() => router.push(`/admin/projects/${project.id}`)}
                   >
-                    <Eye className="w-4 h-4 text-blue-600" />
+                    <HiEye className="w-4 h-4 text-gray-400" />
                   </Button>
                   <EditProjectDialog
                     project={{
@@ -305,8 +306,12 @@ export function DataTable<TData, TValue>({
                       }
                     }}
                   >
-                    <Button className="w-6 h-6" size="icon" variant="ghost">
-                      <Pencil className="w-4 h-4 text-green-600" />
+                    <Button
+                      className="w-6 h-6 rounded-full"
+                      size="icon"
+                      variant="ghost"
+                    >
+                      <HiMiniPencilSquare className="w-4 h-4 text-gray-400" />
                     </Button>
                   </EditProjectDialog>
                   <DeleteDialog
@@ -328,8 +333,12 @@ export function DataTable<TData, TValue>({
                       }
                     }}
                   >
-                    <Button className="w-6 h-6" size="icon" variant="ghost">
-                      <Trash2 className="w-4 h-4 text-red-600" />
+                    <Button
+                      className="w-6 h-6 rounded-full"
+                      size="icon"
+                      variant="ghost"
+                    >
+                      <HiTrash className="w-4 h-4 text-gray-400" />
                     </Button>
                   </DeleteDialog>
                 </div>
@@ -338,64 +347,65 @@ export function DataTable<TData, TValue>({
           ))}
         </div>
       ) : (
-        <div className="rounded-md border ">
-          <Table>
-            <TableHeader className="sticky top-0 z-10 bg-blue-50">
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <TableHead
-                      key={header.id}
-                      className="text-muted-foreground font-medium"
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
-                      </TableCell>
+        <>
+          <div className="rounded-md border ">
+            <Table>
+              <TableHeader className="sticky top-0 z-10 bg-blue-50">
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <TableHead
+                        key={header.id}
+                        className="text-muted-foreground font-medium"
+                      >
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
                     ))}
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <div className="flex items-center justify-end space-x-2 py-4">
+            <div className="flex-1 text-sm text-muted-foreground">
+              <DataTablePagination table={table} />
+            </div>
+          </div>
+        </>
       )}
-
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          <DataTablePagination table={table} />
-        </div>
-      </div>
     </div>
   );
 }
