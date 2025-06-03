@@ -48,7 +48,6 @@ import {
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 
-import { CreateProject } from "../../dialogs/project-dialog";
 import { DataTablePagination } from "./pagination";
 import { DeleteDialog } from "@/components/dialogs/delete-dialog";
 import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
@@ -175,7 +174,6 @@ export function DataTable<TData, TValue>({
                 ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <CreateProject />
         </div>
       </div>
 

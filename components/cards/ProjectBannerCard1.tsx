@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Activity, CalendarDays, ChartBar, Target } from "lucide-react";
+import { CreateProject } from "../dialogs/project-dialog";
 
 interface ProjectBannerCardProps {
   title: string;
@@ -34,8 +35,8 @@ export function ProjectBannerCard1({
           </div>
         </div>
 
-        <div className="flex items-center justify-between pt-4 border-t border-blue-100">
-          {/* Left side: project metadata badges */}
+        <div className="flex items-center justify-end pt-4 border-t border-blue-100">
+          <CreateProject />
         </div>
       </CardHeader>
     </Card>
