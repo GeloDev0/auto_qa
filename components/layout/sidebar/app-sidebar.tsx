@@ -1,14 +1,8 @@
 "use client";
 
 import * as React from "react";
-import {
-  IconDashboard,
-  IconFolder,
-  IconTestPipe,
-  IconSettings,
-  IconHelp,
-  type Icon,
-} from "@tabler/icons-react";
+import { MdSpaceDashboard, MdFolder, MdOutlineHelp } from "react-icons/md";
+import type { IconType } from "react-icons";
 import {
   Sidebar,
   SidebarContent,
@@ -20,7 +14,7 @@ import {
 import { NavMain } from "@/components/layout/sidebar/nav-main";
 import Image from "next/image";
 
-// ✅ Fix the prop type
+// Update icon type to match Lucide
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
   userRole: string;
 }
@@ -28,7 +22,7 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 interface NavItem {
   title: string;
   url: string;
-  icon: Icon;
+  icon: IconType; // 👈 Updated icon type
   roles?: string[];
 }
 
@@ -37,23 +31,17 @@ export function AppSidebar({ userRole, ...props }: AppSidebarProps) {
     {
       title: "Dashboard",
       url: userRole === "admin" ? "/admin/dashboard" : "/user/dashboard",
-      icon: IconDashboard,
+      icon: MdSpaceDashboard, // 👈 Lucide icon
     },
     {
       title: "Projects",
       url: userRole === "admin" ? "/admin/projects" : "/user/projects",
-      icon: IconFolder,
-    },
-    {
-      title: "Admin Panel",
-      url: "/admin",
-      icon: IconSettings,
-      roles: ["admin"],
+      icon: MdFolder, // 👈 Lucide icon
     },
     {
       title: "Help Center",
       url: "/help",
-      icon: IconHelp,
+      icon: MdOutlineHelp, // 👈 Lucide icon
     },
   ];
 

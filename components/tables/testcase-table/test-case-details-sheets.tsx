@@ -63,8 +63,9 @@ export const TestCaseSheet = ({
                 {testcase.id}
               </Badge>
               <Badge
-                className={`font-medium ${getPriorityColor(testcase.priority)}`}
-              >
+                className={`font-medium ${getPriorityColor(
+                  testcase.priority
+                )}`}>
                 {testcase.priority.charAt(0).toUpperCase() +
                   testcase.priority.slice(1)}
               </Badge>
