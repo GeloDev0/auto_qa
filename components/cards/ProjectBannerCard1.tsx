@@ -2,8 +2,6 @@
 
 import { useRouter } from "next/navigation";
 import { Card, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Activity, CalendarDays, ChartBar, Target } from "lucide-react";
 import { CreateProject } from "../dialogs/project-dialog";
 
 interface ProjectBannerCardProps {
