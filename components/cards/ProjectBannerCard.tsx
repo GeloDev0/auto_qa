@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import { Card, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Activity, CalendarDays, ChartBar, Target } from "lucide-react";
+import { CalendarDays, ChartBar, Target } from "lucide-react";
+import { FaFileExport, FaJira } from "react-icons/fa";
 
 interface ProjectBannerCardProps {
   title: string;
@@ -31,7 +32,7 @@ export function ProjectBannerCard({
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-blue-800 to-blue-400 bg-clip-text text-transparent">
                   {title}
                 </h1>
                 <p className="text-muted-foreground mt-1 text-lg">
@@ -63,11 +64,20 @@ export function ProjectBannerCard({
           </div>
 
           {/* Right side: Create & Generate buttons */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 text-gray-500">
+            <Button variant="outline">
+              <FaFileExport className="mr-1 h-4 w-4 " />
+              Export
+            </Button>
+            <Button variant="outline">
+              <FaJira className="mr-1 h-4 w-4" />
+              Export to Jira
+            </Button>
             <Button
               onClick={() =>
                 router.push(`/admin/projects/${projectId}/generate-test-cases`)
-              }>
+              }
+            >
               + Generate Test Cases
             </Button>
           </div>

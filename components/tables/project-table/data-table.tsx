@@ -48,7 +48,6 @@ import {
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 
-import { CreateProject } from "../../dialogs/project-dialog";
 import { DataTablePagination } from "./pagination";
 import { DeleteDialog } from "@/components/dialogs/delete-dialog";
 import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
@@ -86,14 +85,14 @@ export function DataTable<TData, TValue>({
   const [isCardView, setIsCardView] = React.useState(true); // 👈 Card view toggle
 
   const statusColor: Record<"ACTIVE" | "INACTIVE", string> = {
-    ACTIVE: "bg-blue-400",
-    INACTIVE: "bg-gray-400",
+    ACTIVE: "bg-blue-100 text-blue-800",
+    INACTIVE: "bg-gray-400 text-white",
   };
 
   const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
-    HIGH: "bg-red-400",
-    MEDIUM: "bg-orange-400",
-    LOW: "bg-yellow-400",
+    HIGH: "bg-red-100 text-red-800",
+    MEDIUM: "bg-yellow-100 text-yellow-700",
+    LOW: "bg-blue-100 text-blue-800",
   };
   const progressValue = 68; // Progress percentage
 
@@ -175,7 +174,6 @@ export function DataTable<TData, TValue>({
                 ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <CreateProject />
         </div>
       </div>
 
@@ -187,7 +185,7 @@ export function DataTable<TData, TValue>({
               key={index}
               className="w-full sm:max-w-xs md:max-w-md overflow-hidden shadow-md p-0 gap-2"
             >
-              <CardHeader className="p-0 h-16 bg-blue-200" />{" "}
+              <CardHeader className="p-0 h-8 bg-blue-200" />{" "}
               {/* Reduced height */}
               <CardContent className="p-4 pt-2 pb-2 overflow-hidden flex-1">
                 <div className="flex items-center justify-between mb-1">
@@ -215,19 +213,19 @@ export function DataTable<TData, TValue>({
                     <Progress value={progressValue} className="h-2" />
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaFolder className="text-blue-400 w-4 h-4" />
+                    <FaFolder className="text-gray-300 w-4 h-4" />
                     <span className="font-medium">Test Cases:</span>{" "}
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaCalendar className="text-blue-400 w-4 h-4" />
+                    <FaCalendar className="text-gray-300 w-4 h-4" />
                     <span className="font-medium">Start Date:</span>{" "}
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaCalendarCheck className="text-blue-400 w-4 h-4" />
+                    <FaCalendarCheck className="text-gray-300 w-4 h-4" />
                     <span className="font-medium">Deadline:</span>{" "}
                   </div>
                   <div className="flex items-center text-sm gap-1">
-                    <FaUser className="text-blue-400 w-4 h-4" />
+                    <FaUser className="text-gray-300 w-4 h-4" />
                     <span className="font-medium">Created By: </span>{" "}
                   </div>
                 </div>
@@ -240,7 +238,7 @@ export function DataTable<TData, TValue>({
                         statusColor[
                           project.status.toUpperCase() as keyof typeof statusColor
                         ] || "bg-gray-200"
-                      } text-white text-xs px-2 py-0.5 rounded-full`}
+                      } text-xs px-2 py-0.5 rounded-full`}
                     >
                       {project.status.toLowerCase()}
                     </Badge>
@@ -251,7 +249,7 @@ export function DataTable<TData, TValue>({
                         priorityColor[
                           project.priority.toUpperCase() as keyof typeof priorityColor
                         ] || "bg-gray-200"
-                      } text-white text-xs px-2 py-0.5 rounded-full`}
+                      }  text-xs px-2 py-0.5 rounded-full`}
                     >
                       {project.priority.toLowerCase()}
                     </Badge>

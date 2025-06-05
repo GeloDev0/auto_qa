@@ -11,6 +11,8 @@ export interface TestCase {
   module: string;
   priority: "Low" | "Medium" | "High" | "Critical";
   type: "Functional" | "Negative" | "Edge Case" | "Performance" | "Security";
-  steps: TestStep[];
   selected: boolean;
+  preconditions: string[];
+  steps: string[];
+  expectedResults: string[];
 }
