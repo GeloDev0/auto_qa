@@ -9,7 +9,7 @@ export const testCases: TestCase[] = [
     description: "Verify user can login with valid credentials",
     module: "Authentication",
     priority: "High",
-    status: "Active",
+    status: "Passed",
     createdBy: "John Doe",
     preconditions: [
       "User must be registered",
@@ -37,7 +37,7 @@ export const testCases: TestCase[] = [
     description: "Verify user can reset forgotten password",
     module: "Authentication",
     priority: "Medium",
-    status: "Active",
+    status: "Pending",
     createdBy: "Jane Smith",
     preconditions: [
       "User must have a valid email registered",
@@ -64,7 +64,7 @@ export const testCases: TestCase[] = [
     description: "Verify user can successfully logout",
     module: "Authentication",
     priority: "Low",
-    status: "Active",
+    status: "Pending",
     createdBy: "Alice Brown",
     preconditions: ["User must be logged in"],
     steps: [
@@ -84,7 +84,7 @@ export const testCases: TestCase[] = [
     description: "Ensure users can create a new project",
     module: "Projects",
     priority: "High",
-    status: "Active",
+    status: "Pending",
     createdBy: "Mark Green",
     preconditions: ["User must be logged in"],
     steps: [
@@ -108,7 +108,7 @@ export const testCases: TestCase[] = [
     description: "Check if project details can be edited",
     module: "Projects",
     priority: "Medium",
-    status: "Active",
+    status: "Pending",
     createdBy: "Olivia Grey",
     preconditions: ["At least one project must exist"],
     steps: [
@@ -132,7 +132,7 @@ export const testCases: TestCase[] = [
     description: "Verify that a project can be deleted",
     module: "Projects",
     priority: "High",
-    status: "Inactive",
+    status: "Pending",
     createdBy: "Liam White",
     preconditions: ["User must have delete permissions"],
     steps: [
@@ -152,7 +152,7 @@ export const testCases: TestCase[] = [
     description: "Ensure a user can invite new team members",
     module: "Teams",
     priority: "Medium",
-    status: "Active",
+    status: "Pending",
     createdBy: "Nina Blue",
     preconditions: ["User must have admin rights"],
     steps: [
@@ -176,7 +176,7 @@ export const testCases: TestCase[] = [
     description: "Verify search returns correct results",
     module: "Dashboard",
     priority: "Low",
-    status: "Active",
+    status: "Pending",
     createdBy: "Ethan Red",
     preconditions: ["Dashboard must contain data"],
     steps: [
@@ -196,7 +196,7 @@ export const testCases: TestCase[] = [
     description: "Check client-side validation for required fields",
     module: "Forms",
     priority: "High",
-    status: "Active",
+    status: "Pending",
     createdBy: "Sophia Black",
     preconditions: ["User must be on a form page"],
     steps: [
@@ -212,7 +212,7 @@ export const testCases: TestCase[] = [
     description: "Ensure users can upload supported files",
     module: "Documents",
     priority: "Medium",
-    status: "Active",
+    status: "Pending",
     createdBy: "Daniel Gray",
     preconditions: ["User must be logged in"],
     steps: [

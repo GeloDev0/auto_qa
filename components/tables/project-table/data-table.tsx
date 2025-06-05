@@ -86,13 +86,13 @@ export function DataTable<TData, TValue>({
 
   const statusColor: Record<"ACTIVE" | "INACTIVE", string> = {
     ACTIVE: "bg-blue-100 text-blue-800",
-    INACTIVE: "bg-gray-100 text-gray-800",
+    INACTIVE: "bg-gray-400 text-white",
   };
 
   const priorityColor: Record<"HIGH" | "MEDIUM" | "LOW", string> = {
-    HIGH: "bg-red-100 text-red-600",
-    MEDIUM: "bg-orange-200 text-orange-600",
-    LOW: "bg-yellow-200 text-yellow-600",
+    HIGH: "bg-red-100 text-red-800",
+    MEDIUM: "bg-yellow-100 text-yellow-700",
+    LOW: "bg-blue-100 text-blue-800",
   };
   const progressValue = 68; // Progress percentage
 
@@ -213,19 +213,19 @@ export function DataTable<TData, TValue>({
                     <Progress value={progressValue} className="h-2" />
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaFolder className="text-blue-400 w-4 h-4" />
+                    <FaFolder className="text-gray-300 w-4 h-4" />
                     <span className="font-medium">Test Cases:</span>{" "}
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaCalendar className="text-blue-400 w-4 h-4" />
+                    <FaCalendar className="text-gray-300 w-4 h-4" />
                     <span className="font-medium">Start Date:</span>{" "}
                   </div>
                   <div className="flex items-center gap-1">
-                    <FaCalendarCheck className="text-blue-400 w-4 h-4" />
+                    <FaCalendarCheck className="text-gray-300 w-4 h-4" />
                     <span className="font-medium">Deadline:</span>{" "}
                   </div>
                   <div className="flex items-center text-sm gap-1">
-                    <FaUser className="text-blue-400 w-4 h-4" />
+                    <FaUser className="text-gray-300 w-4 h-4" />
                     <span className="font-medium">Created By: </span>{" "}
                   </div>
                 </div>
