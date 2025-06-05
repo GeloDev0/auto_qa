@@ -102,6 +102,10 @@ export const columns: ColumnDef<TestCase>[] = [
               testcase={fullTestCase}
               isOpen={isSheetOpen}
               onOpenChange={setIsSheetOpen}
+              onSave={(updatedTestCase) => {
+                // Handle save logic here
+                console.log("Updated test case:", updatedTestCase);
+              }}
             />
           )}
         </>

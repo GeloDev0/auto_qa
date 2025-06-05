@@ -36,7 +36,6 @@ import { FaFolder, FaUser } from "react-icons/fa";
 import { HiEye, HiMiniPencilSquare, HiTrash } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 import { DeleteDialog } from "@/components/dialogs/delete-dialog";
-import { EditTestCaseDialog } from "@/components/dialogs/edit-testcase-dialog";
 import { toast, Toaster } from "sonner";
 // Create this component
 
@@ -242,23 +241,6 @@ export function DataTable<TData, TValue>({
                         <HiEye className="w-4 h-4 text-gray-400" />
                       </Button>
 
-                      <EditTestCaseDialog
-                        testcase={testcase}
-                        onEdit={async (updatedTestCase) => {
-                          // Implement your update logic here
-                          console.log("Updated test case:", updatedTestCase);
-                          toast.success("Test case updated successfully!");
-                        }}
-                      >
-                        <Button
-                          className="w-6 h-6 rounded-full"
-                          size="icon"
-                          variant="ghost"
-                        >
-                          <HiMiniPencilSquare className="w-4 h-4 text-gray-400" />
-                        </Button>
-                      </EditTestCaseDialog>
-
                       <DeleteDialog
                         onDelete={async () => {
                           // Implement your delete logic here
@@ -354,6 +336,10 @@ export function DataTable<TData, TValue>({
           isOpen={!!selectedTestCase}
           onOpenChange={(open) => {
             if (!open) setSelectedTestCase(null);
+          }}
+          onSave={(updatedTestCase) => {
+            // Handle save logic here
+            console.log("Updated test case:", updatedTestCase);
           }}
         />
       )}
