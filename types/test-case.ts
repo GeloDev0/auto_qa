@@ -9,10 +9,9 @@ export interface TestCase {
   title: string;
   description: string;
   module: string;
-  priority: "Low" | "Medium" | "High" | "Critical";
+  priority: "Low" | "Medium" | "High";
   type: "Functional" | "Negative" | "Edge Case" | "Performance" | "Security";
   selected: boolean;
   preconditions: string[];
-  steps: string[];
-  expectedResults: string[];
+  testSteps: TestStep[];
 }
