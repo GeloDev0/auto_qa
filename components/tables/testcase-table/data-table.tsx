@@ -36,7 +36,6 @@ import { FaFolder, FaUser } from "react-icons/fa";
 import { HiEye, HiMiniPencilSquare, HiTrash } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 import { DeleteDialog } from "@/components/dialogs/delete-dialog";
-import { EditTestCaseDialog } from "@/components/dialogs/edit-testcase-dialog";
 import { toast, Toaster } from "sonner";
 // Create this component
 
@@ -120,16 +119,14 @@ export function DataTable<TData, TValue>({
               variant={isCardView ? "outline" : "ghost"}
               size="icon"
               onClick={() => setIsCardView(true)}
-              title="Card View"
-            >
+              title="Card View">
               <LayoutGrid className="w-5 h-5" />
             </Button>
             <Button
               variant={!isCardView ? "outline" : "ghost"}
               size="icon"
               onClick={() => setIsCardView(false)}
-              title="Table View"
-            >
+              title="Table View">
               <TableIcon className="w-5 h-5" />
             </Button>
           </div>
@@ -149,8 +146,7 @@ export function DataTable<TData, TValue>({
                     checked={column.getIsVisible()}
                     onCheckedChange={(value) =>
                       column.toggleVisibility(!!value)
-                    }
-                  >
+                    }>
                     {column.id}
                   </DropdownMenuCheckboxItem>
                 ))}
@@ -167,8 +163,7 @@ export function DataTable<TData, TValue>({
               return (
                 <div
                   key={row.id}
-                  className="border rounded-lg overflow-hidden shadow-md bg-white"
-                >
+                  className="border rounded-lg overflow-hidden shadow-md bg-white">
                   <div className="h-8 bg-blue-200" /> {/* Top accent bar */}
                   <div className="p-4">
                     <div className="flex justify-between items-start mb-2">
@@ -179,8 +174,7 @@ export function DataTable<TData, TValue>({
 
                     <p
                       className="text-gray-500 text-sm mb-4 truncate"
-                      title={testcase.description}
-                    >
+                      title={testcase.description}>
                       {testcase.description}
                     </p>
 
@@ -210,8 +204,7 @@ export function DataTable<TData, TValue>({
                             priorityStyles[
                               testcase.priority.toLowerCase() as keyof typeof priorityStyles
                             ]?.text || "text-gray-800"
-                          } text-xs px-2 py-0.5 rounded-full`}
-                        >
+                          } text-xs px-2 py-0.5 rounded-full`}>
                           {testcase.priority.toLowerCase()}
                         </Badge>
                       )}
@@ -225,8 +218,7 @@ export function DataTable<TData, TValue>({
                             statusStyles[
                               testcase.status.toLowerCase() as keyof typeof statusStyles
                             ]?.text || "text-blue-700"
-                          } text-xs px-2 py-0.5 rounded-full`}
-                        >
+                          } text-xs px-2 py-0.5 rounded-full`}>
                           {testcase.status.toLowerCase()}
                         </Badge>
                       )}
@@ -237,40 +229,20 @@ export function DataTable<TData, TValue>({
                         className="w-6 h-6 rounded-full"
                         size="icon"
                         variant="ghost"
-                        onClick={() => setSelectedTestCase(testcase)}
-                      >
+                        onClick={() => setSelectedTestCase(testcase)}>
                         <HiEye className="w-4 h-4 text-gray-400" />
                       </Button>
-
-                      <EditTestCaseDialog
-                        testcase={testcase}
-                        onEdit={async (updatedTestCase) => {
-                          // Implement your update logic here
-                          console.log("Updated test case:", updatedTestCase);
-                          toast.success("Test case updated successfully!");
-                        }}
-                      >
-                        <Button
-                          className="w-6 h-6 rounded-full"
-                          size="icon"
-                          variant="ghost"
-                        >
-                          <HiMiniPencilSquare className="w-4 h-4 text-gray-400" />
-                        </Button>
-                      </EditTestCaseDialog>
 
                       <DeleteDialog
                         onDelete={async () => {
                           // Implement your delete logic here
                           console.log("Deleting test case:", testcase.id);
                           toast.success("Test case deleted successfully!");
-                        }}
-                      >
+                        }}>
                         <Button
                           className="w-6 h-6 rounded-full"
                           size="icon"
-                          variant="ghost"
-                        >
+                          variant="ghost">
                           <HiTrash className="w-4 h-4 text-gray-400" />
                         </Button>
                       </DeleteDialog>
@@ -295,8 +267,7 @@ export function DataTable<TData, TValue>({
                     {headerGroup.headers.map((header) => (
                       <TableHead
                         key={header.id}
-                        className="text-muted-foreground font-medium"
-                      >
+                        className="text-muted-foreground font-medium">
                         {header.isPlaceholder
                           ? null
                           : flexRender(
@@ -313,13 +284,11 @@ export function DataTable<TData, TValue>({
                   table.getRowModel().rows.map((row) => (
                     <TableRow
                       key={row.id}
-                      data-state={row.getIsSelected() && "selected"}
-                    >
+                      data-state={row.getIsSelected() && "selected"}>
                       {row.getVisibleCells().map((cell) => (
                         <TableCell
                           key={cell.id}
-                          className="text-sm text-gray-700"
-                        >
+                          className="text-sm text-gray-700">
                           {flexRender(
                             cell.column.columnDef.cell,
                             cell.getContext()
@@ -332,8 +301,7 @@ export function DataTable<TData, TValue>({
                   <TableRow>
                     <TableCell
                       colSpan={columns.length}
-                      className="h-24 text-center"
-                    >
+                      className="h-24 text-center">
                       No results.
                     </TableCell>
                   </TableRow>
@@ -354,6 +322,10 @@ export function DataTable<TData, TValue>({
           isOpen={!!selectedTestCase}
           onOpenChange={(open) => {
             if (!open) setSelectedTestCase(null);
+          }}
+          onSave={(updatedTestCase) => {
+            // Handle save logic here
+            console.log("Updated test case:", updatedTestCase);
           }}
         />
       )}
