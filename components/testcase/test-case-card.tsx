@@ -56,7 +56,7 @@ export function TestCaseCard({
     title: testCase.title,
     description: testCase.description,
     module: testCase.module,
-    steps: testCase.steps.map((step) => ({ ...step })),
+    testSteps: testCase.testSteps.map((step) => ({ ...step })),
   });
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -72,14 +72,14 @@ export function TestCaseCard({
     };
     setEditValues((prev) => ({
       ...prev,
-      steps: [...prev.steps, newStep],
+      testSteps: [...prev.testSteps, newStep],
     }));
   };
 
   const removeStep = (stepIndex: number) => {
     setEditValues((prev) => ({
       ...prev,
-      steps: prev.steps.filter((_, index) => index !== stepIndex),
+      testSteps: prev.testSteps.filter((_, index) => index !== stepIndex),
     }));
   };
 
@@ -90,7 +90,7 @@ export function TestCaseCard({
   ) => {
     setEditValues((prev) => ({
       ...prev,
-      steps: prev.steps.map((step, index) =>
+      testSteps: prev.testSteps.map((step, index) =>
         index === stepIndex ? { ...step, [field]: value } : step
       ),
     }));
@@ -101,7 +101,7 @@ export function TestCaseCard({
       title: testCase.title,
       description: testCase.description,
       module: testCase.module,
-      steps: testCase.steps.map((step) => ({ ...step })),
+      testSteps: testCase.testSteps.map((step) => ({ ...step })),
     });
     setIsEditing(true);
   };
@@ -112,7 +112,7 @@ export function TestCaseCard({
       title: editValues.title,
       description: editValues.description,
       module: editValues.module,
-      steps: editValues.steps,
+      testSteps: editValues.testSteps,
     });
     setIsEditing(false);
   };
@@ -122,7 +122,7 @@ export function TestCaseCard({
       title: testCase.title,
       description: testCase.description,
       module: testCase.module,
-      steps: testCase.steps.map((step) => ({ ...step })),
+      testSteps: testCase.testSteps.map((step) => ({ ...step })),
     });
     setIsEditing(false);
   };
@@ -214,11 +214,11 @@ export function TestCaseCard({
               Steps
             </label>
             <div className="space-y-2">
-              {editValues.steps.map((step, index) => (
-                <div key={step.id} className="flex items-start gap-2">
+              {editValues.testSteps.map((testSteps, index) => (
+                <div key={testSteps.id} className="flex items-start gap-2">
                   <div className="flex-1">
                     <Textarea
-                      value={step.action}
+                      value={testSteps.action}
                       onChange={(e) =>
                         updateEditStep(index, "action", e.target.value)
                       }
@@ -254,14 +254,14 @@ export function TestCaseCard({
               Expected Results
             </label>
             <div className="space-y-2">
-              {editValues.steps.map((step, index) => (
+              {editValues.testSteps.map((testSteps, index) => (
                 <div
-                  key={`result-${step.id}`}
+                  key={`result-${testSteps.id}`}
                   className="flex items-start gap-2"
                 >
                   <div className="flex-1">
                     <Textarea
-                      value={step.expectedResult}
+                      value={testSteps.expectedResult}
                       onChange={(e) =>
                         updateEditStep(index, "expectedResult", e.target.value)
                       }
@@ -350,7 +350,6 @@ export function TestCaseCard({
                     <SelectItem value="Low">Low</SelectItem>
                     <SelectItem value="Medium">Medium</SelectItem>
                     <SelectItem value="High">High</SelectItem>
-                    <SelectItem value="Critical">Critical</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -425,7 +424,7 @@ export function TestCaseCard({
                       )}
                       <span>Steps</span>
                       <span className="text-xs text-gray-500">
-                        ({testCase.steps.length})
+                        ({testCase.testSteps.length})
                       </span>
                     </div>
                   </Button>
@@ -436,10 +435,10 @@ export function TestCaseCard({
                     {/* Steps Display */}
                     <div>
                       <ol className="space-y-2">
-                        {testCase.steps.map((step, index) => (
-                          <li key={step.id} className="text-sm text-gray-700">
+                        {testCase.testSteps.map((testSteps, index) => (
+                          <li key={testSteps.id} className="text-sm text-gray-700">
                             <span className="font-medium">{index + 1}.</span>{" "}
-                            {step.action || (
+                            {testSteps.action || (
                               <span className="text-gray-400 italic">
                                 No action defined
                               </span>
@@ -455,13 +454,13 @@ export function TestCaseCard({
                         Expected Results
                       </h4>
                       <ol className="space-y-2">
-                        {testCase.steps.map((step, index) => (
+                        {testCase.testSteps.map((testSteps, index) => (
                           <li
-                            key={`result-${step.id}`}
+                            key={`result-${testSteps.id}`}
                             className="text-sm text-gray-700"
                           >
                             <span className="font-medium">{index + 1}.</span>{" "}
-                            {step.expectedResult || (
+                            {testSteps.expectedResult || (
                               <span className="text-gray-400 italic">
                                 No expected result defined
                               </span>

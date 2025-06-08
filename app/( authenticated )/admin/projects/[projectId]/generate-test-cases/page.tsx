@@ -41,256 +41,8 @@ import {
 import { TestCaseCard } from "@/components/testcase/test-case-card";
 import { FaRobot } from "react-icons/fa";
 
-// Dummy test case templates based on common scenarios
-const testCaseTemplates = {
-  login: [
-    {
-      title: "Valid User Login with Correct Credentials",
-      description:
-        "Verify that users can successfully log in with valid email and password",
-      module: "Authentication",
-      type: "Functional",
-      priority: "High",
-      steps: [
-        {
-          action: "Navigate to the login page",
-          expectedResult:
-            "Login form is displayed with email and password fields",
-        },
-        {
-          action: "Enter valid email address in the email field",
-          expectedResult:
-            "Email is accepted and field shows no validation errors",
-        },
-        {
-          action: "Enter correct password in the password field",
-          expectedResult: "Password is masked and field accepts input",
-        },
-        {
-          action: "Click the 'Login' button",
-          expectedResult:
-            "User is successfully authenticated and redirected to dashboard",
-        },
-      ],
-    },
-    {
-      title: "Login Attempt with Invalid Credentials",
-      description:
-        "Verify that system handles invalid login attempts appropriately",
-      module: "Authentication",
-      type: "Negative",
-      priority: "High",
-      steps: [
-        {
-          action: "Navigate to the login page",
-          expectedResult: "Login form is displayed",
-        },
-        {
-          action: "Enter invalid email or password",
-          expectedResult: "Credentials are entered in respective fields",
-        },
-        {
-          action: "Click the 'Login' button",
-          expectedResult:
-            "Error message is displayed and user remains on login page",
-        },
-      ],
-    },
-    {
-      title: "Login with Empty Credentials",
-      description: "Verify that system validates required fields",
-      module: "Authentication",
-      type: "Edge Case",
-      priority: "Medium",
-      steps: [
-        {
-          action: "Navigate to the login page",
-          expectedResult: "Login form is displayed",
-        },
-        {
-          action: "Leave email and password fields empty",
-          expectedResult: "Fields remain empty",
-        },
-        {
-          action: "Click the 'Login' button",
-          expectedResult: "Validation errors are shown for required fields",
-        },
-      ],
-    },
-    {
-      title: "Password Reset Functionality",
-      description: "Verify that users can request password reset",
-      module: "Authentication",
-      type: "Functional",
-      priority: "Medium",
-      steps: [
-        {
-          action: "Click 'Forgot Password' link on login page",
-          expectedResult: "Password reset form is displayed",
-        },
-        {
-          action: "Enter registered email address",
-          expectedResult: "Email is accepted and form is ready for submission",
-        },
-        {
-          action: "Click 'Send Reset Link' button",
-          expectedResult: "Success message is displayed",
-        },
-      ],
-    },
-  ],
-  ecommerce: [
-    {
-      title: "Add Product to Shopping Cart",
-      description: "Verify that users can add products to their shopping cart",
-      module: "Shopping Cart",
-      type: "Functional",
-      priority: "High",
-      steps: [
-        {
-          action: "Navigate to a product page",
-          expectedResult:
-            "Product details and 'Add to Cart' button are visible",
-        },
-        {
-          action: "Select product options (size, color, quantity)",
-          expectedResult: "Options are selected and price updates accordingly",
-        },
-        {
-          action: "Click 'Add to Cart' button",
-          expectedResult: "Product is added to cart and cart counter updates",
-        },
-      ],
-    },
-    {
-      title: "Remove Product from Cart",
-      description: "Verify that users can remove products from their cart",
-      module: "Shopping Cart",
-      type: "Functional",
-      priority: "Medium",
-      steps: [
-        {
-          action: "Navigate to shopping cart with items",
-          expectedResult: "Cart displays added products",
-        },
-        {
-          action: "Click 'Remove' button for a product",
-          expectedResult: "Product is removed and total is updated",
-        },
-      ],
-    },
-    {
-      title: "Checkout Process with Valid Payment",
-      description: "Verify successful checkout with valid payment information",
-      module: "Checkout",
-      type: "Functional",
-      priority: "Critical",
-      steps: [
-        {
-          action: "Proceed to checkout with items in cart",
-          expectedResult: "Checkout form is displayed with order summary",
-        },
-        {
-          action: "Enter valid shipping and billing information",
-          expectedResult: "Information is accepted and validated",
-        },
-        {
-          action: "Enter valid payment details",
-          expectedResult: "Payment form accepts the information",
-        },
-        {
-          action: "Click 'Place Order' button",
-          expectedResult: "Order is processed and confirmation page is shown",
-        },
-      ],
-    },
-  ],
-  dashboard: [
-    {
-      title: "Dashboard Data Loading",
-      description: "Verify that dashboard loads user data correctly",
-      module: "Dashboard",
-      type: "Functional",
-      priority: "High",
-      steps: [
-        {
-          action: "Log in and navigate to dashboard",
-          expectedResult: "Dashboard page loads with user-specific data",
-        },
-        {
-          action: "Verify all widgets and charts are displayed",
-          expectedResult: "All dashboard components render correctly",
-        },
-      ],
-    },
-    {
-      title: "Dashboard Performance with Large Dataset",
-      description: "Verify dashboard performance with large amounts of data",
-      module: "Dashboard",
-      type: "Performance",
-      priority: "Medium",
-      steps: [
-        {
-          action: "Load dashboard with large dataset",
-          expectedResult: "Dashboard loads within acceptable time limits",
-        },
-        {
-          action: "Interact with dashboard elements",
-          expectedResult: "UI remains responsive during interactions",
-        },
-      ],
-    },
-  ],
-  profile: [
-    {
-      title: "Update User Profile Information",
-      description: "Verify that users can update their profile information",
-      module: "User Profile",
-      type: "Functional",
-      priority: "Medium",
-      steps: [
-        {
-          action: "Navigate to profile settings page",
-          expectedResult: "Profile form is displayed with current information",
-        },
-        {
-          action: "Update profile fields (name, email, etc.)",
-          expectedResult: "Changes are reflected in the form",
-        },
-        {
-          action: "Click 'Save Changes' button",
-          expectedResult: "Profile is updated and success message is shown",
-        },
-      ],
-    },
-    {
-      title: "Profile Picture Upload",
-      description:
-        "Verify that users can upload and update their profile picture",
-      module: "User Profile",
-      type: "Functional",
-      priority: "Low",
-      steps: [
-        {
-          action: "Click on profile picture upload area",
-          expectedResult: "File selection dialog opens",
-        },
-        {
-          action: "Select a valid image file",
-          expectedResult: "Image preview is shown",
-        },
-        {
-          action: "Confirm the upload",
-          expectedResult: "Profile picture is updated across the application",
-        },
-      ],
-    },
-  ],
-};
-
 export default function GenerateTestCasePage() {
-  const [userStoryTitle, setUserStoryTitle] = useState("");
-  const [userStoryDescription, setUserStoryDescription] = useState("");
+  const [userStory, setUserStory] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedTestCases, setGeneratedTestCases] = useState<TestCase[]>([]);
   const [formData, setFormData] = useState<{ priority: TestCase["priority"] }>({
@@ -299,8 +51,7 @@ export default function GenerateTestCasePage() {
 
   const generateTestCases = async () => {
     if (
-      !userStoryTitle.trim() ||
-      !userStoryDescription.trim() ||
+      !userStory.trim() ||
       !formData.priority
     ) {
       return;
@@ -310,86 +61,48 @@ export default function GenerateTestCasePage() {
 
     // Simulate API call delay
     await new Promise((resolve) => setTimeout(resolve, 2000));
-
     try {
-      const testCases = generateDummyTestCases(
-        userStoryTitle,
-        userStoryDescription,
-        formData.priority
-      );
-      setGeneratedTestCases(testCases);
-    } catch (error) {
-      console.error("Error generating test cases:", error);
-      alert("Failed to generate test cases. Please try again.");
+      const res = await fetch("/api/admin/testcases/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userStory,
+          priority: formData.priority.toUpperCase(), // ensure enum format
+          save: false, // change to true if you want to store in DB
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        // Map the returned test cases to your interface and rename testSteps to steps
+        const testCases: TestCase[] = data.testCases.map((tc: any, index: number) => ({
+          id: tc.id ?? `TC-00${index+1}`,
+          title: tc.title,
+          description: tc.description,
+          module: tc.module,
+          priority: tc.priority,
+          expectedResult: tc.expectedResult,
+           testSteps: Array.isArray(tc.testSteps) ? tc.testSteps.map((step: any, index: number) => ({
+            id: step.id ?? `${index + 1}`,
+            action: step.action,
+            expectedResult: step.expectedResult
+          })) : [],
+          selected: false,
+        }));
+
+        setGeneratedTestCases(testCases);
+      } else {
+        alert("Failed to generate test cases: " + JSON.stringify(data.error));
+      }
+    } catch (err) {
+        alert("Error calling API");
     } finally {
-      setIsGenerating(false);
-    }
-  };
-
-  const generateDummyTestCases = (
-    title: string,
-    description: string,
-    priority: TestCase["priority"]
-  ): TestCase[] => {
-    // Determine which template to use based on the title/description content
-    let selectedTemplate = testCaseTemplates.login; // default
-
-    const titleLower = title.toLowerCase();
-    const descriptionLower = description.toLowerCase();
-
-    if (
-      titleLower.includes("login") ||
-      titleLower.includes("auth") ||
-      descriptionLower.includes("login")
-    ) {
-      selectedTemplate = testCaseTemplates.login;
-    } else if (
-      titleLower.includes("cart") ||
-      titleLower.includes("shop") ||
-      titleLower.includes("ecommerce") ||
-      descriptionLower.includes("cart") ||
-      descriptionLower.includes("shop")
-    ) {
-      selectedTemplate = testCaseTemplates.ecommerce;
-    } else if (
-      titleLower.includes("dashboard") ||
-      titleLower.includes("analytics") ||
-      descriptionLower.includes("dashboard")
-    ) {
-      selectedTemplate = testCaseTemplates.dashboard;
-    } else if (
-      titleLower.includes("profile") ||
-      titleLower.includes("user") ||
-      descriptionLower.includes("profile")
-    ) {
-      selectedTemplate = testCaseTemplates.profile;
+      setIsGenerating(false)
     }
 
-    // Convert to our TestCase format with the selected priority
-    return selectedTemplate.map((tc, index) => {
-      const id = `TC-${String(index + 1).padStart(3, "0")}`;
-      const steps = tc.steps.map((step, stepIndex) => ({
-        id: `step-${Date.now()}-${stepIndex}`,
-        action: step.action,
-        expectedResult: step.expectedResult,
-      }));
 
-      return {
-        id,
-        title: tc.title,
-        description: tc.description,
-        module: tc.module,
-        priority: priority, // Use the selected priority
-        type: tc.type as
-          | "Functional"
-          | "Negative"
-          | "Edge Case"
-          | "Performance"
-          | "Security",
-        steps,
-        selected: true,
-      };
-    });
   };
 
   const updateTestCase = (updatedTestCase: TestCase) => {
@@ -405,7 +118,7 @@ export default function GenerateTestCasePage() {
   const duplicateTestCase = (testCase: TestCase) => {
     const newTestCase = {
       ...testCase,
-      id: `TC-${String(generatedTestCases.length + 1).padStart(3, "0")}`,
+      id: `TC-00${String(generatedTestCases.length + 1).padStart(3, "0")}`,
       title: `${testCase.title} (Copy)`,
       selected: true,
     };
@@ -447,28 +160,12 @@ export default function GenerateTestCasePage() {
           {/* Left Panel - Generator */}
           <Card className="bg-white shadow-sm border-0 flex flex-col">
             <CardContent className="flex-1 overflow-auto space-y-6">
-              {/* User Story Title */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="title"
-                  className="text-sm font-medium text-gray-700">
-                  User Story Title
-                </Label>
-                <Input
-                  id="title"
-                  value={userStoryTitle}
-                  onChange={(e) => setUserStoryTitle(e.target.value)}
-                  placeholder="e.g., User Login Authentication, Shopping Cart Management"
-                  className="text-base border-gray-200 focus:border-blue-300 focus:ring-blue-200"
-                />
-              </div>
-
-              {/* User Story Description */}
+              {/* User Story */}
               <div className="space-y-2">
                 <Label
                   htmlFor="description"
                   className="text-sm font-semibold text-gray-800">
-                  User Story Description
+                  User Story
                 </Label>
 
                 <div className="rounded-md border border-gray-200 shadow-sm bg-white overflow-hidden">
@@ -516,11 +213,10 @@ export default function GenerateTestCasePage() {
 
                   <Textarea
                     id="description"
-                    value={userStoryDescription}
-                    onChange={(e) => setUserStoryDescription(e.target.value)}
+                    value={userStory}
+                    onChange={(e) => setUserStory(e.target.value)}
                     placeholder={`As a [user type], I want [functionality] so that [benefit/value]...
-
-💡 Try keywords like "login", "cart", "dashboard", or "profile" to see different test case templates.`}
+                                  Try keywords like "login", "cart", "dashboard", or "profile" to see different test case templates.`}
                     className="min-h-[140px] text-sm px-3 py-2 border-0 rounded-none focus:outline-none focus:ring-0 resize-none"
                   />
                 </div>
@@ -556,12 +252,7 @@ export default function GenerateTestCasePage() {
                         <span>High Priority</span>
                       </div>
                     </SelectItem>
-                    <SelectItem value="Critical">
-                      <div className="flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-sm bg-red-400" />
-                        <span>Critical Priority</span>
-                      </div>
-                    </SelectItem>
+
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-gray-500">
@@ -592,8 +283,7 @@ export default function GenerateTestCasePage() {
               <Button
                 onClick={generateTestCases}
                 disabled={
-                  !userStoryTitle.trim() ||
-                  !userStoryDescription.trim() ||
+                  !userStory.trim() ||
                   !formData.priority ||
                   isGenerating
                 }
@@ -665,21 +355,14 @@ export default function GenerateTestCasePage() {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {Object.entries(groupedTestCases).map(([module, cases]) => (
-                    <div key={module} className="space-y-3">
-                      <div className="flex items-center gap-2"></div>
-                      <div className="space-y-3">
-                        {cases.map((testCase) => (
-                          <TestCaseCard
-                            key={testCase.id}
-                            testCase={testCase}
-                            onUpdate={updateTestCase}
-                            onDelete={deleteTestCase}
-                            onDuplicate={duplicateTestCase}
-                          />
-                        ))}
-                      </div>
-                    </div>
+                  {generatedTestCases.map((testCase) => (
+                    <TestCaseCard
+                      key={testCase.id}
+                      testCase={testCase}
+                      onUpdate={updateTestCase}
+                      onDelete={deleteTestCase}
+                      onDuplicate={duplicateTestCase}
+                    />
                   ))}
                 </div>
               )}
