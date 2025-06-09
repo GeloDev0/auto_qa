@@ -11,6 +11,8 @@ const projectSchema = z.object({
   status: z.enum(["ACTIVE", "INACTIVE", "COMPLETED"]).optional(),
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
   members: z.array(z.number()).optional(),  // user IDs array
+  startDate: z.string().datetime().optional(),  
+  deadline: z.string().datetime().optional(),
 });
 // 🟢 API request to Create a project record
 export async function POST(req: Request) {
@@ -21,11 +23,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
-  const { members, ...projectData } = parsed.data;
+  const { members, startDate, deadline, ...projectData } = parsed.data;
 
   const project = await prisma.project.create({
     data: {
       ...projectData,
+      startDate: startDate ? new Date(startDate) : undefined,
+      deadline: deadline ? new Date(deadline) : undefined,
       members: members ? {
         connect: members.map((id) => ({ id })),
       } : undefined,

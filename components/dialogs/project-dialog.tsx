@@ -9,6 +9,8 @@ import { z } from "zod";
 import { PlusIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import {
   Dialog,
@@ -38,8 +40,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { ButtonLoader } from "../loader/Loader";
-import { Calendar } from "@/components/ui/calendar";
+import { ButtonLoader } from "../loader/Loader";  
 import {
   Popover,
   PopoverContent,
@@ -57,10 +58,10 @@ const projectFormSchema = z.object({
   }),
   status: z.enum(["ACTIVE", "INACTIVE", "COMPLETED"]),
   priority: z.enum(["HIGH", "MEDIUM", "LOW"]),
-  dateCreated: z.date({
-    required_error: "Date created is required.",
-  }),
-  deadline: z.date().optional(),
+  startDate: z.date({
+  required_error: "Start date is required.",
+}),
+  deadline: z.date().nullable().optional(),
   members: z.array(z.number()).optional(),
 });
 
@@ -84,11 +85,13 @@ export function CreateProject() {
       description: "",
       status: "ACTIVE",
       priority: "MEDIUM",
-      dateCreated: new Date(),
+      startDate: new Date(), // ✅ ensure it's a Date object
+      deadline: undefined,
       members: [],
     },
   });
 
+  const startDate = form.watch("startDate"); // ✅ watch the current startDate
   const [users, setUsers] = useState<User[]>([]);
 
   const filteredUsers = useMemo(() => {
@@ -257,84 +260,53 @@ export function CreateProject() {
               {/* Date Fields */}
               <div className="grid grid-cols-2 gap-4">
                 <FormField
-                  control={form.control}
-                  name="dateCreated"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Date Created</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}>
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) =>
-                              date > new Date() || date < new Date("1900-01-01")
-                            }
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+  control={form.control}
+  name="startDate"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Start Date</FormLabel>
+      <FormControl>
+        <DatePicker
+  className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
+  selected={field.value}
+  onChange={(date) => field.onChange(date)}
+  dateFormat="PPP"
+  placeholderText="Select a start date"
+  minDate={new Date()} // ✅ disables past dates
+/>
+
+
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+
+
 
                 <FormField
-                  control={form.control}
-                  name="deadline"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>Deadline (Optional)</FormLabel>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}>
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Pick a date</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            disabled={(date) => date < new Date()}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+  control={form.control}
+  name="deadline"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Deadline (Optional)</FormLabel>
+      <FormControl>
+        <DatePicker
+  className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
+  selected={field.value}
+  onChange={(date) => field.onChange(date)}
+  dateFormat="PPP"
+  placeholderText="Select a deadline"
+  minDate={startDate || new Date()} // ✅ disables deadline dates before startDate
+  isClearable
+/>
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
               </div>
 
               <FormField

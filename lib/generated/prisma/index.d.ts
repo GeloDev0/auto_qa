@@ -2652,6 +2652,8 @@ export namespace Prisma {
     updatedAt: Date | null
     title: string | null
     createdById: number | null
+    startDate: Date | null
+    deadline: Date | null
   }
 
   export type ProjectMaxAggregateOutputType = {
@@ -2663,6 +2665,8 @@ export namespace Prisma {
     updatedAt: Date | null
     title: string | null
     createdById: number | null
+    startDate: Date | null
+    deadline: Date | null
   }
 
   export type ProjectCountAggregateOutputType = {
@@ -2674,6 +2678,8 @@ export namespace Prisma {
     updatedAt: number
     title: number
     createdById: number
+    startDate: number
+    deadline: number
     _all: number
   }
 
@@ -2697,6 +2703,8 @@ export namespace Prisma {
     updatedAt?: true
     title?: true
     createdById?: true
+    startDate?: true
+    deadline?: true
   }
 
   export type ProjectMaxAggregateInputType = {
@@ -2708,6 +2716,8 @@ export namespace Prisma {
     updatedAt?: true
     title?: true
     createdById?: true
+    startDate?: true
+    deadline?: true
   }
 
   export type ProjectCountAggregateInputType = {
@@ -2719,6 +2729,8 @@ export namespace Prisma {
     updatedAt?: true
     title?: true
     createdById?: true
+    startDate?: true
+    deadline?: true
     _all?: true
   }
 
@@ -2817,6 +2829,8 @@ export namespace Prisma {
     updatedAt: Date
     title: string | null
     createdById: number | null
+    startDate: Date | null
+    deadline: Date | null
     _count: ProjectCountAggregateOutputType | null
     _avg: ProjectAvgAggregateOutputType | null
     _sum: ProjectSumAggregateOutputType | null
@@ -2847,6 +2861,8 @@ export namespace Prisma {
     updatedAt?: boolean
     title?: boolean
     createdById?: boolean
+    startDate?: boolean
+    deadline?: boolean
     User_Project_createdByIdToUser?: boolean | Project$User_Project_createdByIdToUserArgs<ExtArgs>
     TestCase?: boolean | Project$TestCaseArgs<ExtArgs>
     members?: boolean | Project$membersArgs<ExtArgs>
@@ -2862,6 +2878,8 @@ export namespace Prisma {
     updatedAt?: boolean
     title?: boolean
     createdById?: boolean
+    startDate?: boolean
+    deadline?: boolean
     User_Project_createdByIdToUser?: boolean | Project$User_Project_createdByIdToUserArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -2874,6 +2892,8 @@ export namespace Prisma {
     updatedAt?: boolean
     title?: boolean
     createdById?: boolean
+    startDate?: boolean
+    deadline?: boolean
     User_Project_createdByIdToUser?: boolean | Project$User_Project_createdByIdToUserArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -2886,9 +2906,11 @@ export namespace Prisma {
     updatedAt?: boolean
     title?: boolean
     createdById?: boolean
+    startDate?: boolean
+    deadline?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "status" | "priority" | "createdAt" | "updatedAt" | "title" | "createdById", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "status" | "priority" | "createdAt" | "updatedAt" | "title" | "createdById" | "startDate" | "deadline", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     User_Project_createdByIdToUser?: boolean | Project$User_Project_createdByIdToUserArgs<ExtArgs>
     TestCase?: boolean | Project$TestCaseArgs<ExtArgs>
@@ -2918,6 +2940,8 @@ export namespace Prisma {
       updatedAt: Date
       title: string | null
       createdById: number | null
+      startDate: Date | null
+      deadline: Date | null
     }, ExtArgs["result"]["project"]>
     composites: {}
   }
@@ -3352,6 +3376,8 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Project", 'DateTime'>
     readonly title: FieldRef<"Project", 'String'>
     readonly createdById: FieldRef<"Project", 'Int'>
+    readonly startDate: FieldRef<"Project", 'DateTime'>
+    readonly deadline: FieldRef<"Project", 'DateTime'>
   }
     
 
@@ -7259,7 +7285,9 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     title: 'title',
-    createdById: 'createdById'
+    createdById: 'createdById',
+    startDate: 'startDate',
+    deadline: 'deadline'
   };
 
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
@@ -7548,6 +7576,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     title?: StringNullableFilter<"Project"> | string | null
     createdById?: IntNullableFilter<"Project"> | number | null
+    startDate?: DateTimeNullableFilter<"Project"> | Date | string | null
+    deadline?: DateTimeNullableFilter<"Project"> | Date | string | null
     User_Project_createdByIdToUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     TestCase?: TestCaseListRelationFilter
     members?: UserListRelationFilter
@@ -7562,6 +7592,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     title?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
+    startDate?: SortOrderInput | SortOrder
+    deadline?: SortOrderInput | SortOrder
     User_Project_createdByIdToUser?: UserOrderByWithRelationInput
     TestCase?: TestCaseOrderByRelationAggregateInput
     members?: UserOrderByRelationAggregateInput
@@ -7579,6 +7611,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     title?: StringNullableFilter<"Project"> | string | null
     createdById?: IntNullableFilter<"Project"> | number | null
+    startDate?: DateTimeNullableFilter<"Project"> | Date | string | null
+    deadline?: DateTimeNullableFilter<"Project"> | Date | string | null
     User_Project_createdByIdToUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     TestCase?: TestCaseListRelationFilter
     members?: UserListRelationFilter
@@ -7593,6 +7627,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     title?: SortOrderInput | SortOrder
     createdById?: SortOrderInput | SortOrder
+    startDate?: SortOrderInput | SortOrder
+    deadline?: SortOrderInput | SortOrder
     _count?: ProjectCountOrderByAggregateInput
     _avg?: ProjectAvgOrderByAggregateInput
     _max?: ProjectMaxOrderByAggregateInput
@@ -7612,6 +7648,8 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     title?: StringNullableWithAggregatesFilter<"Project"> | string | null
     createdById?: IntNullableWithAggregatesFilter<"Project"> | number | null
+    startDate?: DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
+    deadline?: DateTimeNullableWithAggregatesFilter<"Project"> | Date | string | null
   }
 
   export type NotificationWhereInput = {
@@ -7908,6 +7946,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     title?: string | null
+    startDate?: Date | string | null
+    deadline?: Date | string | null
     User_Project_createdByIdToUser?: UserCreateNestedOneWithoutProject_Project_createdByIdToUserInput
     TestCase?: TestCaseCreateNestedManyWithoutProjectInput
     members?: UserCreateNestedManyWithoutProjectsInput
@@ -7922,6 +7962,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     title?: string | null
     createdById?: number | null
+    startDate?: Date | string | null
+    deadline?: Date | string | null
     TestCase?: TestCaseUncheckedCreateNestedManyWithoutProjectInput
     members?: UserUncheckedCreateNestedManyWithoutProjectsInput
   }
@@ -7933,6 +7975,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     User_Project_createdByIdToUser?: UserUpdateOneWithoutProject_Project_createdByIdToUserNestedInput
     TestCase?: TestCaseUpdateManyWithoutProjectNestedInput
     members?: UserUpdateManyWithoutProjectsNestedInput
@@ -7947,6 +7991,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableIntFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     TestCase?: TestCaseUncheckedUpdateManyWithoutProjectNestedInput
     members?: UserUncheckedUpdateManyWithoutProjectsNestedInput
   }
@@ -7960,6 +8006,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     title?: string | null
     createdById?: number | null
+    startDate?: Date | string | null
+    deadline?: Date | string | null
   }
 
   export type ProjectUpdateManyMutationInput = {
@@ -7969,6 +8017,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProjectUncheckedUpdateManyInput = {
@@ -7980,6 +8030,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableIntFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type NotificationCreateInput = {
@@ -8382,6 +8434,17 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
@@ -8416,6 +8479,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     title?: SortOrder
     createdById?: SortOrder
+    startDate?: SortOrder
+    deadline?: SortOrder
   }
 
   export type ProjectAvgOrderByAggregateInput = {
@@ -8432,6 +8497,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     title?: SortOrder
     createdById?: SortOrder
+    startDate?: SortOrder
+    deadline?: SortOrder
   }
 
   export type ProjectMinOrderByAggregateInput = {
@@ -8443,6 +8510,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     title?: SortOrder
     createdById?: SortOrder
+    startDate?: SortOrder
+    deadline?: SortOrder
   }
 
   export type ProjectSumOrderByAggregateInput = {
@@ -8484,6 +8553,20 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -8854,6 +8937,10 @@ export namespace Prisma {
     set?: $Enums.ProjectPriority
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type UserUpdateOneWithoutProject_Project_createdByIdToUserNestedInput = {
     create?: XOR<UserCreateWithoutProject_Project_createdByIdToUserInput, UserUncheckedCreateWithoutProject_Project_createdByIdToUserInput>
     connectOrCreate?: UserCreateOrConnectWithoutProject_Project_createdByIdToUserInput
@@ -9174,6 +9261,17 @@ export namespace Prisma {
     not?: NestedEnumProjectPriorityFilter<$PrismaModel> | $Enums.ProjectPriority
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumProjectStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.ProjectStatus | EnumProjectStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ProjectStatus[] | ListEnumProjectStatusFieldRefInput<$PrismaModel>
@@ -9219,6 +9317,20 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -9298,6 +9410,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     title?: string | null
+    startDate?: Date | string | null
+    deadline?: Date | string | null
     TestCase?: TestCaseCreateNestedManyWithoutProjectInput
     members?: UserCreateNestedManyWithoutProjectsInput
   }
@@ -9310,6 +9424,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     title?: string | null
+    startDate?: Date | string | null
+    deadline?: Date | string | null
     TestCase?: TestCaseUncheckedCreateNestedManyWithoutProjectInput
     members?: UserUncheckedCreateNestedManyWithoutProjectsInput
   }
@@ -9331,6 +9447,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     title?: string | null
+    startDate?: Date | string | null
+    deadline?: Date | string | null
     User_Project_createdByIdToUser?: UserCreateNestedOneWithoutProject_Project_createdByIdToUserInput
     TestCase?: TestCaseCreateNestedManyWithoutProjectInput
   }
@@ -9344,6 +9462,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     title?: string | null
     createdById?: number | null
+    startDate?: Date | string | null
+    deadline?: Date | string | null
     TestCase?: TestCaseUncheckedCreateNestedManyWithoutProjectInput
   }
 
@@ -9407,6 +9527,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     title?: StringNullableFilter<"Project"> | string | null
     createdById?: IntNullableFilter<"Project"> | number | null
+    startDate?: DateTimeNullableFilter<"Project"> | Date | string | null
+    deadline?: DateTimeNullableFilter<"Project"> | Date | string | null
   }
 
   export type ProjectUpsertWithWhereUniqueWithoutMembersInput = {
@@ -9702,6 +9824,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     title?: string | null
+    startDate?: Date | string | null
+    deadline?: Date | string | null
     User_Project_createdByIdToUser?: UserCreateNestedOneWithoutProject_Project_createdByIdToUserInput
     members?: UserCreateNestedManyWithoutProjectsInput
   }
@@ -9715,6 +9839,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     title?: string | null
     createdById?: number | null
+    startDate?: Date | string | null
+    deadline?: Date | string | null
     members?: UserUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -9762,6 +9888,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     User_Project_createdByIdToUser?: UserUpdateOneWithoutProject_Project_createdByIdToUserNestedInput
     members?: UserUpdateManyWithoutProjectsNestedInput
   }
@@ -9775,6 +9903,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableIntFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: UserUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -9885,6 +10015,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     title?: string | null
+    startDate?: Date | string | null
+    deadline?: Date | string | null
   }
 
   export type NotificationUpdateWithoutUserInput = {
@@ -9914,6 +10046,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     TestCase?: TestCaseUpdateManyWithoutProjectNestedInput
     members?: UserUpdateManyWithoutProjectsNestedInput
   }
@@ -9926,6 +10060,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     TestCase?: TestCaseUncheckedUpdateManyWithoutProjectNestedInput
     members?: UserUncheckedUpdateManyWithoutProjectsNestedInput
   }
@@ -9938,6 +10074,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ProjectUpdateWithoutMembersInput = {
@@ -9947,6 +10085,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     User_Project_createdByIdToUser?: UserUpdateOneWithoutProject_Project_createdByIdToUserNestedInput
     TestCase?: TestCaseUpdateManyWithoutProjectNestedInput
   }
@@ -9960,6 +10100,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableIntFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     TestCase?: TestCaseUncheckedUpdateManyWithoutProjectNestedInput
   }
 
@@ -9972,6 +10114,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdById?: NullableIntFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TestCaseCreateManyProjectInput = {

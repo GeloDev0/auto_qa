@@ -266,44 +266,42 @@ export function DataTable<TData, TValue>({
                     <HiEye className="w-4 h-4 text-gray-400" />
                   </Button>
                   <EditProjectDialog
-                    project={{
-                      id: project.id,
-                      title: project.title,
-                      description: project.description,
-                      status: project.status ?? "active",
-                      priority: project.priority ?? "medium",
-                    }}
-                    onEdit={async (updatedProject) => {
-                      try {
-                        // Convert lowercase enums to uppercase for backend
-                        const backendProject = {
-                          ...updatedProject,
-                          status: updatedProject.status.toUpperCase(),
-                          priority: updatedProject.priority.toUpperCase(),
-                        };
+                project={{
+                  id: project.id,
+                  title: project.title,
+                  description: project.description,
+                  status: project.status,
+                  priority: project.priority,
+                  members: project.members,
+                }}
+                onEdit={async (updatedProject) => {
+                  try {
+                    const backendProject = {
+                      ...updatedProject,
+                      status: updatedProject.status.toUpperCase(),
+                      priority: updatedProject.priority.toUpperCase(),
+                    };
 
-                        const res = await fetch(
-                          `/api/admin/projects/${project.id}`,
-                          {
-                            method: "PUT",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify(backendProject),
-                          }
-                        );
-
-                        if (!res.ok)
-                          throw new Error("Failed to update project");
-
-                        toast.success("Project updated successfully!");
-                        router.refresh();
-                      } catch (err) {
-                        console.error("Update error:", err);
-                        toast.error("Failed to update project.");
+                    const res = await fetch(
+                      `/api/admin/projects/${project.id}`,
+                      {
+                        method: "PUT",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(backendProject),
                       }
-                    }}
-                  >
+                    );
+
+                    if (!res.ok) throw new Error("Failed to update project");
+
+                    toast.success("Project updated successfully!");
+                    router.refresh();
+                  } catch (err) {
+                    console.error("Update error:", err);
+                    toast.error("Failed to update project.");
+                  }
+                }}>
                     <Button
                       className="w-6 h-6 rounded-full"
                       size="icon"
