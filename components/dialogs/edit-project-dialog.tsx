@@ -36,6 +36,8 @@ import { useEffect, useState } from "react";
 import { ButtonLoader } from "../loader/Loader";
 import { Divide } from "lucide-react";
 import { useRouter } from 'next/navigation';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function capitalizeOnlyFirstLetter(str: string): string {
   if (!str) return "";
@@ -61,6 +63,10 @@ const projectFormSchema = z.object({
   status: z.enum(["active", "inactive", "completed"]),
   priority: z.enum(["high", "medium", "low"]),
   members: z.array(z.number()).optional(),
+  startDate: z.date({
+  required_error: "Start date is required.",
+}),
+  deadline: z.date().nullable().optional(),
 });
 
 type ProjectFormData = z.infer<typeof projectFormSchema> & { id: number };
@@ -73,6 +79,8 @@ interface EditProjectDialogProps {
     status: "active" | "inactive" | "completed";
     priority: "high" | "medium" | "low";
     members?: Member[];
+    startDate?: string | Date;
+    deadline?: string | Date | null;
   };
   onEdit: (updatedProject: ProjectFormData) => void;
   children: React.ReactElement;
@@ -96,12 +104,29 @@ export function EditProjectDialog({
      status: project.status.toLowerCase() as "active" | "inactive" | "completed",
       priority: project.priority.toLowerCase() as "high" | "medium" | "low",
       members: project.members ? project.members.map((m) => m.id) : [],
+      startDate: project.startDate ? new Date(project.startDate) : undefined,
+      deadline: project.deadline ? new Date(project.deadline) : null,
     },
   });
 
-  useEffect(() => {
+  const startDate = form.watch("startDate"); // ✅ watch the current startDate
+
+   useEffect(() => {
     if (open) {
-      async function fetchUsers() {
+      // Reset form with project values
+      console.log("Resetting form with project:", project);
+      form.reset({
+        title: project.title,
+        description: project.description,
+        status: project.status.toLowerCase() as "active" | "inactive" | "completed",
+        priority: project.priority.toLowerCase() as "high" | "medium" | "low",
+        members: project.members ? project.members.map((m) => m.id) : [],
+        startDate: project.startDate ? new Date(project.startDate) : undefined,
+        deadline: project.deadline ? new Date(project.deadline) : null,
+      });
+
+      // Fetch members
+      (async () => {
         try {
           const res = await fetch("/api/admin/users");
           const data = await res.json();
@@ -109,8 +134,7 @@ export function EditProjectDialog({
         } catch (err) {
           console.error("Failed to fetch users", err);
         }
-      }
-      fetchUsers();
+      })();
     }
   }, [open]);
 
@@ -229,6 +253,49 @@ export function EditProjectDialog({
   )}
 />
 </div>
+
+{/* Date Fields */}
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+  control={form.control}
+  name="startDate"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Start Date</FormLabel>
+      <DatePicker
+        selected={field.value}
+        onChange={(date) => field.onChange(date)}
+        dateFormat="PPP"
+        placeholderText="Select a start date"
+        className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm"
+      />
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+<FormField
+  control={form.control}
+  name="deadline"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Deadline (Optional)</FormLabel>
+      <DatePicker
+        selected={field.value}
+        onChange={(date) => field.onChange(date)}
+        dateFormat="PPP"
+        placeholderText="Select a deadline"
+        className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm"
+        isClearable
+        minDate={startDate || new Date()} // ✅ Ensure deadline is not before start
+      />
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
+
+              </div>
 
 <FormField
   control={form.control}

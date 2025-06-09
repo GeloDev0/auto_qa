@@ -64,11 +64,22 @@ interface ProjectCardProps {
     createdBy: string;
     status?: string;
     priority?: string;
+    startDate: string;
+    deadline: string;
   };
 }
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+}
+
+function formatDate(dateString: string | null | undefined): string {
+  if (!dateString) return "N/A";
+  const date = new Date(dateString);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${month}-${day}-${year}`;
 }
 
 export function DataTable<TData, TValue>({
@@ -218,12 +229,15 @@ export function DataTable<TData, TValue>({
                   </div>
                   <div className="flex items-center gap-1">
                     <FaCalendar className="text-gray-300 w-4 h-4" />
-                    <span className="font-medium">Start Date:</span>{" "}
+                    <span className="font-medium">Start Date:</span>
+                    <span className="text-gray-600 ml-1">{formatDate(project.startDate)}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <FaCalendarCheck className="text-gray-300 w-4 h-4" />
-                    <span className="font-medium">Deadline:</span>{" "}
+                    <span className="font-medium">Deadline:</span>
+                    <span className="text-gray-600 ml-1">{formatDate(project.deadline)}</span>
                   </div>
+
                   <div className="flex items-center text-sm gap-1">
                     <FaUser className="text-gray-300 w-4 h-4" />
                     <span className="font-medium">Created By: </span>{" "}
@@ -266,44 +280,44 @@ export function DataTable<TData, TValue>({
                     <HiEye className="w-4 h-4 text-gray-400" />
                   </Button>
                   <EditProjectDialog
-                    project={{
-                      id: project.id,
-                      title: project.title,
-                      description: project.description,
-                      status: project.status ?? "active",
-                      priority: project.priority ?? "medium",
-                    }}
-                    onEdit={async (updatedProject) => {
-                      try {
-                        // Convert lowercase enums to uppercase for backend
-                        const backendProject = {
-                          ...updatedProject,
-                          status: updatedProject.status.toUpperCase(),
-                          priority: updatedProject.priority.toUpperCase(),
-                        };
+                project={{
+                  id: project.id,
+                  title: project.title,
+                  description: project.description,
+                  status: project.status,
+                  priority: project.priority,
+                  members: project.members,
+                  startDate: project.startDate,
+                  deadline: project.deadline,
+                }}
+                onEdit={async (updatedProject) => {
+                  try {
+                    const backendProject = {
+                      ...updatedProject,
+                      status: updatedProject.status.toUpperCase(),
+                      priority: updatedProject.priority.toUpperCase(),
+                    };
 
-                        const res = await fetch(
-                          `/api/admin/projects/${project.id}`,
-                          {
-                            method: "PUT",
-                            headers: {
-                              "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify(backendProject),
-                          }
-                        );
-
-                        if (!res.ok)
-                          throw new Error("Failed to update project");
-
-                        toast.success("Project updated successfully!");
-                        router.refresh();
-                      } catch (err) {
-                        console.error("Update error:", err);
-                        toast.error("Failed to update project.");
+                    const res = await fetch(
+                      `/api/admin/projects/${project.id}`,
+                      {
+                        method: "PUT",
+                        headers: {
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(backendProject),
                       }
-                    }}
-                  >
+                    );
+
+                    if (!res.ok) throw new Error("Failed to update project");
+
+                    toast.success("Project updated successfully!");
+                    router.refresh();
+                  } catch (err) {
+                    console.error("Update error:", err);
+                    toast.error("Failed to update project.");
+                  }
+                }}>
                     <Button
                       className="w-6 h-6 rounded-full"
                       size="icon"

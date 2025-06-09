@@ -10,6 +10,8 @@ const projectSchema = z.object({
   status: z.enum(["ACTIVE", "INACTIVE", "COMPLETED"]).optional(),
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
   members: z.array(z.number()).optional(),
+  startDate: z.string().datetime().optional(),
+  deadline: z.string().datetime().optional(),
 });
 
 // GET /api/admin/projects/[id]
@@ -60,12 +62,14 @@ export async function PUT(
       return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
     }
 
-    const { members, ...projectData } = parsed.data;
+    const { members, startDate, deadline, ...projectData } = parsed.data;
 
     const updatedProject = await prisma.project.update({
       where: { id },
       data: {
         ...projectData,
+        startDate: startDate ? new Date(startDate) : undefined,
+        deadline: deadline ? new Date(deadline) : undefined,
         members: members ? {
           set: members.map((id) => ({ id })),
         } : undefined,
