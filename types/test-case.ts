@@ -11,8 +11,12 @@ export interface TestCase {
   module: string;
   priority: "Low" | "Medium" | "High" | "Critical";
   type: "Functional" | "Negative" | "Edge Case" | "Performance" | "Security";
+  steps: {
+    id: string;
+    action: string;
+    expectedResult: string;
+  }[];
   selected: boolean;
-  preconditions: string[];
-  steps: string[];
-  expectedResults: string[];
+  preconditions?: string; // Make optional
+  expectedResults?: string[]; // Make optional
 }

@@ -22,6 +22,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { HiMiniPencilSquare, HiTrash } from "react-icons/hi2";
+import { toast } from "sonner"; // Import Sonner
 
 export type TestCase = {
   id: string;
@@ -54,7 +55,7 @@ interface TestCaseSheetProps {
   testcase: TestCase;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onSave?: (updatedTestCase: TestCase) => void;
+  onSave?: (updatedTestCase: TestCase) => Promise<void> | void;
   onDelete?: (id: string) => void;
   onDuplicate?: (testCase: TestCase) => void;
 }
@@ -69,6 +70,7 @@ export const TestCaseSheet = ({
 }: TestCaseSheetProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editValues, setEditValues] = useState<TestCase>({ ...testcase });
+  const [isSaving, setIsSaving] = useState(false); // Add loading state
 
   // Reset edit values when testcase prop changes
   useEffect(() => {
@@ -84,11 +86,30 @@ export const TestCaseSheet = ({
     setEditValues({ ...testcase });
   };
 
-  const handleEditSave = () => {
-    if (onSave) {
-      onSave(editValues);
+  const handleEditSave = async () => {
+    if (!onSave) return;
+
+    setIsSaving(true); // Start loading
+
+    // Add a minimum 5-second delay for the spinner
+    const spinnerPromise = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(null);
+      }, 5000);
+    });
+
+    try {
+      // Wait for both the save operation and the minimum spinner time
+      await Promise.all([onSave(editValues), spinnerPromise]);
+
+      setIsEditing(false);
+      toast.success("Test case saved successfully");
+    } catch (error) {
+      toast.error("Failed to save test case");
+      console.error("Error saving test case:", error);
+    } finally {
+      setIsSaving(false); // End loading
     }
-    setIsEditing(false);
   };
 
   const addPrecondition = () => {
@@ -159,9 +180,35 @@ export const TestCaseSheet = ({
               <Button
                 onClick={handleEditSave}
                 size="sm"
-                className="bg-blue-600 hover:bg-blue-700">
-                <Save className="h-4 w-4 mr-1" />
-                Save Changes
+                className="bg-blue-600 hover:bg-blue-700"
+                disabled={isSaving}>
+                {isSaving ? (
+                  <div className="flex items-center gap-2">
+                    <svg
+                      className="animate-spin h-4 w-4 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24">
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Saving...
+                  </div>
+                ) : (
+                  <>
+                    <Save className="h-4 w-4 mr-1" />
+                    Save Changes
+                  </>
+                )}
               </Button>
             </div>
           </div>
