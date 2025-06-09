@@ -9,7 +9,7 @@ export interface TestCase {
   title: string;
   description: string;
   module: string;
-  priority: "Low" | "Medium" | "High" | "Critical";
+  priority: "Low" | "Medium" | "High";
   type: "Functional" | "Negative" | "Edge Case" | "Performance" | "Security";
   steps: {
     id: string;
@@ -17,6 +17,6 @@ export interface TestCase {
     expectedResult: string;
   }[];
   selected: boolean;
-  preconditions?: string; // Make optional
-  expectedResults?: string[]; // Make optional
+  preconditions: string[];
+  testSteps: TestStep[];
 }

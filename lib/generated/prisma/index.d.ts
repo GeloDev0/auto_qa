@@ -28,6 +28,16 @@ export type Project = $Result.DefaultSelection<Prisma.$ProjectPayload>
  * 
  */
 export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
+/**
+ * Model TestCase
+ * *** TestCase schema ****
+ */
+export type TestCase = $Result.DefaultSelection<Prisma.$TestCasePayload>
+/**
+ * Model TestStep
+ * 
+ */
+export type TestStep = $Result.DefaultSelection<Prisma.$TestStepPayload>
 
 /**
  * Enums
@@ -50,6 +60,24 @@ export const ProjectPriority: {
 
 export type ProjectPriority = (typeof ProjectPriority)[keyof typeof ProjectPriority]
 
+
+export const TestCasePriority: {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH'
+};
+
+export type TestCasePriority = (typeof TestCasePriority)[keyof typeof TestCasePriority]
+
+
+export const TestCaseStatus: {
+  PENDING: 'PENDING',
+  PASS: 'PASS',
+  FAIL: 'FAIL'
+};
+
+export type TestCaseStatus = (typeof TestCaseStatus)[keyof typeof TestCaseStatus]
+
 }
 
 export type ProjectStatus = $Enums.ProjectStatus
@@ -59,6 +87,14 @@ export const ProjectStatus: typeof $Enums.ProjectStatus
 export type ProjectPriority = $Enums.ProjectPriority
 
 export const ProjectPriority: typeof $Enums.ProjectPriority
+
+export type TestCasePriority = $Enums.TestCasePriority
+
+export const TestCasePriority: typeof $Enums.TestCasePriority
+
+export type TestCaseStatus = $Enums.TestCaseStatus
+
+export const TestCaseStatus: typeof $Enums.TestCaseStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -214,6 +250,26 @@ export class PrismaClient<
     * ```
     */
   get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.testCase`: Exposes CRUD operations for the **TestCase** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TestCases
+    * const testCases = await prisma.testCase.findMany()
+    * ```
+    */
+  get testCase(): Prisma.TestCaseDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.testStep`: Exposes CRUD operations for the **TestStep** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more TestSteps
+    * const testSteps = await prisma.testStep.findMany()
+    * ```
+    */
+  get testStep(): Prisma.TestStepDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -656,7 +712,9 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Project: 'Project',
-    Notification: 'Notification'
+    Notification: 'Notification',
+    TestCase: 'TestCase',
+    TestStep: 'TestStep'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -675,7 +733,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "project" | "notification"
+      modelProps: "user" | "project" | "notification" | "testCase" | "testStep"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -901,6 +959,154 @@ export namespace Prisma {
           }
         }
       }
+      TestCase: {
+        payload: Prisma.$TestCasePayload<ExtArgs>
+        fields: Prisma.TestCaseFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TestCaseFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestCasePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TestCaseFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestCasePayload>
+          }
+          findFirst: {
+            args: Prisma.TestCaseFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestCasePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TestCaseFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestCasePayload>
+          }
+          findMany: {
+            args: Prisma.TestCaseFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestCasePayload>[]
+          }
+          create: {
+            args: Prisma.TestCaseCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestCasePayload>
+          }
+          createMany: {
+            args: Prisma.TestCaseCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TestCaseCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestCasePayload>[]
+          }
+          delete: {
+            args: Prisma.TestCaseDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestCasePayload>
+          }
+          update: {
+            args: Prisma.TestCaseUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestCasePayload>
+          }
+          deleteMany: {
+            args: Prisma.TestCaseDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TestCaseUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TestCaseUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestCasePayload>[]
+          }
+          upsert: {
+            args: Prisma.TestCaseUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestCasePayload>
+          }
+          aggregate: {
+            args: Prisma.TestCaseAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTestCase>
+          }
+          groupBy: {
+            args: Prisma.TestCaseGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TestCaseGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TestCaseCountArgs<ExtArgs>
+            result: $Utils.Optional<TestCaseCountAggregateOutputType> | number
+          }
+        }
+      }
+      TestStep: {
+        payload: Prisma.$TestStepPayload<ExtArgs>
+        fields: Prisma.TestStepFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TestStepFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestStepPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TestStepFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestStepPayload>
+          }
+          findFirst: {
+            args: Prisma.TestStepFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestStepPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TestStepFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestStepPayload>
+          }
+          findMany: {
+            args: Prisma.TestStepFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestStepPayload>[]
+          }
+          create: {
+            args: Prisma.TestStepCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestStepPayload>
+          }
+          createMany: {
+            args: Prisma.TestStepCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TestStepCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestStepPayload>[]
+          }
+          delete: {
+            args: Prisma.TestStepDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestStepPayload>
+          }
+          update: {
+            args: Prisma.TestStepUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestStepPayload>
+          }
+          deleteMany: {
+            args: Prisma.TestStepDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TestStepUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TestStepUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestStepPayload>[]
+          }
+          upsert: {
+            args: Prisma.TestStepUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TestStepPayload>
+          }
+          aggregate: {
+            args: Prisma.TestStepAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTestStep>
+          }
+          groupBy: {
+            args: Prisma.TestStepGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TestStepGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TestStepCountArgs<ExtArgs>
+            result: $Utils.Optional<TestStepCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -988,6 +1194,8 @@ export namespace Prisma {
     user?: UserOmit
     project?: ProjectOmit
     notification?: NotificationOmit
+    testCase?: TestCaseOmit
+    testStep?: TestStepOmit
   }
 
   /* Types for Logging */
@@ -1083,11 +1291,13 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     notifications: number
+    Project_Project_createdByIdToUser: number
     projects: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    Project_Project_createdByIdToUser?: boolean | UserCountOutputTypeCountProject_Project_createdByIdToUserArgs
     projects?: boolean | UserCountOutputTypeCountProjectsArgs
   }
 
@@ -1112,6 +1322,13 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountProject_Project_createdByIdToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProjectWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountProjectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProjectWhereInput
   }
@@ -1122,10 +1339,12 @@ export namespace Prisma {
    */
 
   export type ProjectCountOutputType = {
+    TestCase: number
     members: number
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    TestCase?: boolean | ProjectCountOutputTypeCountTestCaseArgs
     members?: boolean | ProjectCountOutputTypeCountMembersArgs
   }
 
@@ -1143,8 +1362,46 @@ export namespace Prisma {
   /**
    * ProjectCountOutputType without action
    */
+  export type ProjectCountOutputTypeCountTestCaseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestCaseWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
   export type ProjectCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserWhereInput
+  }
+
+
+  /**
+   * Count Type TestCaseCountOutputType
+   */
+
+  export type TestCaseCountOutputType = {
+    testSteps: number
+  }
+
+  export type TestCaseCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    testSteps?: boolean | TestCaseCountOutputTypeCountTestStepsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TestCaseCountOutputType without action
+   */
+  export type TestCaseCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCaseCountOutputType
+     */
+    select?: TestCaseCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TestCaseCountOutputType without action
+   */
+  export type TestCaseCountOutputTypeCountTestStepsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestStepWhereInput
   }
 
 
@@ -1383,6 +1640,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    Project_Project_createdByIdToUser?: boolean | User$Project_Project_createdByIdToUserArgs<ExtArgs>
     projects?: boolean | User$projectsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -1426,6 +1684,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "lname" | "password" | "imageUrl" | "clerkUserId" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    Project_Project_createdByIdToUser?: boolean | User$Project_Project_createdByIdToUserArgs<ExtArgs>
     projects?: boolean | User$projectsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -1436,6 +1695,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      Project_Project_createdByIdToUser: Prisma.$ProjectPayload<ExtArgs>[]
       projects: Prisma.$ProjectPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -1843,6 +2103,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Project_Project_createdByIdToUser<T extends User$Project_Project_createdByIdToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$Project_Project_createdByIdToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     projects<T extends User$projectsArgs<ExtArgs> = {}>(args?: Subset<T, User$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2294,6 +2555,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.Project_Project_createdByIdToUser
+   */
+  export type User$Project_Project_createdByIdToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+    orderBy?: ProjectOrderByWithRelationInput | ProjectOrderByWithRelationInput[]
+    cursor?: ProjectWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProjectScalarFieldEnum | ProjectScalarFieldEnum[]
+  }
+
+  /**
    * User.projects
    */
   export type User$projectsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2350,10 +2635,12 @@ export namespace Prisma {
 
   export type ProjectAvgAggregateOutputType = {
     id: number | null
+    createdById: number | null
   }
 
   export type ProjectSumAggregateOutputType = {
     id: number | null
+    createdById: number | null
   }
 
   export type ProjectMinAggregateOutputType = {
@@ -2364,6 +2651,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     title: string | null
+    createdById: number | null
   }
 
   export type ProjectMaxAggregateOutputType = {
@@ -2374,6 +2662,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     title: string | null
+    createdById: number | null
   }
 
   export type ProjectCountAggregateOutputType = {
@@ -2384,16 +2673,19 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     title: number
+    createdById: number
     _all: number
   }
 
 
   export type ProjectAvgAggregateInputType = {
     id?: true
+    createdById?: true
   }
 
   export type ProjectSumAggregateInputType = {
     id?: true
+    createdById?: true
   }
 
   export type ProjectMinAggregateInputType = {
@@ -2404,6 +2696,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     title?: true
+    createdById?: true
   }
 
   export type ProjectMaxAggregateInputType = {
@@ -2414,6 +2707,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     title?: true
+    createdById?: true
   }
 
   export type ProjectCountAggregateInputType = {
@@ -2424,6 +2718,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     title?: true
+    createdById?: true
     _all?: true
   }
 
@@ -2521,6 +2816,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     title: string | null
+    createdById: number | null
     _count: ProjectCountAggregateOutputType | null
     _avg: ProjectAvgAggregateOutputType | null
     _sum: ProjectSumAggregateOutputType | null
@@ -2550,6 +2846,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     title?: boolean
+    createdById?: boolean
+    User_Project_createdByIdToUser?: boolean | Project$User_Project_createdByIdToUserArgs<ExtArgs>
+    TestCase?: boolean | Project$TestCaseArgs<ExtArgs>
     members?: boolean | Project$membersArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
@@ -2562,6 +2861,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     title?: boolean
+    createdById?: boolean
+    User_Project_createdByIdToUser?: boolean | Project$User_Project_createdByIdToUserArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2572,6 +2873,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     title?: boolean
+    createdById?: boolean
+    User_Project_createdByIdToUser?: boolean | Project$User_Project_createdByIdToUserArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
   export type ProjectSelectScalar = {
@@ -2582,19 +2885,28 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     title?: boolean
+    createdById?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "status" | "priority" | "createdAt" | "updatedAt" | "title", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "description" | "status" | "priority" | "createdAt" | "updatedAt" | "title" | "createdById", ExtArgs["result"]["project"]>
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User_Project_createdByIdToUser?: boolean | Project$User_Project_createdByIdToUserArgs<ExtArgs>
+    TestCase?: boolean | Project$TestCaseArgs<ExtArgs>
     members?: boolean | Project$membersArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User_Project_createdByIdToUser?: boolean | Project$User_Project_createdByIdToUserArgs<ExtArgs>
+  }
+  export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User_Project_createdByIdToUser?: boolean | Project$User_Project_createdByIdToUserArgs<ExtArgs>
+  }
 
   export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Project"
     objects: {
+      User_Project_createdByIdToUser: Prisma.$UserPayload<ExtArgs> | null
+      TestCase: Prisma.$TestCasePayload<ExtArgs>[]
       members: Prisma.$UserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -2605,6 +2917,7 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       title: string | null
+      createdById: number | null
     }, ExtArgs["result"]["project"]>
     composites: {}
   }
@@ -2999,6 +3312,8 @@ export namespace Prisma {
    */
   export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    User_Project_createdByIdToUser<T extends Project$User_Project_createdByIdToUserArgs<ExtArgs> = {}>(args?: Subset<T, Project$User_Project_createdByIdToUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    TestCase<T extends Project$TestCaseArgs<ExtArgs> = {}>(args?: Subset<T, Project$TestCaseArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     members<T extends Project$membersArgs<ExtArgs> = {}>(args?: Subset<T, Project$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3036,6 +3351,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Project", 'DateTime'>
     readonly updatedAt: FieldRef<"Project", 'DateTime'>
     readonly title: FieldRef<"Project", 'String'>
+    readonly createdById: FieldRef<"Project", 'Int'>
   }
     
 
@@ -3285,6 +3601,10 @@ export namespace Prisma {
      */
     data: ProjectCreateManyInput | ProjectCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3355,6 +3675,10 @@ export namespace Prisma {
      * Limit how many Projects to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3421,6 +3745,49 @@ export namespace Prisma {
      * Limit how many Projects to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Project.User_Project_createdByIdToUser
+   */
+  export type Project$User_Project_createdByIdToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Project.TestCase
+   */
+  export type Project$TestCaseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseInclude<ExtArgs> | null
+    where?: TestCaseWhereInput
+    orderBy?: TestCaseOrderByWithRelationInput | TestCaseOrderByWithRelationInput[]
+    cursor?: TestCaseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TestCaseScalarFieldEnum | TestCaseScalarFieldEnum[]
   }
 
   /**
@@ -4563,6 +4930,2299 @@ export namespace Prisma {
 
 
   /**
+   * Model TestCase
+   */
+
+  export type AggregateTestCase = {
+    _count: TestCaseCountAggregateOutputType | null
+    _avg: TestCaseAvgAggregateOutputType | null
+    _sum: TestCaseSumAggregateOutputType | null
+    _min: TestCaseMinAggregateOutputType | null
+    _max: TestCaseMaxAggregateOutputType | null
+  }
+
+  export type TestCaseAvgAggregateOutputType = {
+    id: number | null
+    projectId: number | null
+  }
+
+  export type TestCaseSumAggregateOutputType = {
+    id: number | null
+    projectId: number | null
+  }
+
+  export type TestCaseMinAggregateOutputType = {
+    id: number | null
+    title: string | null
+    description: string | null
+    status: $Enums.TestCaseStatus | null
+    priority: $Enums.TestCasePriority | null
+    actualResult: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    projectId: number | null
+    module: string | null
+  }
+
+  export type TestCaseMaxAggregateOutputType = {
+    id: number | null
+    title: string | null
+    description: string | null
+    status: $Enums.TestCaseStatus | null
+    priority: $Enums.TestCasePriority | null
+    actualResult: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    projectId: number | null
+    module: string | null
+  }
+
+  export type TestCaseCountAggregateOutputType = {
+    id: number
+    title: number
+    description: number
+    status: number
+    priority: number
+    actualResult: number
+    createdAt: number
+    updatedAt: number
+    projectId: number
+    module: number
+    _all: number
+  }
+
+
+  export type TestCaseAvgAggregateInputType = {
+    id?: true
+    projectId?: true
+  }
+
+  export type TestCaseSumAggregateInputType = {
+    id?: true
+    projectId?: true
+  }
+
+  export type TestCaseMinAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    status?: true
+    priority?: true
+    actualResult?: true
+    createdAt?: true
+    updatedAt?: true
+    projectId?: true
+    module?: true
+  }
+
+  export type TestCaseMaxAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    status?: true
+    priority?: true
+    actualResult?: true
+    createdAt?: true
+    updatedAt?: true
+    projectId?: true
+    module?: true
+  }
+
+  export type TestCaseCountAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    status?: true
+    priority?: true
+    actualResult?: true
+    createdAt?: true
+    updatedAt?: true
+    projectId?: true
+    module?: true
+    _all?: true
+  }
+
+  export type TestCaseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TestCase to aggregate.
+     */
+    where?: TestCaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestCases to fetch.
+     */
+    orderBy?: TestCaseOrderByWithRelationInput | TestCaseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TestCaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestCases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestCases.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TestCases
+    **/
+    _count?: true | TestCaseCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TestCaseAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TestCaseSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TestCaseMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TestCaseMaxAggregateInputType
+  }
+
+  export type GetTestCaseAggregateType<T extends TestCaseAggregateArgs> = {
+        [P in keyof T & keyof AggregateTestCase]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTestCase[P]>
+      : GetScalarType<T[P], AggregateTestCase[P]>
+  }
+
+
+
+
+  export type TestCaseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestCaseWhereInput
+    orderBy?: TestCaseOrderByWithAggregationInput | TestCaseOrderByWithAggregationInput[]
+    by: TestCaseScalarFieldEnum[] | TestCaseScalarFieldEnum
+    having?: TestCaseScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TestCaseCountAggregateInputType | true
+    _avg?: TestCaseAvgAggregateInputType
+    _sum?: TestCaseSumAggregateInputType
+    _min?: TestCaseMinAggregateInputType
+    _max?: TestCaseMaxAggregateInputType
+  }
+
+  export type TestCaseGroupByOutputType = {
+    id: number
+    title: string | null
+    description: string | null
+    status: $Enums.TestCaseStatus
+    priority: $Enums.TestCasePriority
+    actualResult: string | null
+    createdAt: Date
+    updatedAt: Date
+    projectId: number | null
+    module: string | null
+    _count: TestCaseCountAggregateOutputType | null
+    _avg: TestCaseAvgAggregateOutputType | null
+    _sum: TestCaseSumAggregateOutputType | null
+    _min: TestCaseMinAggregateOutputType | null
+    _max: TestCaseMaxAggregateOutputType | null
+  }
+
+  type GetTestCaseGroupByPayload<T extends TestCaseGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TestCaseGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TestCaseGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TestCaseGroupByOutputType[P]>
+            : GetScalarType<T[P], TestCaseGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TestCaseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    status?: boolean
+    priority?: boolean
+    actualResult?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    projectId?: boolean
+    module?: boolean
+    Project?: boolean | TestCase$ProjectArgs<ExtArgs>
+    testSteps?: boolean | TestCase$testStepsArgs<ExtArgs>
+    _count?: boolean | TestCaseCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["testCase"]>
+
+  export type TestCaseSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    status?: boolean
+    priority?: boolean
+    actualResult?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    projectId?: boolean
+    module?: boolean
+    Project?: boolean | TestCase$ProjectArgs<ExtArgs>
+  }, ExtArgs["result"]["testCase"]>
+
+  export type TestCaseSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    status?: boolean
+    priority?: boolean
+    actualResult?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    projectId?: boolean
+    module?: boolean
+    Project?: boolean | TestCase$ProjectArgs<ExtArgs>
+  }, ExtArgs["result"]["testCase"]>
+
+  export type TestCaseSelectScalar = {
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    status?: boolean
+    priority?: boolean
+    actualResult?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    projectId?: boolean
+    module?: boolean
+  }
+
+  export type TestCaseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "priority" | "actualResult" | "createdAt" | "updatedAt" | "projectId" | "module", ExtArgs["result"]["testCase"]>
+  export type TestCaseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Project?: boolean | TestCase$ProjectArgs<ExtArgs>
+    testSteps?: boolean | TestCase$testStepsArgs<ExtArgs>
+    _count?: boolean | TestCaseCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TestCaseIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Project?: boolean | TestCase$ProjectArgs<ExtArgs>
+  }
+  export type TestCaseIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Project?: boolean | TestCase$ProjectArgs<ExtArgs>
+  }
+
+  export type $TestCasePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TestCase"
+    objects: {
+      Project: Prisma.$ProjectPayload<ExtArgs> | null
+      testSteps: Prisma.$TestStepPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      title: string | null
+      description: string | null
+      status: $Enums.TestCaseStatus
+      priority: $Enums.TestCasePriority
+      actualResult: string | null
+      createdAt: Date
+      updatedAt: Date
+      projectId: number | null
+      module: string | null
+    }, ExtArgs["result"]["testCase"]>
+    composites: {}
+  }
+
+  type TestCaseGetPayload<S extends boolean | null | undefined | TestCaseDefaultArgs> = $Result.GetResult<Prisma.$TestCasePayload, S>
+
+  type TestCaseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TestCaseFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TestCaseCountAggregateInputType | true
+    }
+
+  export interface TestCaseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TestCase'], meta: { name: 'TestCase' } }
+    /**
+     * Find zero or one TestCase that matches the filter.
+     * @param {TestCaseFindUniqueArgs} args - Arguments to find a TestCase
+     * @example
+     * // Get one TestCase
+     * const testCase = await prisma.testCase.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TestCaseFindUniqueArgs>(args: SelectSubset<T, TestCaseFindUniqueArgs<ExtArgs>>): Prisma__TestCaseClient<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TestCase that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TestCaseFindUniqueOrThrowArgs} args - Arguments to find a TestCase
+     * @example
+     * // Get one TestCase
+     * const testCase = await prisma.testCase.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TestCaseFindUniqueOrThrowArgs>(args: SelectSubset<T, TestCaseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TestCaseClient<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TestCase that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestCaseFindFirstArgs} args - Arguments to find a TestCase
+     * @example
+     * // Get one TestCase
+     * const testCase = await prisma.testCase.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TestCaseFindFirstArgs>(args?: SelectSubset<T, TestCaseFindFirstArgs<ExtArgs>>): Prisma__TestCaseClient<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TestCase that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestCaseFindFirstOrThrowArgs} args - Arguments to find a TestCase
+     * @example
+     * // Get one TestCase
+     * const testCase = await prisma.testCase.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TestCaseFindFirstOrThrowArgs>(args?: SelectSubset<T, TestCaseFindFirstOrThrowArgs<ExtArgs>>): Prisma__TestCaseClient<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TestCases that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestCaseFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TestCases
+     * const testCases = await prisma.testCase.findMany()
+     * 
+     * // Get first 10 TestCases
+     * const testCases = await prisma.testCase.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const testCaseWithIdOnly = await prisma.testCase.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TestCaseFindManyArgs>(args?: SelectSubset<T, TestCaseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TestCase.
+     * @param {TestCaseCreateArgs} args - Arguments to create a TestCase.
+     * @example
+     * // Create one TestCase
+     * const TestCase = await prisma.testCase.create({
+     *   data: {
+     *     // ... data to create a TestCase
+     *   }
+     * })
+     * 
+     */
+    create<T extends TestCaseCreateArgs>(args: SelectSubset<T, TestCaseCreateArgs<ExtArgs>>): Prisma__TestCaseClient<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TestCases.
+     * @param {TestCaseCreateManyArgs} args - Arguments to create many TestCases.
+     * @example
+     * // Create many TestCases
+     * const testCase = await prisma.testCase.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TestCaseCreateManyArgs>(args?: SelectSubset<T, TestCaseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TestCases and returns the data saved in the database.
+     * @param {TestCaseCreateManyAndReturnArgs} args - Arguments to create many TestCases.
+     * @example
+     * // Create many TestCases
+     * const testCase = await prisma.testCase.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TestCases and only return the `id`
+     * const testCaseWithIdOnly = await prisma.testCase.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TestCaseCreateManyAndReturnArgs>(args?: SelectSubset<T, TestCaseCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TestCase.
+     * @param {TestCaseDeleteArgs} args - Arguments to delete one TestCase.
+     * @example
+     * // Delete one TestCase
+     * const TestCase = await prisma.testCase.delete({
+     *   where: {
+     *     // ... filter to delete one TestCase
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TestCaseDeleteArgs>(args: SelectSubset<T, TestCaseDeleteArgs<ExtArgs>>): Prisma__TestCaseClient<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TestCase.
+     * @param {TestCaseUpdateArgs} args - Arguments to update one TestCase.
+     * @example
+     * // Update one TestCase
+     * const testCase = await prisma.testCase.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TestCaseUpdateArgs>(args: SelectSubset<T, TestCaseUpdateArgs<ExtArgs>>): Prisma__TestCaseClient<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TestCases.
+     * @param {TestCaseDeleteManyArgs} args - Arguments to filter TestCases to delete.
+     * @example
+     * // Delete a few TestCases
+     * const { count } = await prisma.testCase.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TestCaseDeleteManyArgs>(args?: SelectSubset<T, TestCaseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TestCases.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestCaseUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TestCases
+     * const testCase = await prisma.testCase.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TestCaseUpdateManyArgs>(args: SelectSubset<T, TestCaseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TestCases and returns the data updated in the database.
+     * @param {TestCaseUpdateManyAndReturnArgs} args - Arguments to update many TestCases.
+     * @example
+     * // Update many TestCases
+     * const testCase = await prisma.testCase.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TestCases and only return the `id`
+     * const testCaseWithIdOnly = await prisma.testCase.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TestCaseUpdateManyAndReturnArgs>(args: SelectSubset<T, TestCaseUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TestCase.
+     * @param {TestCaseUpsertArgs} args - Arguments to update or create a TestCase.
+     * @example
+     * // Update or create a TestCase
+     * const testCase = await prisma.testCase.upsert({
+     *   create: {
+     *     // ... data to create a TestCase
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TestCase we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TestCaseUpsertArgs>(args: SelectSubset<T, TestCaseUpsertArgs<ExtArgs>>): Prisma__TestCaseClient<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TestCases.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestCaseCountArgs} args - Arguments to filter TestCases to count.
+     * @example
+     * // Count the number of TestCases
+     * const count = await prisma.testCase.count({
+     *   where: {
+     *     // ... the filter for the TestCases we want to count
+     *   }
+     * })
+    **/
+    count<T extends TestCaseCountArgs>(
+      args?: Subset<T, TestCaseCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TestCaseCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TestCase.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestCaseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TestCaseAggregateArgs>(args: Subset<T, TestCaseAggregateArgs>): Prisma.PrismaPromise<GetTestCaseAggregateType<T>>
+
+    /**
+     * Group by TestCase.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestCaseGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TestCaseGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TestCaseGroupByArgs['orderBy'] }
+        : { orderBy?: TestCaseGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TestCaseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTestCaseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TestCase model
+   */
+  readonly fields: TestCaseFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TestCase.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TestCaseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    Project<T extends TestCase$ProjectArgs<ExtArgs> = {}>(args?: Subset<T, TestCase$ProjectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    testSteps<T extends TestCase$testStepsArgs<ExtArgs> = {}>(args?: Subset<T, TestCase$testStepsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestStepPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TestCase model
+   */
+  interface TestCaseFieldRefs {
+    readonly id: FieldRef<"TestCase", 'Int'>
+    readonly title: FieldRef<"TestCase", 'String'>
+    readonly description: FieldRef<"TestCase", 'String'>
+    readonly status: FieldRef<"TestCase", 'TestCaseStatus'>
+    readonly priority: FieldRef<"TestCase", 'TestCasePriority'>
+    readonly actualResult: FieldRef<"TestCase", 'String'>
+    readonly createdAt: FieldRef<"TestCase", 'DateTime'>
+    readonly updatedAt: FieldRef<"TestCase", 'DateTime'>
+    readonly projectId: FieldRef<"TestCase", 'Int'>
+    readonly module: FieldRef<"TestCase", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TestCase findUnique
+   */
+  export type TestCaseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseInclude<ExtArgs> | null
+    /**
+     * Filter, which TestCase to fetch.
+     */
+    where: TestCaseWhereUniqueInput
+  }
+
+  /**
+   * TestCase findUniqueOrThrow
+   */
+  export type TestCaseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseInclude<ExtArgs> | null
+    /**
+     * Filter, which TestCase to fetch.
+     */
+    where: TestCaseWhereUniqueInput
+  }
+
+  /**
+   * TestCase findFirst
+   */
+  export type TestCaseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseInclude<ExtArgs> | null
+    /**
+     * Filter, which TestCase to fetch.
+     */
+    where?: TestCaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestCases to fetch.
+     */
+    orderBy?: TestCaseOrderByWithRelationInput | TestCaseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TestCases.
+     */
+    cursor?: TestCaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestCases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestCases.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TestCases.
+     */
+    distinct?: TestCaseScalarFieldEnum | TestCaseScalarFieldEnum[]
+  }
+
+  /**
+   * TestCase findFirstOrThrow
+   */
+  export type TestCaseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseInclude<ExtArgs> | null
+    /**
+     * Filter, which TestCase to fetch.
+     */
+    where?: TestCaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestCases to fetch.
+     */
+    orderBy?: TestCaseOrderByWithRelationInput | TestCaseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TestCases.
+     */
+    cursor?: TestCaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestCases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestCases.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TestCases.
+     */
+    distinct?: TestCaseScalarFieldEnum | TestCaseScalarFieldEnum[]
+  }
+
+  /**
+   * TestCase findMany
+   */
+  export type TestCaseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseInclude<ExtArgs> | null
+    /**
+     * Filter, which TestCases to fetch.
+     */
+    where?: TestCaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestCases to fetch.
+     */
+    orderBy?: TestCaseOrderByWithRelationInput | TestCaseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TestCases.
+     */
+    cursor?: TestCaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestCases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestCases.
+     */
+    skip?: number
+    distinct?: TestCaseScalarFieldEnum | TestCaseScalarFieldEnum[]
+  }
+
+  /**
+   * TestCase create
+   */
+  export type TestCaseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TestCase.
+     */
+    data: XOR<TestCaseCreateInput, TestCaseUncheckedCreateInput>
+  }
+
+  /**
+   * TestCase createMany
+   */
+  export type TestCaseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TestCases.
+     */
+    data: TestCaseCreateManyInput | TestCaseCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TestCase createManyAndReturn
+   */
+  export type TestCaseCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * The data used to create many TestCases.
+     */
+    data: TestCaseCreateManyInput | TestCaseCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TestCase update
+   */
+  export type TestCaseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TestCase.
+     */
+    data: XOR<TestCaseUpdateInput, TestCaseUncheckedUpdateInput>
+    /**
+     * Choose, which TestCase to update.
+     */
+    where: TestCaseWhereUniqueInput
+  }
+
+  /**
+   * TestCase updateMany
+   */
+  export type TestCaseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TestCases.
+     */
+    data: XOR<TestCaseUpdateManyMutationInput, TestCaseUncheckedUpdateManyInput>
+    /**
+     * Filter which TestCases to update
+     */
+    where?: TestCaseWhereInput
+    /**
+     * Limit how many TestCases to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TestCase updateManyAndReturn
+   */
+  export type TestCaseUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * The data used to update TestCases.
+     */
+    data: XOR<TestCaseUpdateManyMutationInput, TestCaseUncheckedUpdateManyInput>
+    /**
+     * Filter which TestCases to update
+     */
+    where?: TestCaseWhereInput
+    /**
+     * Limit how many TestCases to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TestCase upsert
+   */
+  export type TestCaseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TestCase to update in case it exists.
+     */
+    where: TestCaseWhereUniqueInput
+    /**
+     * In case the TestCase found by the `where` argument doesn't exist, create a new TestCase with this data.
+     */
+    create: XOR<TestCaseCreateInput, TestCaseUncheckedCreateInput>
+    /**
+     * In case the TestCase was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TestCaseUpdateInput, TestCaseUncheckedUpdateInput>
+  }
+
+  /**
+   * TestCase delete
+   */
+  export type TestCaseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseInclude<ExtArgs> | null
+    /**
+     * Filter which TestCase to delete.
+     */
+    where: TestCaseWhereUniqueInput
+  }
+
+  /**
+   * TestCase deleteMany
+   */
+  export type TestCaseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TestCases to delete
+     */
+    where?: TestCaseWhereInput
+    /**
+     * Limit how many TestCases to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TestCase.Project
+   */
+  export type TestCase$ProjectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+  }
+
+  /**
+   * TestCase.testSteps
+   */
+  export type TestCase$testStepsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepInclude<ExtArgs> | null
+    where?: TestStepWhereInput
+    orderBy?: TestStepOrderByWithRelationInput | TestStepOrderByWithRelationInput[]
+    cursor?: TestStepWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TestStepScalarFieldEnum | TestStepScalarFieldEnum[]
+  }
+
+  /**
+   * TestCase without action
+   */
+  export type TestCaseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestCase
+     */
+    select?: TestCaseSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestCase
+     */
+    omit?: TestCaseOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestCaseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model TestStep
+   */
+
+  export type AggregateTestStep = {
+    _count: TestStepCountAggregateOutputType | null
+    _avg: TestStepAvgAggregateOutputType | null
+    _sum: TestStepSumAggregateOutputType | null
+    _min: TestStepMinAggregateOutputType | null
+    _max: TestStepMaxAggregateOutputType | null
+  }
+
+  export type TestStepAvgAggregateOutputType = {
+    id: number | null
+    testCaseId: number | null
+  }
+
+  export type TestStepSumAggregateOutputType = {
+    id: number | null
+    testCaseId: number | null
+  }
+
+  export type TestStepMinAggregateOutputType = {
+    id: number | null
+    action: string | null
+    expectedResult: string | null
+    testCaseId: number | null
+  }
+
+  export type TestStepMaxAggregateOutputType = {
+    id: number | null
+    action: string | null
+    expectedResult: string | null
+    testCaseId: number | null
+  }
+
+  export type TestStepCountAggregateOutputType = {
+    id: number
+    action: number
+    expectedResult: number
+    testCaseId: number
+    _all: number
+  }
+
+
+  export type TestStepAvgAggregateInputType = {
+    id?: true
+    testCaseId?: true
+  }
+
+  export type TestStepSumAggregateInputType = {
+    id?: true
+    testCaseId?: true
+  }
+
+  export type TestStepMinAggregateInputType = {
+    id?: true
+    action?: true
+    expectedResult?: true
+    testCaseId?: true
+  }
+
+  export type TestStepMaxAggregateInputType = {
+    id?: true
+    action?: true
+    expectedResult?: true
+    testCaseId?: true
+  }
+
+  export type TestStepCountAggregateInputType = {
+    id?: true
+    action?: true
+    expectedResult?: true
+    testCaseId?: true
+    _all?: true
+  }
+
+  export type TestStepAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TestStep to aggregate.
+     */
+    where?: TestStepWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestSteps to fetch.
+     */
+    orderBy?: TestStepOrderByWithRelationInput | TestStepOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TestStepWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestSteps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestSteps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned TestSteps
+    **/
+    _count?: true | TestStepCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TestStepAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TestStepSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TestStepMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TestStepMaxAggregateInputType
+  }
+
+  export type GetTestStepAggregateType<T extends TestStepAggregateArgs> = {
+        [P in keyof T & keyof AggregateTestStep]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTestStep[P]>
+      : GetScalarType<T[P], AggregateTestStep[P]>
+  }
+
+
+
+
+  export type TestStepGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TestStepWhereInput
+    orderBy?: TestStepOrderByWithAggregationInput | TestStepOrderByWithAggregationInput[]
+    by: TestStepScalarFieldEnum[] | TestStepScalarFieldEnum
+    having?: TestStepScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TestStepCountAggregateInputType | true
+    _avg?: TestStepAvgAggregateInputType
+    _sum?: TestStepSumAggregateInputType
+    _min?: TestStepMinAggregateInputType
+    _max?: TestStepMaxAggregateInputType
+  }
+
+  export type TestStepGroupByOutputType = {
+    id: number
+    action: string
+    expectedResult: string
+    testCaseId: number
+    _count: TestStepCountAggregateOutputType | null
+    _avg: TestStepAvgAggregateOutputType | null
+    _sum: TestStepSumAggregateOutputType | null
+    _min: TestStepMinAggregateOutputType | null
+    _max: TestStepMaxAggregateOutputType | null
+  }
+
+  type GetTestStepGroupByPayload<T extends TestStepGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TestStepGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TestStepGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TestStepGroupByOutputType[P]>
+            : GetScalarType<T[P], TestStepGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TestStepSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    action?: boolean
+    expectedResult?: boolean
+    testCaseId?: boolean
+    TestCase?: boolean | TestCaseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["testStep"]>
+
+  export type TestStepSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    action?: boolean
+    expectedResult?: boolean
+    testCaseId?: boolean
+    TestCase?: boolean | TestCaseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["testStep"]>
+
+  export type TestStepSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    action?: boolean
+    expectedResult?: boolean
+    testCaseId?: boolean
+    TestCase?: boolean | TestCaseDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["testStep"]>
+
+  export type TestStepSelectScalar = {
+    id?: boolean
+    action?: boolean
+    expectedResult?: boolean
+    testCaseId?: boolean
+  }
+
+  export type TestStepOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "action" | "expectedResult" | "testCaseId", ExtArgs["result"]["testStep"]>
+  export type TestStepInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    TestCase?: boolean | TestCaseDefaultArgs<ExtArgs>
+  }
+  export type TestStepIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    TestCase?: boolean | TestCaseDefaultArgs<ExtArgs>
+  }
+  export type TestStepIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    TestCase?: boolean | TestCaseDefaultArgs<ExtArgs>
+  }
+
+  export type $TestStepPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "TestStep"
+    objects: {
+      TestCase: Prisma.$TestCasePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      action: string
+      expectedResult: string
+      testCaseId: number
+    }, ExtArgs["result"]["testStep"]>
+    composites: {}
+  }
+
+  type TestStepGetPayload<S extends boolean | null | undefined | TestStepDefaultArgs> = $Result.GetResult<Prisma.$TestStepPayload, S>
+
+  type TestStepCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TestStepFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TestStepCountAggregateInputType | true
+    }
+
+  export interface TestStepDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['TestStep'], meta: { name: 'TestStep' } }
+    /**
+     * Find zero or one TestStep that matches the filter.
+     * @param {TestStepFindUniqueArgs} args - Arguments to find a TestStep
+     * @example
+     * // Get one TestStep
+     * const testStep = await prisma.testStep.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TestStepFindUniqueArgs>(args: SelectSubset<T, TestStepFindUniqueArgs<ExtArgs>>): Prisma__TestStepClient<$Result.GetResult<Prisma.$TestStepPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one TestStep that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TestStepFindUniqueOrThrowArgs} args - Arguments to find a TestStep
+     * @example
+     * // Get one TestStep
+     * const testStep = await prisma.testStep.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TestStepFindUniqueOrThrowArgs>(args: SelectSubset<T, TestStepFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TestStepClient<$Result.GetResult<Prisma.$TestStepPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TestStep that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestStepFindFirstArgs} args - Arguments to find a TestStep
+     * @example
+     * // Get one TestStep
+     * const testStep = await prisma.testStep.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TestStepFindFirstArgs>(args?: SelectSubset<T, TestStepFindFirstArgs<ExtArgs>>): Prisma__TestStepClient<$Result.GetResult<Prisma.$TestStepPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first TestStep that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestStepFindFirstOrThrowArgs} args - Arguments to find a TestStep
+     * @example
+     * // Get one TestStep
+     * const testStep = await prisma.testStep.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TestStepFindFirstOrThrowArgs>(args?: SelectSubset<T, TestStepFindFirstOrThrowArgs<ExtArgs>>): Prisma__TestStepClient<$Result.GetResult<Prisma.$TestStepPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more TestSteps that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestStepFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all TestSteps
+     * const testSteps = await prisma.testStep.findMany()
+     * 
+     * // Get first 10 TestSteps
+     * const testSteps = await prisma.testStep.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const testStepWithIdOnly = await prisma.testStep.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TestStepFindManyArgs>(args?: SelectSubset<T, TestStepFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestStepPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a TestStep.
+     * @param {TestStepCreateArgs} args - Arguments to create a TestStep.
+     * @example
+     * // Create one TestStep
+     * const TestStep = await prisma.testStep.create({
+     *   data: {
+     *     // ... data to create a TestStep
+     *   }
+     * })
+     * 
+     */
+    create<T extends TestStepCreateArgs>(args: SelectSubset<T, TestStepCreateArgs<ExtArgs>>): Prisma__TestStepClient<$Result.GetResult<Prisma.$TestStepPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many TestSteps.
+     * @param {TestStepCreateManyArgs} args - Arguments to create many TestSteps.
+     * @example
+     * // Create many TestSteps
+     * const testStep = await prisma.testStep.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TestStepCreateManyArgs>(args?: SelectSubset<T, TestStepCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many TestSteps and returns the data saved in the database.
+     * @param {TestStepCreateManyAndReturnArgs} args - Arguments to create many TestSteps.
+     * @example
+     * // Create many TestSteps
+     * const testStep = await prisma.testStep.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many TestSteps and only return the `id`
+     * const testStepWithIdOnly = await prisma.testStep.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TestStepCreateManyAndReturnArgs>(args?: SelectSubset<T, TestStepCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestStepPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a TestStep.
+     * @param {TestStepDeleteArgs} args - Arguments to delete one TestStep.
+     * @example
+     * // Delete one TestStep
+     * const TestStep = await prisma.testStep.delete({
+     *   where: {
+     *     // ... filter to delete one TestStep
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TestStepDeleteArgs>(args: SelectSubset<T, TestStepDeleteArgs<ExtArgs>>): Prisma__TestStepClient<$Result.GetResult<Prisma.$TestStepPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one TestStep.
+     * @param {TestStepUpdateArgs} args - Arguments to update one TestStep.
+     * @example
+     * // Update one TestStep
+     * const testStep = await prisma.testStep.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TestStepUpdateArgs>(args: SelectSubset<T, TestStepUpdateArgs<ExtArgs>>): Prisma__TestStepClient<$Result.GetResult<Prisma.$TestStepPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more TestSteps.
+     * @param {TestStepDeleteManyArgs} args - Arguments to filter TestSteps to delete.
+     * @example
+     * // Delete a few TestSteps
+     * const { count } = await prisma.testStep.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TestStepDeleteManyArgs>(args?: SelectSubset<T, TestStepDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TestSteps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestStepUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many TestSteps
+     * const testStep = await prisma.testStep.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TestStepUpdateManyArgs>(args: SelectSubset<T, TestStepUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more TestSteps and returns the data updated in the database.
+     * @param {TestStepUpdateManyAndReturnArgs} args - Arguments to update many TestSteps.
+     * @example
+     * // Update many TestSteps
+     * const testStep = await prisma.testStep.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more TestSteps and only return the `id`
+     * const testStepWithIdOnly = await prisma.testStep.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TestStepUpdateManyAndReturnArgs>(args: SelectSubset<T, TestStepUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestStepPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one TestStep.
+     * @param {TestStepUpsertArgs} args - Arguments to update or create a TestStep.
+     * @example
+     * // Update or create a TestStep
+     * const testStep = await prisma.testStep.upsert({
+     *   create: {
+     *     // ... data to create a TestStep
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the TestStep we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TestStepUpsertArgs>(args: SelectSubset<T, TestStepUpsertArgs<ExtArgs>>): Prisma__TestStepClient<$Result.GetResult<Prisma.$TestStepPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of TestSteps.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestStepCountArgs} args - Arguments to filter TestSteps to count.
+     * @example
+     * // Count the number of TestSteps
+     * const count = await prisma.testStep.count({
+     *   where: {
+     *     // ... the filter for the TestSteps we want to count
+     *   }
+     * })
+    **/
+    count<T extends TestStepCountArgs>(
+      args?: Subset<T, TestStepCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TestStepCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a TestStep.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestStepAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TestStepAggregateArgs>(args: Subset<T, TestStepAggregateArgs>): Prisma.PrismaPromise<GetTestStepAggregateType<T>>
+
+    /**
+     * Group by TestStep.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TestStepGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TestStepGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TestStepGroupByArgs['orderBy'] }
+        : { orderBy?: TestStepGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TestStepGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTestStepGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the TestStep model
+   */
+  readonly fields: TestStepFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for TestStep.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TestStepClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    TestCase<T extends TestCaseDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TestCaseDefaultArgs<ExtArgs>>): Prisma__TestCaseClient<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the TestStep model
+   */
+  interface TestStepFieldRefs {
+    readonly id: FieldRef<"TestStep", 'Int'>
+    readonly action: FieldRef<"TestStep", 'String'>
+    readonly expectedResult: FieldRef<"TestStep", 'String'>
+    readonly testCaseId: FieldRef<"TestStep", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * TestStep findUnique
+   */
+  export type TestStepFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepInclude<ExtArgs> | null
+    /**
+     * Filter, which TestStep to fetch.
+     */
+    where: TestStepWhereUniqueInput
+  }
+
+  /**
+   * TestStep findUniqueOrThrow
+   */
+  export type TestStepFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepInclude<ExtArgs> | null
+    /**
+     * Filter, which TestStep to fetch.
+     */
+    where: TestStepWhereUniqueInput
+  }
+
+  /**
+   * TestStep findFirst
+   */
+  export type TestStepFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepInclude<ExtArgs> | null
+    /**
+     * Filter, which TestStep to fetch.
+     */
+    where?: TestStepWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestSteps to fetch.
+     */
+    orderBy?: TestStepOrderByWithRelationInput | TestStepOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TestSteps.
+     */
+    cursor?: TestStepWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestSteps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestSteps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TestSteps.
+     */
+    distinct?: TestStepScalarFieldEnum | TestStepScalarFieldEnum[]
+  }
+
+  /**
+   * TestStep findFirstOrThrow
+   */
+  export type TestStepFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepInclude<ExtArgs> | null
+    /**
+     * Filter, which TestStep to fetch.
+     */
+    where?: TestStepWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestSteps to fetch.
+     */
+    orderBy?: TestStepOrderByWithRelationInput | TestStepOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for TestSteps.
+     */
+    cursor?: TestStepWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestSteps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestSteps.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of TestSteps.
+     */
+    distinct?: TestStepScalarFieldEnum | TestStepScalarFieldEnum[]
+  }
+
+  /**
+   * TestStep findMany
+   */
+  export type TestStepFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepInclude<ExtArgs> | null
+    /**
+     * Filter, which TestSteps to fetch.
+     */
+    where?: TestStepWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of TestSteps to fetch.
+     */
+    orderBy?: TestStepOrderByWithRelationInput | TestStepOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing TestSteps.
+     */
+    cursor?: TestStepWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` TestSteps from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` TestSteps.
+     */
+    skip?: number
+    distinct?: TestStepScalarFieldEnum | TestStepScalarFieldEnum[]
+  }
+
+  /**
+   * TestStep create
+   */
+  export type TestStepCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepInclude<ExtArgs> | null
+    /**
+     * The data needed to create a TestStep.
+     */
+    data: XOR<TestStepCreateInput, TestStepUncheckedCreateInput>
+  }
+
+  /**
+   * TestStep createMany
+   */
+  export type TestStepCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many TestSteps.
+     */
+    data: TestStepCreateManyInput | TestStepCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * TestStep createManyAndReturn
+   */
+  export type TestStepCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * The data used to create many TestSteps.
+     */
+    data: TestStepCreateManyInput | TestStepCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TestStep update
+   */
+  export type TestStepUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepInclude<ExtArgs> | null
+    /**
+     * The data needed to update a TestStep.
+     */
+    data: XOR<TestStepUpdateInput, TestStepUncheckedUpdateInput>
+    /**
+     * Choose, which TestStep to update.
+     */
+    where: TestStepWhereUniqueInput
+  }
+
+  /**
+   * TestStep updateMany
+   */
+  export type TestStepUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update TestSteps.
+     */
+    data: XOR<TestStepUpdateManyMutationInput, TestStepUncheckedUpdateManyInput>
+    /**
+     * Filter which TestSteps to update
+     */
+    where?: TestStepWhereInput
+    /**
+     * Limit how many TestSteps to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * TestStep updateManyAndReturn
+   */
+  export type TestStepUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * The data used to update TestSteps.
+     */
+    data: XOR<TestStepUpdateManyMutationInput, TestStepUncheckedUpdateManyInput>
+    /**
+     * Filter which TestSteps to update
+     */
+    where?: TestStepWhereInput
+    /**
+     * Limit how many TestSteps to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * TestStep upsert
+   */
+  export type TestStepUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepInclude<ExtArgs> | null
+    /**
+     * The filter to search for the TestStep to update in case it exists.
+     */
+    where: TestStepWhereUniqueInput
+    /**
+     * In case the TestStep found by the `where` argument doesn't exist, create a new TestStep with this data.
+     */
+    create: XOR<TestStepCreateInput, TestStepUncheckedCreateInput>
+    /**
+     * In case the TestStep was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TestStepUpdateInput, TestStepUncheckedUpdateInput>
+  }
+
+  /**
+   * TestStep delete
+   */
+  export type TestStepDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepInclude<ExtArgs> | null
+    /**
+     * Filter which TestStep to delete.
+     */
+    where: TestStepWhereUniqueInput
+  }
+
+  /**
+   * TestStep deleteMany
+   */
+  export type TestStepDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which TestSteps to delete
+     */
+    where?: TestStepWhereInput
+    /**
+     * Limit how many TestSteps to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * TestStep without action
+   */
+  export type TestStepDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TestStep
+     */
+    select?: TestStepSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TestStep
+     */
+    omit?: TestStepOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TestStepInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -4598,7 +7258,8 @@ export namespace Prisma {
     priority: 'priority',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    title: 'title'
+    title: 'title',
+    createdById: 'createdById'
   };
 
   export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
@@ -4613,6 +7274,32 @@ export namespace Prisma {
   };
 
   export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+  export const TestCaseScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    status: 'status',
+    priority: 'priority',
+    actualResult: 'actualResult',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    projectId: 'projectId',
+    module: 'module'
+  };
+
+  export type TestCaseScalarFieldEnum = (typeof TestCaseScalarFieldEnum)[keyof typeof TestCaseScalarFieldEnum]
+
+
+  export const TestStepScalarFieldEnum: {
+    id: 'id',
+    action: 'action',
+    expectedResult: 'expectedResult',
+    testCaseId: 'testCaseId'
+  };
+
+  export type TestStepScalarFieldEnum = (typeof TestStepScalarFieldEnum)[keyof typeof TestStepScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4722,6 +7409,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'TestCaseStatus'
+   */
+  export type EnumTestCaseStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TestCaseStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'TestCaseStatus[]'
+   */
+  export type ListEnumTestCaseStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TestCaseStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TestCasePriority'
+   */
+  export type EnumTestCasePriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TestCasePriority'>
+    
+
+
+  /**
+   * Reference to a field of type 'TestCasePriority[]'
+   */
+  export type ListEnumTestCasePriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TestCasePriority[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -4752,6 +7467,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     notifications?: NotificationListRelationFilter
+    Project_Project_createdByIdToUser?: ProjectListRelationFilter
     projects?: ProjectListRelationFilter
   }
 
@@ -4766,6 +7482,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     notifications?: NotificationOrderByRelationAggregateInput
+    Project_Project_createdByIdToUser?: ProjectOrderByRelationAggregateInput
     projects?: ProjectOrderByRelationAggregateInput
   }
 
@@ -4783,6 +7500,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     notifications?: NotificationListRelationFilter
+    Project_Project_createdByIdToUser?: ProjectListRelationFilter
     projects?: ProjectListRelationFilter
   }, "id" | "email" | "clerkUserId">
 
@@ -4829,6 +7547,9 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     title?: StringNullableFilter<"Project"> | string | null
+    createdById?: IntNullableFilter<"Project"> | number | null
+    User_Project_createdByIdToUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    TestCase?: TestCaseListRelationFilter
     members?: UserListRelationFilter
   }
 
@@ -4840,6 +7561,9 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     title?: SortOrderInput | SortOrder
+    createdById?: SortOrderInput | SortOrder
+    User_Project_createdByIdToUser?: UserOrderByWithRelationInput
+    TestCase?: TestCaseOrderByRelationAggregateInput
     members?: UserOrderByRelationAggregateInput
   }
 
@@ -4854,6 +7578,9 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Project"> | Date | string
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     title?: StringNullableFilter<"Project"> | string | null
+    createdById?: IntNullableFilter<"Project"> | number | null
+    User_Project_createdByIdToUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    TestCase?: TestCaseListRelationFilter
     members?: UserListRelationFilter
   }, "id">
 
@@ -4865,6 +7592,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     title?: SortOrderInput | SortOrder
+    createdById?: SortOrderInput | SortOrder
     _count?: ProjectCountOrderByAggregateInput
     _avg?: ProjectAvgOrderByAggregateInput
     _max?: ProjectMaxOrderByAggregateInput
@@ -4883,6 +7611,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
     title?: StringNullableWithAggregatesFilter<"Project"> | string | null
+    createdById?: IntNullableWithAggregatesFilter<"Project"> | number | null
   }
 
   export type NotificationWhereInput = {
@@ -4942,6 +7671,143 @@ export namespace Prisma {
     read?: BoolWithAggregatesFilter<"Notification"> | boolean
   }
 
+  export type TestCaseWhereInput = {
+    AND?: TestCaseWhereInput | TestCaseWhereInput[]
+    OR?: TestCaseWhereInput[]
+    NOT?: TestCaseWhereInput | TestCaseWhereInput[]
+    id?: IntFilter<"TestCase"> | number
+    title?: StringNullableFilter<"TestCase"> | string | null
+    description?: StringNullableFilter<"TestCase"> | string | null
+    status?: EnumTestCaseStatusFilter<"TestCase"> | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityFilter<"TestCase"> | $Enums.TestCasePriority
+    actualResult?: StringNullableFilter<"TestCase"> | string | null
+    createdAt?: DateTimeFilter<"TestCase"> | Date | string
+    updatedAt?: DateTimeFilter<"TestCase"> | Date | string
+    projectId?: IntNullableFilter<"TestCase"> | number | null
+    module?: StringNullableFilter<"TestCase"> | string | null
+    Project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+    testSteps?: TestStepListRelationFilter
+  }
+
+  export type TestCaseOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    status?: SortOrder
+    priority?: SortOrder
+    actualResult?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    projectId?: SortOrderInput | SortOrder
+    module?: SortOrderInput | SortOrder
+    Project?: ProjectOrderByWithRelationInput
+    testSteps?: TestStepOrderByRelationAggregateInput
+  }
+
+  export type TestCaseWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: TestCaseWhereInput | TestCaseWhereInput[]
+    OR?: TestCaseWhereInput[]
+    NOT?: TestCaseWhereInput | TestCaseWhereInput[]
+    title?: StringNullableFilter<"TestCase"> | string | null
+    description?: StringNullableFilter<"TestCase"> | string | null
+    status?: EnumTestCaseStatusFilter<"TestCase"> | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityFilter<"TestCase"> | $Enums.TestCasePriority
+    actualResult?: StringNullableFilter<"TestCase"> | string | null
+    createdAt?: DateTimeFilter<"TestCase"> | Date | string
+    updatedAt?: DateTimeFilter<"TestCase"> | Date | string
+    projectId?: IntNullableFilter<"TestCase"> | number | null
+    module?: StringNullableFilter<"TestCase"> | string | null
+    Project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+    testSteps?: TestStepListRelationFilter
+  }, "id">
+
+  export type TestCaseOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    status?: SortOrder
+    priority?: SortOrder
+    actualResult?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    projectId?: SortOrderInput | SortOrder
+    module?: SortOrderInput | SortOrder
+    _count?: TestCaseCountOrderByAggregateInput
+    _avg?: TestCaseAvgOrderByAggregateInput
+    _max?: TestCaseMaxOrderByAggregateInput
+    _min?: TestCaseMinOrderByAggregateInput
+    _sum?: TestCaseSumOrderByAggregateInput
+  }
+
+  export type TestCaseScalarWhereWithAggregatesInput = {
+    AND?: TestCaseScalarWhereWithAggregatesInput | TestCaseScalarWhereWithAggregatesInput[]
+    OR?: TestCaseScalarWhereWithAggregatesInput[]
+    NOT?: TestCaseScalarWhereWithAggregatesInput | TestCaseScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"TestCase"> | number
+    title?: StringNullableWithAggregatesFilter<"TestCase"> | string | null
+    description?: StringNullableWithAggregatesFilter<"TestCase"> | string | null
+    status?: EnumTestCaseStatusWithAggregatesFilter<"TestCase"> | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityWithAggregatesFilter<"TestCase"> | $Enums.TestCasePriority
+    actualResult?: StringNullableWithAggregatesFilter<"TestCase"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"TestCase"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"TestCase"> | Date | string
+    projectId?: IntNullableWithAggregatesFilter<"TestCase"> | number | null
+    module?: StringNullableWithAggregatesFilter<"TestCase"> | string | null
+  }
+
+  export type TestStepWhereInput = {
+    AND?: TestStepWhereInput | TestStepWhereInput[]
+    OR?: TestStepWhereInput[]
+    NOT?: TestStepWhereInput | TestStepWhereInput[]
+    id?: IntFilter<"TestStep"> | number
+    action?: StringFilter<"TestStep"> | string
+    expectedResult?: StringFilter<"TestStep"> | string
+    testCaseId?: IntFilter<"TestStep"> | number
+    TestCase?: XOR<TestCaseScalarRelationFilter, TestCaseWhereInput>
+  }
+
+  export type TestStepOrderByWithRelationInput = {
+    id?: SortOrder
+    action?: SortOrder
+    expectedResult?: SortOrder
+    testCaseId?: SortOrder
+    TestCase?: TestCaseOrderByWithRelationInput
+  }
+
+  export type TestStepWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: TestStepWhereInput | TestStepWhereInput[]
+    OR?: TestStepWhereInput[]
+    NOT?: TestStepWhereInput | TestStepWhereInput[]
+    action?: StringFilter<"TestStep"> | string
+    expectedResult?: StringFilter<"TestStep"> | string
+    testCaseId?: IntFilter<"TestStep"> | number
+    TestCase?: XOR<TestCaseScalarRelationFilter, TestCaseWhereInput>
+  }, "id">
+
+  export type TestStepOrderByWithAggregationInput = {
+    id?: SortOrder
+    action?: SortOrder
+    expectedResult?: SortOrder
+    testCaseId?: SortOrder
+    _count?: TestStepCountOrderByAggregateInput
+    _avg?: TestStepAvgOrderByAggregateInput
+    _max?: TestStepMaxOrderByAggregateInput
+    _min?: TestStepMinOrderByAggregateInput
+    _sum?: TestStepSumOrderByAggregateInput
+  }
+
+  export type TestStepScalarWhereWithAggregatesInput = {
+    AND?: TestStepScalarWhereWithAggregatesInput | TestStepScalarWhereWithAggregatesInput[]
+    OR?: TestStepScalarWhereWithAggregatesInput[]
+    NOT?: TestStepScalarWhereWithAggregatesInput | TestStepScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"TestStep"> | number
+    action?: StringWithAggregatesFilter<"TestStep"> | string
+    expectedResult?: StringWithAggregatesFilter<"TestStep"> | string
+    testCaseId?: IntWithAggregatesFilter<"TestStep"> | number
+  }
+
   export type UserCreateInput = {
     email: string
     name?: string | null
@@ -4952,6 +7818,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    Project_Project_createdByIdToUser?: ProjectCreateNestedManyWithoutUser_Project_createdByIdToUserInput
     projects?: ProjectCreateNestedManyWithoutMembersInput
   }
 
@@ -4966,6 +7833,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    Project_Project_createdByIdToUser?: ProjectUncheckedCreateNestedManyWithoutUser_Project_createdByIdToUserInput
     projects?: ProjectUncheckedCreateNestedManyWithoutMembersInput
   }
 
@@ -4979,6 +7847,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    Project_Project_createdByIdToUser?: ProjectUpdateManyWithoutUser_Project_createdByIdToUserNestedInput
     projects?: ProjectUpdateManyWithoutMembersNestedInput
   }
 
@@ -4993,6 +7862,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    Project_Project_createdByIdToUser?: ProjectUncheckedUpdateManyWithoutUser_Project_createdByIdToUserNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutMembersNestedInput
   }
 
@@ -5038,6 +7908,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     title?: string | null
+    User_Project_createdByIdToUser?: UserCreateNestedOneWithoutProject_Project_createdByIdToUserInput
+    TestCase?: TestCaseCreateNestedManyWithoutProjectInput
     members?: UserCreateNestedManyWithoutProjectsInput
   }
 
@@ -5049,6 +7921,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     title?: string | null
+    createdById?: number | null
+    TestCase?: TestCaseUncheckedCreateNestedManyWithoutProjectInput
     members?: UserUncheckedCreateNestedManyWithoutProjectsInput
   }
 
@@ -5059,6 +7933,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    User_Project_createdByIdToUser?: UserUpdateOneWithoutProject_Project_createdByIdToUserNestedInput
+    TestCase?: TestCaseUpdateManyWithoutProjectNestedInput
     members?: UserUpdateManyWithoutProjectsNestedInput
   }
 
@@ -5070,6 +7946,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableIntFieldUpdateOperationsInput | number | null
+    TestCase?: TestCaseUncheckedUpdateManyWithoutProjectNestedInput
     members?: UserUncheckedUpdateManyWithoutProjectsNestedInput
   }
 
@@ -5081,6 +7959,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     title?: string | null
+    createdById?: number | null
   }
 
   export type ProjectUpdateManyMutationInput = {
@@ -5100,6 +7979,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type NotificationCreateInput = {
@@ -5152,6 +8032,142 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     read?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type TestCaseCreateInput = {
+    title?: string | null
+    description?: string | null
+    status?: $Enums.TestCaseStatus
+    priority?: $Enums.TestCasePriority
+    actualResult?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    module?: string | null
+    Project?: ProjectCreateNestedOneWithoutTestCaseInput
+    testSteps?: TestStepCreateNestedManyWithoutTestCaseInput
+  }
+
+  export type TestCaseUncheckedCreateInput = {
+    id?: number
+    title?: string | null
+    description?: string | null
+    status?: $Enums.TestCaseStatus
+    priority?: $Enums.TestCasePriority
+    actualResult?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    projectId?: number | null
+    module?: string | null
+    testSteps?: TestStepUncheckedCreateNestedManyWithoutTestCaseInput
+  }
+
+  export type TestCaseUpdateInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestCaseStatusFieldUpdateOperationsInput | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityFieldUpdateOperationsInput | $Enums.TestCasePriority
+    actualResult?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    module?: NullableStringFieldUpdateOperationsInput | string | null
+    Project?: ProjectUpdateOneWithoutTestCaseNestedInput
+    testSteps?: TestStepUpdateManyWithoutTestCaseNestedInput
+  }
+
+  export type TestCaseUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestCaseStatusFieldUpdateOperationsInput | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityFieldUpdateOperationsInput | $Enums.TestCasePriority
+    actualResult?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
+    module?: NullableStringFieldUpdateOperationsInput | string | null
+    testSteps?: TestStepUncheckedUpdateManyWithoutTestCaseNestedInput
+  }
+
+  export type TestCaseCreateManyInput = {
+    id?: number
+    title?: string | null
+    description?: string | null
+    status?: $Enums.TestCaseStatus
+    priority?: $Enums.TestCasePriority
+    actualResult?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    projectId?: number | null
+    module?: string | null
+  }
+
+  export type TestCaseUpdateManyMutationInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestCaseStatusFieldUpdateOperationsInput | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityFieldUpdateOperationsInput | $Enums.TestCasePriority
+    actualResult?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    module?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TestCaseUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestCaseStatusFieldUpdateOperationsInput | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityFieldUpdateOperationsInput | $Enums.TestCasePriority
+    actualResult?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
+    module?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TestStepCreateInput = {
+    action: string
+    expectedResult: string
+    TestCase: TestCaseCreateNestedOneWithoutTestStepsInput
+  }
+
+  export type TestStepUncheckedCreateInput = {
+    id?: number
+    action: string
+    expectedResult: string
+    testCaseId: number
+  }
+
+  export type TestStepUpdateInput = {
+    action?: StringFieldUpdateOperationsInput | string
+    expectedResult?: StringFieldUpdateOperationsInput | string
+    TestCase?: TestCaseUpdateOneRequiredWithoutTestStepsNestedInput
+  }
+
+  export type TestStepUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    action?: StringFieldUpdateOperationsInput | string
+    expectedResult?: StringFieldUpdateOperationsInput | string
+    testCaseId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TestStepCreateManyInput = {
+    id?: number
+    action: string
+    expectedResult: string
+    testCaseId: number
+  }
+
+  export type TestStepUpdateManyMutationInput = {
+    action?: StringFieldUpdateOperationsInput | string
+    expectedResult?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TestStepUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    action?: StringFieldUpdateOperationsInput | string
+    expectedResult?: StringFieldUpdateOperationsInput | string
+    testCaseId?: IntFieldUpdateOperationsInput | number
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -5355,10 +8371,36 @@ export namespace Prisma {
     not?: NestedEnumProjectPriorityFilter<$PrismaModel> | $Enums.ProjectPriority
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type TestCaseListRelationFilter = {
+    every?: TestCaseWhereInput
+    some?: TestCaseWhereInput
+    none?: TestCaseWhereInput
+  }
+
   export type UserListRelationFilter = {
     every?: UserWhereInput
     some?: UserWhereInput
     none?: UserWhereInput
+  }
+
+  export type TestCaseOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserOrderByRelationAggregateInput = {
@@ -5373,10 +8415,12 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     title?: SortOrder
+    createdById?: SortOrder
   }
 
   export type ProjectAvgOrderByAggregateInput = {
     id?: SortOrder
+    createdById?: SortOrder
   }
 
   export type ProjectMaxOrderByAggregateInput = {
@@ -5387,6 +8431,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     title?: SortOrder
+    createdById?: SortOrder
   }
 
   export type ProjectMinOrderByAggregateInput = {
@@ -5397,10 +8442,12 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     title?: SortOrder
+    createdById?: SortOrder
   }
 
   export type ProjectSumOrderByAggregateInput = {
     id?: SortOrder
+    createdById?: SortOrder
   }
 
   export type EnumProjectStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -5421,6 +8468,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumProjectPriorityFilter<$PrismaModel>
     _max?: NestedEnumProjectPriorityFilter<$PrismaModel>
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type BoolFilter<$PrismaModel = never> = {
@@ -5475,11 +8538,152 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type EnumTestCaseStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TestCaseStatus | EnumTestCaseStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TestCaseStatus[] | ListEnumTestCaseStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TestCaseStatus[] | ListEnumTestCaseStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTestCaseStatusFilter<$PrismaModel> | $Enums.TestCaseStatus
+  }
+
+  export type EnumTestCasePriorityFilter<$PrismaModel = never> = {
+    equals?: $Enums.TestCasePriority | EnumTestCasePriorityFieldRefInput<$PrismaModel>
+    in?: $Enums.TestCasePriority[] | ListEnumTestCasePriorityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TestCasePriority[] | ListEnumTestCasePriorityFieldRefInput<$PrismaModel>
+    not?: NestedEnumTestCasePriorityFilter<$PrismaModel> | $Enums.TestCasePriority
+  }
+
+  export type ProjectNullableScalarRelationFilter = {
+    is?: ProjectWhereInput | null
+    isNot?: ProjectWhereInput | null
+  }
+
+  export type TestStepListRelationFilter = {
+    every?: TestStepWhereInput
+    some?: TestStepWhereInput
+    none?: TestStepWhereInput
+  }
+
+  export type TestStepOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TestCaseCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    priority?: SortOrder
+    actualResult?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    projectId?: SortOrder
+    module?: SortOrder
+  }
+
+  export type TestCaseAvgOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+  }
+
+  export type TestCaseMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    priority?: SortOrder
+    actualResult?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    projectId?: SortOrder
+    module?: SortOrder
+  }
+
+  export type TestCaseMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    status?: SortOrder
+    priority?: SortOrder
+    actualResult?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    projectId?: SortOrder
+    module?: SortOrder
+  }
+
+  export type TestCaseSumOrderByAggregateInput = {
+    id?: SortOrder
+    projectId?: SortOrder
+  }
+
+  export type EnumTestCaseStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TestCaseStatus | EnumTestCaseStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TestCaseStatus[] | ListEnumTestCaseStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TestCaseStatus[] | ListEnumTestCaseStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTestCaseStatusWithAggregatesFilter<$PrismaModel> | $Enums.TestCaseStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTestCaseStatusFilter<$PrismaModel>
+    _max?: NestedEnumTestCaseStatusFilter<$PrismaModel>
+  }
+
+  export type EnumTestCasePriorityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TestCasePriority | EnumTestCasePriorityFieldRefInput<$PrismaModel>
+    in?: $Enums.TestCasePriority[] | ListEnumTestCasePriorityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TestCasePriority[] | ListEnumTestCasePriorityFieldRefInput<$PrismaModel>
+    not?: NestedEnumTestCasePriorityWithAggregatesFilter<$PrismaModel> | $Enums.TestCasePriority
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTestCasePriorityFilter<$PrismaModel>
+    _max?: NestedEnumTestCasePriorityFilter<$PrismaModel>
+  }
+
+  export type TestCaseScalarRelationFilter = {
+    is?: TestCaseWhereInput
+    isNot?: TestCaseWhereInput
+  }
+
+  export type TestStepCountOrderByAggregateInput = {
+    id?: SortOrder
+    action?: SortOrder
+    expectedResult?: SortOrder
+    testCaseId?: SortOrder
+  }
+
+  export type TestStepAvgOrderByAggregateInput = {
+    id?: SortOrder
+    testCaseId?: SortOrder
+  }
+
+  export type TestStepMaxOrderByAggregateInput = {
+    id?: SortOrder
+    action?: SortOrder
+    expectedResult?: SortOrder
+    testCaseId?: SortOrder
+  }
+
+  export type TestStepMinOrderByAggregateInput = {
+    id?: SortOrder
+    action?: SortOrder
+    expectedResult?: SortOrder
+    testCaseId?: SortOrder
+  }
+
+  export type TestStepSumOrderByAggregateInput = {
+    id?: SortOrder
+    testCaseId?: SortOrder
+  }
+
   export type NotificationCreateNestedManyWithoutUserInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
     createMany?: NotificationCreateManyUserInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type ProjectCreateNestedManyWithoutUser_Project_createdByIdToUserInput = {
+    create?: XOR<ProjectCreateWithoutUser_Project_createdByIdToUserInput, ProjectUncheckedCreateWithoutUser_Project_createdByIdToUserInput> | ProjectCreateWithoutUser_Project_createdByIdToUserInput[] | ProjectUncheckedCreateWithoutUser_Project_createdByIdToUserInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutUser_Project_createdByIdToUserInput | ProjectCreateOrConnectWithoutUser_Project_createdByIdToUserInput[]
+    createMany?: ProjectCreateManyUser_Project_createdByIdToUserInputEnvelope
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
   }
 
   export type ProjectCreateNestedManyWithoutMembersInput = {
@@ -5493,6 +8697,13 @@ export namespace Prisma {
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
     createMany?: NotificationCreateManyUserInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type ProjectUncheckedCreateNestedManyWithoutUser_Project_createdByIdToUserInput = {
+    create?: XOR<ProjectCreateWithoutUser_Project_createdByIdToUserInput, ProjectUncheckedCreateWithoutUser_Project_createdByIdToUserInput> | ProjectCreateWithoutUser_Project_createdByIdToUserInput[] | ProjectUncheckedCreateWithoutUser_Project_createdByIdToUserInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutUser_Project_createdByIdToUserInput | ProjectCreateOrConnectWithoutUser_Project_createdByIdToUserInput[]
+    createMany?: ProjectCreateManyUser_Project_createdByIdToUserInputEnvelope
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
   }
 
   export type ProjectUncheckedCreateNestedManyWithoutMembersInput = {
@@ -5525,6 +8736,20 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type ProjectUpdateManyWithoutUser_Project_createdByIdToUserNestedInput = {
+    create?: XOR<ProjectCreateWithoutUser_Project_createdByIdToUserInput, ProjectUncheckedCreateWithoutUser_Project_createdByIdToUserInput> | ProjectCreateWithoutUser_Project_createdByIdToUserInput[] | ProjectUncheckedCreateWithoutUser_Project_createdByIdToUserInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutUser_Project_createdByIdToUserInput | ProjectCreateOrConnectWithoutUser_Project_createdByIdToUserInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutUser_Project_createdByIdToUserInput | ProjectUpsertWithWhereUniqueWithoutUser_Project_createdByIdToUserInput[]
+    createMany?: ProjectCreateManyUser_Project_createdByIdToUserInputEnvelope
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutUser_Project_createdByIdToUserInput | ProjectUpdateWithWhereUniqueWithoutUser_Project_createdByIdToUserInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutUser_Project_createdByIdToUserInput | ProjectUpdateManyWithWhereWithoutUser_Project_createdByIdToUserInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
   }
 
   export type ProjectUpdateManyWithoutMembersNestedInput = {
@@ -5562,6 +8787,20 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type ProjectUncheckedUpdateManyWithoutUser_Project_createdByIdToUserNestedInput = {
+    create?: XOR<ProjectCreateWithoutUser_Project_createdByIdToUserInput, ProjectUncheckedCreateWithoutUser_Project_createdByIdToUserInput> | ProjectCreateWithoutUser_Project_createdByIdToUserInput[] | ProjectUncheckedCreateWithoutUser_Project_createdByIdToUserInput[]
+    connectOrCreate?: ProjectCreateOrConnectWithoutUser_Project_createdByIdToUserInput | ProjectCreateOrConnectWithoutUser_Project_createdByIdToUserInput[]
+    upsert?: ProjectUpsertWithWhereUniqueWithoutUser_Project_createdByIdToUserInput | ProjectUpsertWithWhereUniqueWithoutUser_Project_createdByIdToUserInput[]
+    createMany?: ProjectCreateManyUser_Project_createdByIdToUserInputEnvelope
+    set?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    disconnect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    delete?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    connect?: ProjectWhereUniqueInput | ProjectWhereUniqueInput[]
+    update?: ProjectUpdateWithWhereUniqueWithoutUser_Project_createdByIdToUserInput | ProjectUpdateWithWhereUniqueWithoutUser_Project_createdByIdToUserInput[]
+    updateMany?: ProjectUpdateManyWithWhereWithoutUser_Project_createdByIdToUserInput | ProjectUpdateManyWithWhereWithoutUser_Project_createdByIdToUserInput[]
+    deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+  }
+
   export type ProjectUncheckedUpdateManyWithoutMembersNestedInput = {
     create?: XOR<ProjectCreateWithoutMembersInput, ProjectUncheckedCreateWithoutMembersInput> | ProjectCreateWithoutMembersInput[] | ProjectUncheckedCreateWithoutMembersInput[]
     connectOrCreate?: ProjectCreateOrConnectWithoutMembersInput | ProjectCreateOrConnectWithoutMembersInput[]
@@ -5575,10 +8814,30 @@ export namespace Prisma {
     deleteMany?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
   }
 
+  export type UserCreateNestedOneWithoutProject_Project_createdByIdToUserInput = {
+    create?: XOR<UserCreateWithoutProject_Project_createdByIdToUserInput, UserUncheckedCreateWithoutProject_Project_createdByIdToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProject_Project_createdByIdToUserInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TestCaseCreateNestedManyWithoutProjectInput = {
+    create?: XOR<TestCaseCreateWithoutProjectInput, TestCaseUncheckedCreateWithoutProjectInput> | TestCaseCreateWithoutProjectInput[] | TestCaseUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: TestCaseCreateOrConnectWithoutProjectInput | TestCaseCreateOrConnectWithoutProjectInput[]
+    createMany?: TestCaseCreateManyProjectInputEnvelope
+    connect?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+  }
+
   export type UserCreateNestedManyWithoutProjectsInput = {
     create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput> | UserCreateWithoutProjectsInput[] | UserUncheckedCreateWithoutProjectsInput[]
     connectOrCreate?: UserCreateOrConnectWithoutProjectsInput | UserCreateOrConnectWithoutProjectsInput[]
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type TestCaseUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<TestCaseCreateWithoutProjectInput, TestCaseUncheckedCreateWithoutProjectInput> | TestCaseCreateWithoutProjectInput[] | TestCaseUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: TestCaseCreateOrConnectWithoutProjectInput | TestCaseCreateOrConnectWithoutProjectInput[]
+    createMany?: TestCaseCreateManyProjectInputEnvelope
+    connect?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
   }
 
   export type UserUncheckedCreateNestedManyWithoutProjectsInput = {
@@ -5595,6 +8854,30 @@ export namespace Prisma {
     set?: $Enums.ProjectPriority
   }
 
+  export type UserUpdateOneWithoutProject_Project_createdByIdToUserNestedInput = {
+    create?: XOR<UserCreateWithoutProject_Project_createdByIdToUserInput, UserUncheckedCreateWithoutProject_Project_createdByIdToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutProject_Project_createdByIdToUserInput
+    upsert?: UserUpsertWithoutProject_Project_createdByIdToUserInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutProject_Project_createdByIdToUserInput, UserUpdateWithoutProject_Project_createdByIdToUserInput>, UserUncheckedUpdateWithoutProject_Project_createdByIdToUserInput>
+  }
+
+  export type TestCaseUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<TestCaseCreateWithoutProjectInput, TestCaseUncheckedCreateWithoutProjectInput> | TestCaseCreateWithoutProjectInput[] | TestCaseUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: TestCaseCreateOrConnectWithoutProjectInput | TestCaseCreateOrConnectWithoutProjectInput[]
+    upsert?: TestCaseUpsertWithWhereUniqueWithoutProjectInput | TestCaseUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: TestCaseCreateManyProjectInputEnvelope
+    set?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+    disconnect?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+    delete?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+    connect?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+    update?: TestCaseUpdateWithWhereUniqueWithoutProjectInput | TestCaseUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: TestCaseUpdateManyWithWhereWithoutProjectInput | TestCaseUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: TestCaseScalarWhereInput | TestCaseScalarWhereInput[]
+  }
+
   export type UserUpdateManyWithoutProjectsNestedInput = {
     create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput> | UserCreateWithoutProjectsInput[] | UserUncheckedCreateWithoutProjectsInput[]
     connectOrCreate?: UserCreateOrConnectWithoutProjectsInput | UserCreateOrConnectWithoutProjectsInput[]
@@ -5606,6 +8889,28 @@ export namespace Prisma {
     update?: UserUpdateWithWhereUniqueWithoutProjectsInput | UserUpdateWithWhereUniqueWithoutProjectsInput[]
     updateMany?: UserUpdateManyWithWhereWithoutProjectsInput | UserUpdateManyWithWhereWithoutProjectsInput[]
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type TestCaseUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<TestCaseCreateWithoutProjectInput, TestCaseUncheckedCreateWithoutProjectInput> | TestCaseCreateWithoutProjectInput[] | TestCaseUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: TestCaseCreateOrConnectWithoutProjectInput | TestCaseCreateOrConnectWithoutProjectInput[]
+    upsert?: TestCaseUpsertWithWhereUniqueWithoutProjectInput | TestCaseUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: TestCaseCreateManyProjectInputEnvelope
+    set?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+    disconnect?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+    delete?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+    connect?: TestCaseWhereUniqueInput | TestCaseWhereUniqueInput[]
+    update?: TestCaseUpdateWithWhereUniqueWithoutProjectInput | TestCaseUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: TestCaseUpdateManyWithWhereWithoutProjectInput | TestCaseUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: TestCaseScalarWhereInput | TestCaseScalarWhereInput[]
   }
 
   export type UserUncheckedUpdateManyWithoutProjectsNestedInput = {
@@ -5637,6 +8942,86 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutNotificationsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type ProjectCreateNestedOneWithoutTestCaseInput = {
+    create?: XOR<ProjectCreateWithoutTestCaseInput, ProjectUncheckedCreateWithoutTestCaseInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutTestCaseInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type TestStepCreateNestedManyWithoutTestCaseInput = {
+    create?: XOR<TestStepCreateWithoutTestCaseInput, TestStepUncheckedCreateWithoutTestCaseInput> | TestStepCreateWithoutTestCaseInput[] | TestStepUncheckedCreateWithoutTestCaseInput[]
+    connectOrCreate?: TestStepCreateOrConnectWithoutTestCaseInput | TestStepCreateOrConnectWithoutTestCaseInput[]
+    createMany?: TestStepCreateManyTestCaseInputEnvelope
+    connect?: TestStepWhereUniqueInput | TestStepWhereUniqueInput[]
+  }
+
+  export type TestStepUncheckedCreateNestedManyWithoutTestCaseInput = {
+    create?: XOR<TestStepCreateWithoutTestCaseInput, TestStepUncheckedCreateWithoutTestCaseInput> | TestStepCreateWithoutTestCaseInput[] | TestStepUncheckedCreateWithoutTestCaseInput[]
+    connectOrCreate?: TestStepCreateOrConnectWithoutTestCaseInput | TestStepCreateOrConnectWithoutTestCaseInput[]
+    createMany?: TestStepCreateManyTestCaseInputEnvelope
+    connect?: TestStepWhereUniqueInput | TestStepWhereUniqueInput[]
+  }
+
+  export type EnumTestCaseStatusFieldUpdateOperationsInput = {
+    set?: $Enums.TestCaseStatus
+  }
+
+  export type EnumTestCasePriorityFieldUpdateOperationsInput = {
+    set?: $Enums.TestCasePriority
+  }
+
+  export type ProjectUpdateOneWithoutTestCaseNestedInput = {
+    create?: XOR<ProjectCreateWithoutTestCaseInput, ProjectUncheckedCreateWithoutTestCaseInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutTestCaseInput
+    upsert?: ProjectUpsertWithoutTestCaseInput
+    disconnect?: ProjectWhereInput | boolean
+    delete?: ProjectWhereInput | boolean
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutTestCaseInput, ProjectUpdateWithoutTestCaseInput>, ProjectUncheckedUpdateWithoutTestCaseInput>
+  }
+
+  export type TestStepUpdateManyWithoutTestCaseNestedInput = {
+    create?: XOR<TestStepCreateWithoutTestCaseInput, TestStepUncheckedCreateWithoutTestCaseInput> | TestStepCreateWithoutTestCaseInput[] | TestStepUncheckedCreateWithoutTestCaseInput[]
+    connectOrCreate?: TestStepCreateOrConnectWithoutTestCaseInput | TestStepCreateOrConnectWithoutTestCaseInput[]
+    upsert?: TestStepUpsertWithWhereUniqueWithoutTestCaseInput | TestStepUpsertWithWhereUniqueWithoutTestCaseInput[]
+    createMany?: TestStepCreateManyTestCaseInputEnvelope
+    set?: TestStepWhereUniqueInput | TestStepWhereUniqueInput[]
+    disconnect?: TestStepWhereUniqueInput | TestStepWhereUniqueInput[]
+    delete?: TestStepWhereUniqueInput | TestStepWhereUniqueInput[]
+    connect?: TestStepWhereUniqueInput | TestStepWhereUniqueInput[]
+    update?: TestStepUpdateWithWhereUniqueWithoutTestCaseInput | TestStepUpdateWithWhereUniqueWithoutTestCaseInput[]
+    updateMany?: TestStepUpdateManyWithWhereWithoutTestCaseInput | TestStepUpdateManyWithWhereWithoutTestCaseInput[]
+    deleteMany?: TestStepScalarWhereInput | TestStepScalarWhereInput[]
+  }
+
+  export type TestStepUncheckedUpdateManyWithoutTestCaseNestedInput = {
+    create?: XOR<TestStepCreateWithoutTestCaseInput, TestStepUncheckedCreateWithoutTestCaseInput> | TestStepCreateWithoutTestCaseInput[] | TestStepUncheckedCreateWithoutTestCaseInput[]
+    connectOrCreate?: TestStepCreateOrConnectWithoutTestCaseInput | TestStepCreateOrConnectWithoutTestCaseInput[]
+    upsert?: TestStepUpsertWithWhereUniqueWithoutTestCaseInput | TestStepUpsertWithWhereUniqueWithoutTestCaseInput[]
+    createMany?: TestStepCreateManyTestCaseInputEnvelope
+    set?: TestStepWhereUniqueInput | TestStepWhereUniqueInput[]
+    disconnect?: TestStepWhereUniqueInput | TestStepWhereUniqueInput[]
+    delete?: TestStepWhereUniqueInput | TestStepWhereUniqueInput[]
+    connect?: TestStepWhereUniqueInput | TestStepWhereUniqueInput[]
+    update?: TestStepUpdateWithWhereUniqueWithoutTestCaseInput | TestStepUpdateWithWhereUniqueWithoutTestCaseInput[]
+    updateMany?: TestStepUpdateManyWithWhereWithoutTestCaseInput | TestStepUpdateManyWithWhereWithoutTestCaseInput[]
+    deleteMany?: TestStepScalarWhereInput | TestStepScalarWhereInput[]
+  }
+
+  export type TestCaseCreateNestedOneWithoutTestStepsInput = {
+    create?: XOR<TestCaseCreateWithoutTestStepsInput, TestCaseUncheckedCreateWithoutTestStepsInput>
+    connectOrCreate?: TestCaseCreateOrConnectWithoutTestStepsInput
+    connect?: TestCaseWhereUniqueInput
+  }
+
+  export type TestCaseUpdateOneRequiredWithoutTestStepsNestedInput = {
+    create?: XOR<TestCaseCreateWithoutTestStepsInput, TestCaseUncheckedCreateWithoutTestStepsInput>
+    connectOrCreate?: TestCaseCreateOrConnectWithoutTestStepsInput
+    upsert?: TestCaseUpsertWithoutTestStepsInput
+    connect?: TestCaseWhereUniqueInput
+    update?: XOR<XOR<TestCaseUpdateToOneWithWhereWithoutTestStepsInput, TestCaseUpdateWithoutTestStepsInput>, TestCaseUncheckedUpdateWithoutTestStepsInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -5809,6 +9194,33 @@ export namespace Prisma {
     _max?: NestedEnumProjectPriorityFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -5820,6 +9232,40 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTestCaseStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TestCaseStatus | EnumTestCaseStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TestCaseStatus[] | ListEnumTestCaseStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TestCaseStatus[] | ListEnumTestCaseStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTestCaseStatusFilter<$PrismaModel> | $Enums.TestCaseStatus
+  }
+
+  export type NestedEnumTestCasePriorityFilter<$PrismaModel = never> = {
+    equals?: $Enums.TestCasePriority | EnumTestCasePriorityFieldRefInput<$PrismaModel>
+    in?: $Enums.TestCasePriority[] | ListEnumTestCasePriorityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TestCasePriority[] | ListEnumTestCasePriorityFieldRefInput<$PrismaModel>
+    not?: NestedEnumTestCasePriorityFilter<$PrismaModel> | $Enums.TestCasePriority
+  }
+
+  export type NestedEnumTestCaseStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TestCaseStatus | EnumTestCaseStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TestCaseStatus[] | ListEnumTestCaseStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TestCaseStatus[] | ListEnumTestCaseStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTestCaseStatusWithAggregatesFilter<$PrismaModel> | $Enums.TestCaseStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTestCaseStatusFilter<$PrismaModel>
+    _max?: NestedEnumTestCaseStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTestCasePriorityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TestCasePriority | EnumTestCasePriorityFieldRefInput<$PrismaModel>
+    in?: $Enums.TestCasePriority[] | ListEnumTestCasePriorityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TestCasePriority[] | ListEnumTestCasePriorityFieldRefInput<$PrismaModel>
+    not?: NestedEnumTestCasePriorityWithAggregatesFilter<$PrismaModel> | $Enums.TestCasePriority
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTestCasePriorityFilter<$PrismaModel>
+    _max?: NestedEnumTestCasePriorityFilter<$PrismaModel>
   }
 
   export type NotificationCreateWithoutUserInput = {
@@ -5845,6 +9291,39 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ProjectCreateWithoutUser_Project_createdByIdToUserInput = {
+    description?: string | null
+    status?: $Enums.ProjectStatus
+    priority?: $Enums.ProjectPriority
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title?: string | null
+    TestCase?: TestCaseCreateNestedManyWithoutProjectInput
+    members?: UserCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectUncheckedCreateWithoutUser_Project_createdByIdToUserInput = {
+    id?: number
+    description?: string | null
+    status?: $Enums.ProjectStatus
+    priority?: $Enums.ProjectPriority
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title?: string | null
+    TestCase?: TestCaseUncheckedCreateNestedManyWithoutProjectInput
+    members?: UserUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectCreateOrConnectWithoutUser_Project_createdByIdToUserInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutUser_Project_createdByIdToUserInput, ProjectUncheckedCreateWithoutUser_Project_createdByIdToUserInput>
+  }
+
+  export type ProjectCreateManyUser_Project_createdByIdToUserInputEnvelope = {
+    data: ProjectCreateManyUser_Project_createdByIdToUserInput | ProjectCreateManyUser_Project_createdByIdToUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ProjectCreateWithoutMembersInput = {
     description?: string | null
     status?: $Enums.ProjectStatus
@@ -5852,6 +9331,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     title?: string | null
+    User_Project_createdByIdToUser?: UserCreateNestedOneWithoutProject_Project_createdByIdToUserInput
+    TestCase?: TestCaseCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutMembersInput = {
@@ -5862,6 +9343,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     title?: string | null
+    createdById?: number | null
+    TestCase?: TestCaseUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutMembersInput = {
@@ -5896,6 +9379,36 @@ export namespace Prisma {
     read?: BoolFilter<"Notification"> | boolean
   }
 
+  export type ProjectUpsertWithWhereUniqueWithoutUser_Project_createdByIdToUserInput = {
+    where: ProjectWhereUniqueInput
+    update: XOR<ProjectUpdateWithoutUser_Project_createdByIdToUserInput, ProjectUncheckedUpdateWithoutUser_Project_createdByIdToUserInput>
+    create: XOR<ProjectCreateWithoutUser_Project_createdByIdToUserInput, ProjectUncheckedCreateWithoutUser_Project_createdByIdToUserInput>
+  }
+
+  export type ProjectUpdateWithWhereUniqueWithoutUser_Project_createdByIdToUserInput = {
+    where: ProjectWhereUniqueInput
+    data: XOR<ProjectUpdateWithoutUser_Project_createdByIdToUserInput, ProjectUncheckedUpdateWithoutUser_Project_createdByIdToUserInput>
+  }
+
+  export type ProjectUpdateManyWithWhereWithoutUser_Project_createdByIdToUserInput = {
+    where: ProjectScalarWhereInput
+    data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyWithoutUser_Project_createdByIdToUserInput>
+  }
+
+  export type ProjectScalarWhereInput = {
+    AND?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+    OR?: ProjectScalarWhereInput[]
+    NOT?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
+    id?: IntFilter<"Project"> | number
+    description?: StringNullableFilter<"Project"> | string | null
+    status?: EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
+    priority?: EnumProjectPriorityFilter<"Project"> | $Enums.ProjectPriority
+    createdAt?: DateTimeFilter<"Project"> | Date | string
+    updatedAt?: DateTimeFilter<"Project"> | Date | string
+    title?: StringNullableFilter<"Project"> | string | null
+    createdById?: IntNullableFilter<"Project"> | number | null
+  }
+
   export type ProjectUpsertWithWhereUniqueWithoutMembersInput = {
     where: ProjectWhereUniqueInput
     update: XOR<ProjectUpdateWithoutMembersInput, ProjectUncheckedUpdateWithoutMembersInput>
@@ -5912,17 +9425,71 @@ export namespace Prisma {
     data: XOR<ProjectUpdateManyMutationInput, ProjectUncheckedUpdateManyWithoutMembersInput>
   }
 
-  export type ProjectScalarWhereInput = {
-    AND?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
-    OR?: ProjectScalarWhereInput[]
-    NOT?: ProjectScalarWhereInput | ProjectScalarWhereInput[]
-    id?: IntFilter<"Project"> | number
-    description?: StringNullableFilter<"Project"> | string | null
-    status?: EnumProjectStatusFilter<"Project"> | $Enums.ProjectStatus
-    priority?: EnumProjectPriorityFilter<"Project"> | $Enums.ProjectPriority
-    createdAt?: DateTimeFilter<"Project"> | Date | string
-    updatedAt?: DateTimeFilter<"Project"> | Date | string
-    title?: StringNullableFilter<"Project"> | string | null
+  export type UserCreateWithoutProject_Project_createdByIdToUserInput = {
+    email: string
+    name?: string | null
+    lname?: string | null
+    password?: string | null
+    imageUrl?: string | null
+    clerkUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    projects?: ProjectCreateNestedManyWithoutMembersInput
+  }
+
+  export type UserUncheckedCreateWithoutProject_Project_createdByIdToUserInput = {
+    id?: number
+    email: string
+    name?: string | null
+    lname?: string | null
+    password?: string | null
+    imageUrl?: string | null
+    clerkUserId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutMembersInput
+  }
+
+  export type UserCreateOrConnectWithoutProject_Project_createdByIdToUserInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutProject_Project_createdByIdToUserInput, UserUncheckedCreateWithoutProject_Project_createdByIdToUserInput>
+  }
+
+  export type TestCaseCreateWithoutProjectInput = {
+    title?: string | null
+    description?: string | null
+    status?: $Enums.TestCaseStatus
+    priority?: $Enums.TestCasePriority
+    actualResult?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    module?: string | null
+    testSteps?: TestStepCreateNestedManyWithoutTestCaseInput
+  }
+
+  export type TestCaseUncheckedCreateWithoutProjectInput = {
+    id?: number
+    title?: string | null
+    description?: string | null
+    status?: $Enums.TestCaseStatus
+    priority?: $Enums.TestCasePriority
+    actualResult?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    module?: string | null
+    testSteps?: TestStepUncheckedCreateNestedManyWithoutTestCaseInput
+  }
+
+  export type TestCaseCreateOrConnectWithoutProjectInput = {
+    where: TestCaseWhereUniqueInput
+    create: XOR<TestCaseCreateWithoutProjectInput, TestCaseUncheckedCreateWithoutProjectInput>
+  }
+
+  export type TestCaseCreateManyProjectInputEnvelope = {
+    data: TestCaseCreateManyProjectInput | TestCaseCreateManyProjectInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserCreateWithoutProjectsInput = {
@@ -5935,6 +9502,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    Project_Project_createdByIdToUser?: ProjectCreateNestedManyWithoutUser_Project_createdByIdToUserInput
   }
 
   export type UserUncheckedCreateWithoutProjectsInput = {
@@ -5948,11 +9516,82 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    Project_Project_createdByIdToUser?: ProjectUncheckedCreateNestedManyWithoutUser_Project_createdByIdToUserInput
   }
 
   export type UserCreateOrConnectWithoutProjectsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
+  }
+
+  export type UserUpsertWithoutProject_Project_createdByIdToUserInput = {
+    update: XOR<UserUpdateWithoutProject_Project_createdByIdToUserInput, UserUncheckedUpdateWithoutProject_Project_createdByIdToUserInput>
+    create: XOR<UserCreateWithoutProject_Project_createdByIdToUserInput, UserUncheckedCreateWithoutProject_Project_createdByIdToUserInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutProject_Project_createdByIdToUserInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutProject_Project_createdByIdToUserInput, UserUncheckedUpdateWithoutProject_Project_createdByIdToUserInput>
+  }
+
+  export type UserUpdateWithoutProject_Project_createdByIdToUserInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    lname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clerkUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    projects?: ProjectUpdateManyWithoutMembersNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutProject_Project_createdByIdToUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    lname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    clerkUserId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutMembersNestedInput
+  }
+
+  export type TestCaseUpsertWithWhereUniqueWithoutProjectInput = {
+    where: TestCaseWhereUniqueInput
+    update: XOR<TestCaseUpdateWithoutProjectInput, TestCaseUncheckedUpdateWithoutProjectInput>
+    create: XOR<TestCaseCreateWithoutProjectInput, TestCaseUncheckedCreateWithoutProjectInput>
+  }
+
+  export type TestCaseUpdateWithWhereUniqueWithoutProjectInput = {
+    where: TestCaseWhereUniqueInput
+    data: XOR<TestCaseUpdateWithoutProjectInput, TestCaseUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type TestCaseUpdateManyWithWhereWithoutProjectInput = {
+    where: TestCaseScalarWhereInput
+    data: XOR<TestCaseUpdateManyMutationInput, TestCaseUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type TestCaseScalarWhereInput = {
+    AND?: TestCaseScalarWhereInput | TestCaseScalarWhereInput[]
+    OR?: TestCaseScalarWhereInput[]
+    NOT?: TestCaseScalarWhereInput | TestCaseScalarWhereInput[]
+    id?: IntFilter<"TestCase"> | number
+    title?: StringNullableFilter<"TestCase"> | string | null
+    description?: StringNullableFilter<"TestCase"> | string | null
+    status?: EnumTestCaseStatusFilter<"TestCase"> | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityFilter<"TestCase"> | $Enums.TestCasePriority
+    actualResult?: StringNullableFilter<"TestCase"> | string | null
+    createdAt?: DateTimeFilter<"TestCase"> | Date | string
+    updatedAt?: DateTimeFilter<"TestCase"> | Date | string
+    projectId?: IntNullableFilter<"TestCase"> | number | null
+    module?: StringNullableFilter<"TestCase"> | string | null
   }
 
   export type UserUpsertWithWhereUniqueWithoutProjectsInput = {
@@ -5995,6 +9634,7 @@ export namespace Prisma {
     clerkUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    Project_Project_createdByIdToUser?: ProjectCreateNestedManyWithoutUser_Project_createdByIdToUserInput
     projects?: ProjectCreateNestedManyWithoutMembersInput
   }
 
@@ -6008,6 +9648,7 @@ export namespace Prisma {
     clerkUserId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    Project_Project_createdByIdToUser?: ProjectUncheckedCreateNestedManyWithoutUser_Project_createdByIdToUserInput
     projects?: ProjectUncheckedCreateNestedManyWithoutMembersInput
   }
 
@@ -6036,6 +9677,7 @@ export namespace Prisma {
     clerkUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Project_Project_createdByIdToUser?: ProjectUpdateManyWithoutUser_Project_createdByIdToUserNestedInput
     projects?: ProjectUpdateManyWithoutMembersNestedInput
   }
 
@@ -6049,7 +9691,183 @@ export namespace Prisma {
     clerkUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Project_Project_createdByIdToUser?: ProjectUncheckedUpdateManyWithoutUser_Project_createdByIdToUserNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutMembersNestedInput
+  }
+
+  export type ProjectCreateWithoutTestCaseInput = {
+    description?: string | null
+    status?: $Enums.ProjectStatus
+    priority?: $Enums.ProjectPriority
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title?: string | null
+    User_Project_createdByIdToUser?: UserCreateNestedOneWithoutProject_Project_createdByIdToUserInput
+    members?: UserCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectUncheckedCreateWithoutTestCaseInput = {
+    id?: number
+    description?: string | null
+    status?: $Enums.ProjectStatus
+    priority?: $Enums.ProjectPriority
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title?: string | null
+    createdById?: number | null
+    members?: UserUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectCreateOrConnectWithoutTestCaseInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutTestCaseInput, ProjectUncheckedCreateWithoutTestCaseInput>
+  }
+
+  export type TestStepCreateWithoutTestCaseInput = {
+    action: string
+    expectedResult: string
+  }
+
+  export type TestStepUncheckedCreateWithoutTestCaseInput = {
+    id?: number
+    action: string
+    expectedResult: string
+  }
+
+  export type TestStepCreateOrConnectWithoutTestCaseInput = {
+    where: TestStepWhereUniqueInput
+    create: XOR<TestStepCreateWithoutTestCaseInput, TestStepUncheckedCreateWithoutTestCaseInput>
+  }
+
+  export type TestStepCreateManyTestCaseInputEnvelope = {
+    data: TestStepCreateManyTestCaseInput | TestStepCreateManyTestCaseInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectUpsertWithoutTestCaseInput = {
+    update: XOR<ProjectUpdateWithoutTestCaseInput, ProjectUncheckedUpdateWithoutTestCaseInput>
+    create: XOR<ProjectCreateWithoutTestCaseInput, ProjectUncheckedCreateWithoutTestCaseInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutTestCaseInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutTestCaseInput, ProjectUncheckedUpdateWithoutTestCaseInput>
+  }
+
+  export type ProjectUpdateWithoutTestCaseInput = {
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    priority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    User_Project_createdByIdToUser?: UserUpdateOneWithoutProject_Project_createdByIdToUserNestedInput
+    members?: UserUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutTestCaseInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    priority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: UserUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type TestStepUpsertWithWhereUniqueWithoutTestCaseInput = {
+    where: TestStepWhereUniqueInput
+    update: XOR<TestStepUpdateWithoutTestCaseInput, TestStepUncheckedUpdateWithoutTestCaseInput>
+    create: XOR<TestStepCreateWithoutTestCaseInput, TestStepUncheckedCreateWithoutTestCaseInput>
+  }
+
+  export type TestStepUpdateWithWhereUniqueWithoutTestCaseInput = {
+    where: TestStepWhereUniqueInput
+    data: XOR<TestStepUpdateWithoutTestCaseInput, TestStepUncheckedUpdateWithoutTestCaseInput>
+  }
+
+  export type TestStepUpdateManyWithWhereWithoutTestCaseInput = {
+    where: TestStepScalarWhereInput
+    data: XOR<TestStepUpdateManyMutationInput, TestStepUncheckedUpdateManyWithoutTestCaseInput>
+  }
+
+  export type TestStepScalarWhereInput = {
+    AND?: TestStepScalarWhereInput | TestStepScalarWhereInput[]
+    OR?: TestStepScalarWhereInput[]
+    NOT?: TestStepScalarWhereInput | TestStepScalarWhereInput[]
+    id?: IntFilter<"TestStep"> | number
+    action?: StringFilter<"TestStep"> | string
+    expectedResult?: StringFilter<"TestStep"> | string
+    testCaseId?: IntFilter<"TestStep"> | number
+  }
+
+  export type TestCaseCreateWithoutTestStepsInput = {
+    title?: string | null
+    description?: string | null
+    status?: $Enums.TestCaseStatus
+    priority?: $Enums.TestCasePriority
+    actualResult?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    module?: string | null
+    Project?: ProjectCreateNestedOneWithoutTestCaseInput
+  }
+
+  export type TestCaseUncheckedCreateWithoutTestStepsInput = {
+    id?: number
+    title?: string | null
+    description?: string | null
+    status?: $Enums.TestCaseStatus
+    priority?: $Enums.TestCasePriority
+    actualResult?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    projectId?: number | null
+    module?: string | null
+  }
+
+  export type TestCaseCreateOrConnectWithoutTestStepsInput = {
+    where: TestCaseWhereUniqueInput
+    create: XOR<TestCaseCreateWithoutTestStepsInput, TestCaseUncheckedCreateWithoutTestStepsInput>
+  }
+
+  export type TestCaseUpsertWithoutTestStepsInput = {
+    update: XOR<TestCaseUpdateWithoutTestStepsInput, TestCaseUncheckedUpdateWithoutTestStepsInput>
+    create: XOR<TestCaseCreateWithoutTestStepsInput, TestCaseUncheckedCreateWithoutTestStepsInput>
+    where?: TestCaseWhereInput
+  }
+
+  export type TestCaseUpdateToOneWithWhereWithoutTestStepsInput = {
+    where?: TestCaseWhereInput
+    data: XOR<TestCaseUpdateWithoutTestStepsInput, TestCaseUncheckedUpdateWithoutTestStepsInput>
+  }
+
+  export type TestCaseUpdateWithoutTestStepsInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestCaseStatusFieldUpdateOperationsInput | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityFieldUpdateOperationsInput | $Enums.TestCasePriority
+    actualResult?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    module?: NullableStringFieldUpdateOperationsInput | string | null
+    Project?: ProjectUpdateOneWithoutTestCaseNestedInput
+  }
+
+  export type TestCaseUncheckedUpdateWithoutTestStepsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestCaseStatusFieldUpdateOperationsInput | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityFieldUpdateOperationsInput | $Enums.TestCasePriority
+    actualResult?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
+    module?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type NotificationCreateManyUserInput = {
@@ -6057,6 +9875,16 @@ export namespace Prisma {
     message: string
     createdAt?: Date | string
     read?: boolean
+  }
+
+  export type ProjectCreateManyUser_Project_createdByIdToUserInput = {
+    id?: number
+    description?: string | null
+    status?: $Enums.ProjectStatus
+    priority?: $Enums.ProjectPriority
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title?: string | null
   }
 
   export type NotificationUpdateWithoutUserInput = {
@@ -6079,6 +9907,39 @@ export namespace Prisma {
     read?: BoolFieldUpdateOperationsInput | boolean
   }
 
+  export type ProjectUpdateWithoutUser_Project_createdByIdToUserInput = {
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    priority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    TestCase?: TestCaseUpdateManyWithoutProjectNestedInput
+    members?: UserUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutUser_Project_createdByIdToUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    priority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    TestCase?: TestCaseUncheckedUpdateManyWithoutProjectNestedInput
+    members?: UserUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectUncheckedUpdateManyWithoutUser_Project_createdByIdToUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    priority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type ProjectUpdateWithoutMembersInput = {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
@@ -6086,6 +9947,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    User_Project_createdByIdToUser?: UserUpdateOneWithoutProject_Project_createdByIdToUserNestedInput
+    TestCase?: TestCaseUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutMembersInput = {
@@ -6096,6 +9959,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableIntFieldUpdateOperationsInput | number | null
+    TestCase?: TestCaseUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutMembersInput = {
@@ -6106,6 +9971,56 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type TestCaseCreateManyProjectInput = {
+    id?: number
+    title?: string | null
+    description?: string | null
+    status?: $Enums.TestCaseStatus
+    priority?: $Enums.TestCasePriority
+    actualResult?: string | null
+    createdAt?: Date | string
+    updatedAt: Date | string
+    module?: string | null
+  }
+
+  export type TestCaseUpdateWithoutProjectInput = {
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestCaseStatusFieldUpdateOperationsInput | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityFieldUpdateOperationsInput | $Enums.TestCasePriority
+    actualResult?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    module?: NullableStringFieldUpdateOperationsInput | string | null
+    testSteps?: TestStepUpdateManyWithoutTestCaseNestedInput
+  }
+
+  export type TestCaseUncheckedUpdateWithoutProjectInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestCaseStatusFieldUpdateOperationsInput | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityFieldUpdateOperationsInput | $Enums.TestCasePriority
+    actualResult?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    module?: NullableStringFieldUpdateOperationsInput | string | null
+    testSteps?: TestStepUncheckedUpdateManyWithoutTestCaseNestedInput
+  }
+
+  export type TestCaseUncheckedUpdateManyWithoutProjectInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumTestCaseStatusFieldUpdateOperationsInput | $Enums.TestCaseStatus
+    priority?: EnumTestCasePriorityFieldUpdateOperationsInput | $Enums.TestCasePriority
+    actualResult?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    module?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUpdateWithoutProjectsInput = {
@@ -6118,6 +10033,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    Project_Project_createdByIdToUser?: ProjectUpdateManyWithoutUser_Project_createdByIdToUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutProjectsInput = {
@@ -6131,6 +10047,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    Project_Project_createdByIdToUser?: ProjectUncheckedUpdateManyWithoutUser_Project_createdByIdToUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutProjectsInput = {
@@ -6143,6 +10060,29 @@ export namespace Prisma {
     clerkUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TestStepCreateManyTestCaseInput = {
+    id?: number
+    action: string
+    expectedResult: string
+  }
+
+  export type TestStepUpdateWithoutTestCaseInput = {
+    action?: StringFieldUpdateOperationsInput | string
+    expectedResult?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TestStepUncheckedUpdateWithoutTestCaseInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    action?: StringFieldUpdateOperationsInput | string
+    expectedResult?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TestStepUncheckedUpdateManyWithoutTestCaseInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    action?: StringFieldUpdateOperationsInput | string
+    expectedResult?: StringFieldUpdateOperationsInput | string
   }
 
 

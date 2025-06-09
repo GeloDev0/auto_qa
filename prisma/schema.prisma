@@ -10,28 +10,32 @@ datasource db {
 }
 
 model User {
-  id            Int            @id @default(autoincrement())
-  email         String         @unique
-  name          String?
-  lname         String?
-  password      String?
-  imageUrl      String?
-  clerkUserId   String         @unique
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  notifications Notification[]
-  projects      Project[]      @relation("UserProjects")
+  id                                Int            @id @default(autoincrement())
+  email                             String         @unique
+  name                              String?
+  lname                             String?
+  password                          String?
+  imageUrl                          String?
+  clerkUserId                       String         @unique
+  createdAt                         DateTime       @default(now())
+  updatedAt                         DateTime       @updatedAt
+  notifications                     Notification[]
+  Project_Project_createdByIdToUser Project[]      @relation("Project_createdByIdToUser")
+  projects                          Project[]      @relation("UserProjects")
 }
 
 model Project {
-  id          Int             @id @default(autoincrement())
-  description String?
-  status      ProjectStatus   @default(ACTIVE)
-  priority    ProjectPriority @default(MEDIUM)
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-  title       String?
-  members     User[]          @relation("UserProjects")
+  id                             Int             @id @default(autoincrement())
+  description                    String?
+  status                         ProjectStatus   @default(ACTIVE)
+  priority                       ProjectPriority @default(MEDIUM)
+  createdAt                      DateTime        @default(now())
+  updatedAt                      DateTime        @updatedAt
+  title                          String?
+  createdById                    Int?
+  User_Project_createdByIdToUser User?           @relation("Project_createdByIdToUser", fields: [createdById], references: [id])
+  TestCase                       TestCase[]
+  members                        User[]          @relation("UserProjects")
 }
 
 model Notification {
@@ -41,6 +45,30 @@ model Notification {
   createdAt DateTime @default(now())
   read      Boolean  @default(false)
   user      User     @relation(fields: [userId], references: [id])
+}
+
+/**** TestCase schema *****/
+model TestCase {
+  id           Int              @id @default(autoincrement())
+  title        String?
+  description  String?
+  status       TestCaseStatus   @default(PENDING)
+  priority     TestCasePriority @default(MEDIUM)
+  actualResult String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime
+  projectId    Int?
+  module       String?
+  Project      Project?         @relation(fields: [projectId], references: [id])
+  testSteps     TestStep[]
+}
+
+model TestStep {
+  id             Int      @id @default(autoincrement())
+  action         String
+  expectedResult String
+  testCaseId     Int
+  TestCase       TestCase @relation(fields: [testCaseId], references: [id])
 }
 
 enum ProjectStatus {
@@ -53,4 +81,16 @@ enum ProjectPriority {
   LOW
   MEDIUM
   HIGH
+}
+
+enum TestCasePriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TestCaseStatus {
+  PENDING
+  PASS
+  FAIL
 }
