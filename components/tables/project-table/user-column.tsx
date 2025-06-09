@@ -43,7 +43,7 @@ export type Project = {
   members: Member[];
 };
 
-export const columns: ColumnDef<Project>[] = [
+export const userColumns: ColumnDef<Project>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -110,7 +110,6 @@ export const columns: ColumnDef<Project>[] = [
     accessorKey: "deadline",
     header: "Deadline",
   },
-
   {
     accessorKey: "createdBy",
     header: "Created By",
@@ -177,7 +176,7 @@ export const columns: ColumnDef<Project>[] = [
               <Button
                 variant="ghost"
                 className="w-full justify-start text-left pl-3 text-gray-600"
-                onClick={() => router.push(`/admin/projects/${project.id}`)}>
+                onClick={() => router.push(`/user/projects/${project.id}`)}>
                 View
               </Button>
 
@@ -199,7 +198,7 @@ export const columns: ColumnDef<Project>[] = [
                     };
 
                     const res = await fetch(
-                      `/api/admin/projects/${project.id}`,
+                      `/api/user/projects/${project.id}`,
                       {
                         method: "PUT",
                         headers: {
@@ -231,7 +230,7 @@ export const columns: ColumnDef<Project>[] = [
                 onDelete={async () => {
                   try {
                     const res = await fetch(
-                      `/api/admin/projects/${project.id}`,
+                      `/api/user/projects/${project.id}`,
                       {
                         method: "DELETE",
                       }

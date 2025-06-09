@@ -1,7 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { MdSpaceDashboard, MdFolder, MdOutlineHelp } from "react-icons/md";
+import {
+  MdSpaceDashboard,
+  MdFolder,
+  MdOutlineHelp,
+  MdChat,
+} from "react-icons/md";
 import type { IconType } from "react-icons";
 import {
   Sidebar,
@@ -37,6 +42,11 @@ export function AppSidebar({ userRole, ...props }: AppSidebarProps) {
       title: "Projects",
       url: userRole === "admin" ? "/admin/projects" : "/user/projects",
       icon: MdFolder, // 👈 Lucide icon
+    },
+    {
+      title: "Code Review",
+      url: userRole === "admin" ? "/admin/code-review" : "/user/code-review",
+      icon: MdChat, // 👈 Lucide icon
     },
     {
       title: "Help Center",

@@ -26,14 +26,13 @@ export default async function DashboardLayout({
           "--sidebar-width": "calc(var(--spacing) * 72)",
           "--header-height": "calc(var(--spacing) * 12)",
         } as React.CSSProperties
-      }
-    >
+      }>
       <AppSidebar variant="inset" userRole={userRole} /> {/* pass role */}
       <SidebarInset>
         <SiteHeader />
         <main>{children}</main>
       </SidebarInset>
-       <Toaster richColors />
+      <Toaster richColors />
     </SidebarProvider>
   );
 }
