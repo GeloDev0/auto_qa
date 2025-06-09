@@ -109,9 +109,24 @@ export function EditProjectDialog({
     },
   });
 
-  useEffect(() => {
+  const startDate = form.watch("startDate"); // ✅ watch the current startDate
+
+   useEffect(() => {
     if (open) {
-      async function fetchUsers() {
+      // Reset form with project values
+      console.log("Resetting form with project:", project);
+      form.reset({
+        title: project.title,
+        description: project.description,
+        status: project.status.toLowerCase() as "active" | "inactive" | "completed",
+        priority: project.priority.toLowerCase() as "high" | "medium" | "low",
+        members: project.members ? project.members.map((m) => m.id) : [],
+        startDate: project.startDate ? new Date(project.startDate) : undefined,
+        deadline: project.deadline ? new Date(project.deadline) : null,
+      });
+
+      // Fetch members
+      (async () => {
         try {
           const res = await fetch("/api/admin/users");
           const data = await res.json();
@@ -119,8 +134,7 @@ export function EditProjectDialog({
         } catch (err) {
           console.error("Failed to fetch users", err);
         }
-      }
-      fetchUsers();
+      })();
     }
   }, [open]);
 
@@ -248,47 +262,38 @@ export function EditProjectDialog({
   render={({ field }) => (
     <FormItem>
       <FormLabel>Start Date</FormLabel>
-      <FormControl>
-        <DatePicker
-  className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
-  selected={field.value}
-  onChange={(date) => field.onChange(date)}
-  dateFormat="PPP"
-  placeholderText="Select a start date"
-  minDate={new Date()} // ✅ disables past dates
-/>
-
-
-      </FormControl>
+      <DatePicker
+        selected={field.value}
+        onChange={(date) => field.onChange(date)}
+        dateFormat="PPP"
+        placeholderText="Select a start date"
+        className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm"
+      />
       <FormMessage />
     </FormItem>
   )}
 />
 
-
-
-
-                <FormField
+<FormField
   control={form.control}
   name="deadline"
   render={({ field }) => (
     <FormItem>
       <FormLabel>Deadline (Optional)</FormLabel>
-      <FormControl>
-        <DatePicker
-  className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
-  selected={field.value}
-  onChange={(date) => field.onChange(date)}
-  dateFormat="PPP"
-  placeholderText="Select a deadline"
-  minDate={form.watch("startDate") || new Date()}
-  isClearable
-/>
-      </FormControl>
+      <DatePicker
+        selected={field.value}
+        onChange={(date) => field.onChange(date)}
+        dateFormat="PPP"
+        placeholderText="Select a deadline"
+        className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm"
+        isClearable
+        minDate={startDate || new Date()} // ✅ Ensure deadline is not before start
+      />
       <FormMessage />
     </FormItem>
   )}
 />
+
 
               </div>
 

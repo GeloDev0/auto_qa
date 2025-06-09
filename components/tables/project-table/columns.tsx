@@ -18,6 +18,15 @@ import { useRouter } from "next/navigation";
 import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
 import { toast } from "sonner";
 
+function formatDate(dateString: string | null | undefined): string {
+  if (!dateString) return "N/A";
+  const date = new Date(dateString);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${month}-${day}-${year}`;
+}
+
 // Helper to capitalize first letter
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -102,14 +111,23 @@ export const columns: ColumnDef<Project>[] = [
     accessorKey: "testcaseCount",
     header: "Test Cases",
   },
-  {
-    accessorKey: "startDate",
-    header: "Start Date",
+ {
+  accessorKey: "startDate",
+  header: "Start Date",
+  cell: ({ row }) => {
+    const startDate = row.original.startDate;
+    return <span>{formatDate(startDate)}</span>;
   },
-  {
-    accessorKey: "deadline",
-    header: "Deadline",
+},
+{
+  accessorKey: "deadline",
+  header: "Deadline",
+  cell: ({ row }) => {
+    const deadline = row.original.deadline;
+    return <span>{formatDate(deadline)}</span>;
   },
+},
+
 
   {
     accessorKey: "createdBy",
@@ -189,6 +207,8 @@ export const columns: ColumnDef<Project>[] = [
                   status: project.status,
                   priority: project.priority,
                   members: project.members,
+                  startDate: project.startDate,
+                  deadline: project.deadline,
                 }}
                 onEdit={async (updatedProject) => {
                   try {

@@ -64,11 +64,22 @@ interface ProjectCardProps {
     createdBy: string;
     status?: string;
     priority?: string;
+    startDate: string;
+    deadline: string;
   };
 }
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+}
+
+function formatDate(dateString: string | null | undefined): string {
+  if (!dateString) return "N/A";
+  const date = new Date(dateString);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${month}-${day}-${year}`;
 }
 
 export function DataTable<TData, TValue>({
@@ -218,12 +229,15 @@ export function DataTable<TData, TValue>({
                   </div>
                   <div className="flex items-center gap-1">
                     <FaCalendar className="text-gray-300 w-4 h-4" />
-                    <span className="font-medium">Start Date:</span>{" "}
+                    <span className="font-medium">Start Date:</span>
+                    <span className="text-gray-600 ml-1">{formatDate(project.startDate)}</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <FaCalendarCheck className="text-gray-300 w-4 h-4" />
-                    <span className="font-medium">Deadline:</span>{" "}
+                    <span className="font-medium">Deadline:</span>
+                    <span className="text-gray-600 ml-1">{formatDate(project.deadline)}</span>
                   </div>
+
                   <div className="flex items-center text-sm gap-1">
                     <FaUser className="text-gray-300 w-4 h-4" />
                     <span className="font-medium">Created By: </span>{" "}
@@ -273,6 +287,8 @@ export function DataTable<TData, TValue>({
                   status: project.status,
                   priority: project.priority,
                   members: project.members,
+                  startDate: project.startDate,
+                  deadline: project.deadline,
                 }}
                 onEdit={async (updatedProject) => {
                   try {
