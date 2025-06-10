@@ -41,14 +41,24 @@ export async function POST(req: Request) {
 
    // 🔔 Create notifications for each member
   if (members && members.length > 0) {
-    const notificationsData = members.map((userId) => ({
-      userId,
-      message: `You have been assigned to project "${project.title}"`,
-    }));
-
-    await prisma.notification.createMany({
-      data: notificationsData,
+    const existingUsers = await prisma.user.findMany({
+      where: { id: { in: members } },
+      select: { id: true },
     });
+
+    const validUserIds = existingUsers.map((u) => u.id);
+
+    if (validUserIds.length > 0) {
+      const notificationsData = validUserIds.map((userId) => ({
+        userId,
+        message: `You have been assigned to project "${project.title}"`,
+      }));
+
+      await prisma.notification.createMany({
+        data: notificationsData,
+        skipDuplicates: true,
+      });
+    }
   }
 
   return NextResponse.json(project, { status: 201 });
