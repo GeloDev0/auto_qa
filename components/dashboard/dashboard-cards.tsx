@@ -16,21 +16,21 @@ import {
 export function SectionCards() {
   return (
     <div className="grid grid-cols-1 gap-4 px-4 @xl/main:grid-cols-3 @3xl/main:grid-cols-4 @5xl/main:grid-cols-5 lg:px-6">
-      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-sky-100 via-sky-200 to-sky-300 text-slate-700 shadow-lg">
+      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-sky-100 via-sky-100 to-sky-200 text-slate-700 shadow-lg">
         <CardHeader className="relative pb-4">
-          <CardDescription className="text-sky-600">Projects</CardDescription>
+          <CardDescription className="text-sky-600 font-medium">Projects</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             1500
           </CardTitle>
           <div className="absolute right-4 top-4 rounded-full bg-white/60 p-2">
-            <FolderIcon className="h-5 w-5 text-sky-600" />
+            <FolderIcon className="h-5 w-5 text-sky-600 font-medium" />
           </div>
         </CardHeader>
       </Card>
 
-      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300 text-slate-700 shadow-lg">
-        <CardHeader className="relative pb-4">
-          <CardDescription className="text-blue-600">
+      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-blue-100 via-blue-100 to-blue-200 text-slate-700 shadow-lg">
+        <CardHeader className="relative pb-4 ">
+          <CardDescription className="text-blue-600 font-medium">
             Test Cases
           </CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
@@ -42,9 +42,9 @@ export function SectionCards() {
         </CardHeader>
       </Card>
 
-      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-emerald-100 via-emerald-200 to-emerald-300 text-slate-700 shadow-lg">
+      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-emerald-100 via-emerald-100 to-emerald-200 text-slate-700 shadow-lg">
         <CardHeader className="relative pb-4">
-          <CardDescription className="text-emerald-600">Passed</CardDescription>
+          <CardDescription className="text-emerald-600 font-medium">Passed</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             45,678
           </CardTitle>
@@ -54,9 +54,9 @@ export function SectionCards() {
         </CardHeader>
       </Card>
 
-      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-rose-100 via-rose-200 to-rose-300 text-slate-700 shadow-lg">
+      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-rose-100 via-rose-100 to-rose-200 text-slate-700 shadow-lg">
         <CardHeader className="relative pb-4">
-          <CardDescription className="text-rose-600">Failed</CardDescription>
+          <CardDescription className="text-rose-600 font-medium ">Failed</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             5
           </CardTitle>
@@ -66,14 +66,14 @@ export function SectionCards() {
         </CardHeader>
       </Card>
 
-      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-violet-100 via-violet-200 to-violet-300 text-slate-700 shadow-lg">
+      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-yellow-100 via-yellow-100 to-yellow-200 text-slate-700 shadow-lg">
         <CardHeader className="relative pb-4">
-          <CardDescription className="text-violet-600">Blocked</CardDescription>
+          <CardDescription className="text-yellow-600 font-medium">Pending</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             5
           </CardTitle>
           <div className="absolute right-4 top-4 rounded-full bg-white/60 p-2">
-            <ShieldIcon className="h-5 w-5 text-violet-600" />
+            <ShieldIcon className="h-5 w-5 text-yellow-600" />
           </div>
         </CardHeader>
       </Card>
