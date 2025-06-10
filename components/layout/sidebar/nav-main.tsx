@@ -27,8 +27,8 @@ export function NavMain({ items }: { items: NavItem[] }) {
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild>
                 <Link href={item.url} className="flex items-center gap-3">
-                  {item.icon && <item.icon className="w-5 h-5 text-blue-400" />}
-                  <span className="text-blue-400  text-base">{item.title}</span>
+                  {item.icon && <item.icon className="w-5 h-5 text-gray-600" />}
+                  <span className="text-gray-600 ">{item.title}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
