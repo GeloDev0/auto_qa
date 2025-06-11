@@ -28,7 +28,11 @@ const getSegmentName = (segment: string) => {
   }
 };
 
-export function SiteHeader() {
+type SiteHeaderProps = {
+  userId: number;
+};
+
+export function SiteHeader({ userId }: SiteHeaderProps) {
   const pathname = usePathname();
   const [projectTitle, setProjectTitle] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -124,7 +128,7 @@ export function SiteHeader() {
         {isProjectDetailPage ? renderProjectBreadcrumbs() : renderSimpleTitle()}
 
         <div className="ml-auto flex items-center gap-4">
-          <NotificationDropdown />
+          <NotificationDropdown userId={userId} />
           <UserButton />
         </div>
       </div>

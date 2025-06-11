@@ -1,4 +1,3 @@
-// app/api/notifications/route.ts
 import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
 
@@ -13,6 +12,26 @@ export async function GET(req: Request) {
   const notifications = await prisma.notification.findMany({
     where: { userId: parseInt(userId, 10) },
     orderBy: { createdAt: "desc" },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          imageUrl: true,
+        },
+      },
+      project: {
+        select: {
+          User_Project_createdByIdToUser: {
+            select: {
+              name: true,
+              imageUrl: true,
+            },
+          },
+        },
+      },
+    },
   });
 
   return NextResponse.json(notifications);

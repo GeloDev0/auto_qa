@@ -1341,11 +1341,13 @@ export namespace Prisma {
   export type ProjectCountOutputType = {
     TestCase: number
     members: number
+    notifications: number
   }
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     TestCase?: boolean | ProjectCountOutputTypeCountTestCaseArgs
     members?: boolean | ProjectCountOutputTypeCountMembersArgs
+    notifications?: boolean | ProjectCountOutputTypeCountNotificationsArgs
   }
 
   // Custom InputTypes
@@ -1371,6 +1373,13 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NotificationWhereInput
   }
 
 
@@ -2866,6 +2875,7 @@ export namespace Prisma {
     User_Project_createdByIdToUser?: boolean | Project$User_Project_createdByIdToUserArgs<ExtArgs>
     TestCase?: boolean | Project$TestCaseArgs<ExtArgs>
     members?: boolean | Project$membersArgs<ExtArgs>
+    notifications?: boolean | Project$notificationsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["project"]>
 
@@ -2915,6 +2925,7 @@ export namespace Prisma {
     User_Project_createdByIdToUser?: boolean | Project$User_Project_createdByIdToUserArgs<ExtArgs>
     TestCase?: boolean | Project$TestCaseArgs<ExtArgs>
     members?: boolean | Project$membersArgs<ExtArgs>
+    notifications?: boolean | Project$notificationsArgs<ExtArgs>
     _count?: boolean | ProjectCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProjectIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2930,6 +2941,7 @@ export namespace Prisma {
       User_Project_createdByIdToUser: Prisma.$UserPayload<ExtArgs> | null
       TestCase: Prisma.$TestCasePayload<ExtArgs>[]
       members: Prisma.$UserPayload<ExtArgs>[]
+      notifications: Prisma.$NotificationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -3339,6 +3351,7 @@ export namespace Prisma {
     User_Project_createdByIdToUser<T extends Project$User_Project_createdByIdToUserArgs<ExtArgs> = {}>(args?: Subset<T, Project$User_Project_createdByIdToUserArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     TestCase<T extends Project$TestCaseArgs<ExtArgs> = {}>(args?: Subset<T, Project$TestCaseArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestCasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     members<T extends Project$membersArgs<ExtArgs> = {}>(args?: Subset<T, Project$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notifications<T extends Project$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Project$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3841,6 +3854,30 @@ export namespace Prisma {
   }
 
   /**
+   * Project.notifications
+   */
+  export type Project$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: NotificationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: NotificationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NotificationInclude<ExtArgs> | null
+    where?: NotificationWhereInput
+    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
+    cursor?: NotificationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
    * Project without action
    */
   export type ProjectDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3874,35 +3911,40 @@ export namespace Prisma {
   export type NotificationAvgAggregateOutputType = {
     id: number | null
     userId: number | null
+    projectId: number | null
   }
 
   export type NotificationSumAggregateOutputType = {
     id: number | null
     userId: number | null
+    projectId: number | null
   }
 
   export type NotificationMinAggregateOutputType = {
     id: number | null
     message: string | null
-    userId: number | null
-    createdAt: Date | null
     read: boolean | null
+    createdAt: Date | null
+    userId: number | null
+    projectId: number | null
   }
 
   export type NotificationMaxAggregateOutputType = {
     id: number | null
     message: string | null
-    userId: number | null
-    createdAt: Date | null
     read: boolean | null
+    createdAt: Date | null
+    userId: number | null
+    projectId: number | null
   }
 
   export type NotificationCountAggregateOutputType = {
     id: number
     message: number
-    userId: number
-    createdAt: number
     read: number
+    createdAt: number
+    userId: number
+    projectId: number
     _all: number
   }
 
@@ -3910,35 +3952,40 @@ export namespace Prisma {
   export type NotificationAvgAggregateInputType = {
     id?: true
     userId?: true
+    projectId?: true
   }
 
   export type NotificationSumAggregateInputType = {
     id?: true
     userId?: true
+    projectId?: true
   }
 
   export type NotificationMinAggregateInputType = {
     id?: true
     message?: true
-    userId?: true
-    createdAt?: true
     read?: true
+    createdAt?: true
+    userId?: true
+    projectId?: true
   }
 
   export type NotificationMaxAggregateInputType = {
     id?: true
     message?: true
-    userId?: true
-    createdAt?: true
     read?: true
+    createdAt?: true
+    userId?: true
+    projectId?: true
   }
 
   export type NotificationCountAggregateInputType = {
     id?: true
     message?: true
-    userId?: true
-    createdAt?: true
     read?: true
+    createdAt?: true
+    userId?: true
+    projectId?: true
     _all?: true
   }
 
@@ -4031,9 +4078,10 @@ export namespace Prisma {
   export type NotificationGroupByOutputType = {
     id: number
     message: string
-    userId: number
-    createdAt: Date
     read: boolean
+    createdAt: Date
+    userId: number
+    projectId: number | null
     _count: NotificationCountAggregateOutputType | null
     _avg: NotificationAvgAggregateOutputType | null
     _sum: NotificationSumAggregateOutputType | null
@@ -4058,60 +4106,72 @@ export namespace Prisma {
   export type NotificationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     message?: boolean
-    userId?: boolean
-    createdAt?: boolean
     read?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    projectId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | Notification$projectArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     message?: boolean
-    userId?: boolean
-    createdAt?: boolean
     read?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    projectId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | Notification$projectArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     message?: boolean
-    userId?: boolean
-    createdAt?: boolean
     read?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    projectId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | Notification$projectArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectScalar = {
     id?: boolean
     message?: boolean
-    userId?: boolean
-    createdAt?: boolean
     read?: boolean
+    createdAt?: boolean
+    userId?: boolean
+    projectId?: boolean
   }
 
-  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "message" | "userId" | "createdAt" | "read", ExtArgs["result"]["notification"]>
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "message" | "read" | "createdAt" | "userId" | "projectId", ExtArgs["result"]["notification"]>
   export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | Notification$projectArgs<ExtArgs>
   }
   export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | Notification$projectArgs<ExtArgs>
   }
   export type NotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | Notification$projectArgs<ExtArgs>
   }
 
   export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Notification"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      project: Prisma.$ProjectPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       message: string
-      userId: number
-      createdAt: Date
       read: boolean
+      createdAt: Date
+      userId: number
+      projectId: number | null
     }, ExtArgs["result"]["notification"]>
     composites: {}
   }
@@ -4507,6 +4567,7 @@ export namespace Prisma {
   export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    project<T extends Notification$projectArgs<ExtArgs> = {}>(args?: Subset<T, Notification$projectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4538,9 +4599,10 @@ export namespace Prisma {
   interface NotificationFieldRefs {
     readonly id: FieldRef<"Notification", 'Int'>
     readonly message: FieldRef<"Notification", 'String'>
-    readonly userId: FieldRef<"Notification", 'Int'>
-    readonly createdAt: FieldRef<"Notification", 'DateTime'>
     readonly read: FieldRef<"Notification", 'Boolean'>
+    readonly createdAt: FieldRef<"Notification", 'DateTime'>
+    readonly userId: FieldRef<"Notification", 'Int'>
+    readonly projectId: FieldRef<"Notification", 'Int'>
   }
     
 
@@ -4934,6 +4996,25 @@ export namespace Prisma {
      * Limit how many Notifications to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Notification.project
+   */
+  export type Notification$projectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
   }
 
   /**
@@ -7296,9 +7377,10 @@ export namespace Prisma {
   export const NotificationScalarFieldEnum: {
     id: 'id',
     message: 'message',
-    userId: 'userId',
+    read: 'read',
     createdAt: 'createdAt',
-    read: 'read'
+    userId: 'userId',
+    projectId: 'projectId'
   };
 
   export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
@@ -7581,6 +7663,7 @@ export namespace Prisma {
     User_Project_createdByIdToUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     TestCase?: TestCaseListRelationFilter
     members?: UserListRelationFilter
+    notifications?: NotificationListRelationFilter
   }
 
   export type ProjectOrderByWithRelationInput = {
@@ -7597,6 +7680,7 @@ export namespace Prisma {
     User_Project_createdByIdToUser?: UserOrderByWithRelationInput
     TestCase?: TestCaseOrderByRelationAggregateInput
     members?: UserOrderByRelationAggregateInput
+    notifications?: NotificationOrderByRelationAggregateInput
   }
 
   export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -7616,6 +7700,7 @@ export namespace Prisma {
     User_Project_createdByIdToUser?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     TestCase?: TestCaseListRelationFilter
     members?: UserListRelationFilter
+    notifications?: NotificationListRelationFilter
   }, "id">
 
   export type ProjectOrderByWithAggregationInput = {
@@ -7658,19 +7743,23 @@ export namespace Prisma {
     NOT?: NotificationWhereInput | NotificationWhereInput[]
     id?: IntFilter<"Notification"> | number
     message?: StringFilter<"Notification"> | string
-    userId?: IntFilter<"Notification"> | number
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
     read?: BoolFilter<"Notification"> | boolean
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    userId?: IntFilter<"Notification"> | number
+    projectId?: IntNullableFilter<"Notification"> | number | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
   }
 
   export type NotificationOrderByWithRelationInput = {
     id?: SortOrder
     message?: SortOrder
-    userId?: SortOrder
-    createdAt?: SortOrder
     read?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    projectId?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
+    project?: ProjectOrderByWithRelationInput
   }
 
   export type NotificationWhereUniqueInput = Prisma.AtLeast<{
@@ -7679,18 +7768,21 @@ export namespace Prisma {
     OR?: NotificationWhereInput[]
     NOT?: NotificationWhereInput | NotificationWhereInput[]
     message?: StringFilter<"Notification"> | string
-    userId?: IntFilter<"Notification"> | number
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
     read?: BoolFilter<"Notification"> | boolean
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    userId?: IntFilter<"Notification"> | number
+    projectId?: IntNullableFilter<"Notification"> | number | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
   }, "id">
 
   export type NotificationOrderByWithAggregationInput = {
     id?: SortOrder
     message?: SortOrder
-    userId?: SortOrder
-    createdAt?: SortOrder
     read?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    projectId?: SortOrderInput | SortOrder
     _count?: NotificationCountOrderByAggregateInput
     _avg?: NotificationAvgOrderByAggregateInput
     _max?: NotificationMaxOrderByAggregateInput
@@ -7704,9 +7796,10 @@ export namespace Prisma {
     NOT?: NotificationScalarWhereWithAggregatesInput | NotificationScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Notification"> | number
     message?: StringWithAggregatesFilter<"Notification"> | string
-    userId?: IntWithAggregatesFilter<"Notification"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
     read?: BoolWithAggregatesFilter<"Notification"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
+    userId?: IntWithAggregatesFilter<"Notification"> | number
+    projectId?: IntNullableWithAggregatesFilter<"Notification"> | number | null
   }
 
   export type TestCaseWhereInput = {
@@ -7951,6 +8044,7 @@ export namespace Prisma {
     User_Project_createdByIdToUser?: UserCreateNestedOneWithoutProject_Project_createdByIdToUserInput
     TestCase?: TestCaseCreateNestedManyWithoutProjectInput
     members?: UserCreateNestedManyWithoutProjectsInput
+    notifications?: NotificationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateInput = {
@@ -7966,6 +8060,7 @@ export namespace Prisma {
     deadline?: Date | string | null
     TestCase?: TestCaseUncheckedCreateNestedManyWithoutProjectInput
     members?: UserUncheckedCreateNestedManyWithoutProjectsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUpdateInput = {
@@ -7980,6 +8075,7 @@ export namespace Prisma {
     User_Project_createdByIdToUser?: UserUpdateOneWithoutProject_Project_createdByIdToUserNestedInput
     TestCase?: TestCaseUpdateManyWithoutProjectNestedInput
     members?: UserUpdateManyWithoutProjectsNestedInput
+    notifications?: NotificationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateInput = {
@@ -7995,6 +8091,7 @@ export namespace Prisma {
     deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     TestCase?: TestCaseUncheckedUpdateManyWithoutProjectNestedInput
     members?: UserUncheckedUpdateManyWithoutProjectsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectCreateManyInput = {
@@ -8036,54 +8133,60 @@ export namespace Prisma {
 
   export type NotificationCreateInput = {
     message: string
-    createdAt?: Date | string
     read?: boolean
+    createdAt?: Date | string
     user: UserCreateNestedOneWithoutNotificationsInput
+    project?: ProjectCreateNestedOneWithoutNotificationsInput
   }
 
   export type NotificationUncheckedCreateInput = {
     id?: number
     message: string
-    userId: number
-    createdAt?: Date | string
     read?: boolean
+    createdAt?: Date | string
+    userId: number
+    projectId?: number | null
   }
 
   export type NotificationUpdateInput = {
     message?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
+    project?: ProjectUpdateOneWithoutNotificationsNestedInput
   }
 
   export type NotificationUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     message?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type NotificationCreateManyInput = {
     id?: number
     message: string
-    userId: number
-    createdAt?: Date | string
     read?: boolean
+    createdAt?: Date | string
+    userId: number
+    projectId?: number | null
   }
 
   export type NotificationUpdateManyMutationInput = {
     message?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     message?: StringFieldUpdateOperationsInput | string
-    userId?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type TestCaseCreateInput = {
@@ -8579,38 +8682,48 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type ProjectNullableScalarRelationFilter = {
+    is?: ProjectWhereInput | null
+    isNot?: ProjectWhereInput | null
+  }
+
   export type NotificationCountOrderByAggregateInput = {
     id?: SortOrder
     message?: SortOrder
-    userId?: SortOrder
-    createdAt?: SortOrder
     read?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    projectId?: SortOrder
   }
 
   export type NotificationAvgOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    projectId?: SortOrder
   }
 
   export type NotificationMaxOrderByAggregateInput = {
     id?: SortOrder
     message?: SortOrder
-    userId?: SortOrder
-    createdAt?: SortOrder
     read?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    projectId?: SortOrder
   }
 
   export type NotificationMinOrderByAggregateInput = {
     id?: SortOrder
     message?: SortOrder
-    userId?: SortOrder
-    createdAt?: SortOrder
     read?: SortOrder
+    createdAt?: SortOrder
+    userId?: SortOrder
+    projectId?: SortOrder
   }
 
   export type NotificationSumOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    projectId?: SortOrder
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -8633,11 +8746,6 @@ export namespace Prisma {
     in?: $Enums.TestCasePriority[] | ListEnumTestCasePriorityFieldRefInput<$PrismaModel>
     notIn?: $Enums.TestCasePriority[] | ListEnumTestCasePriorityFieldRefInput<$PrismaModel>
     not?: NestedEnumTestCasePriorityFilter<$PrismaModel> | $Enums.TestCasePriority
-  }
-
-  export type ProjectNullableScalarRelationFilter = {
-    is?: ProjectWhereInput | null
-    isNot?: ProjectWhereInput | null
   }
 
   export type TestStepListRelationFilter = {
@@ -8916,6 +9024,13 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
+  export type NotificationCreateNestedManyWithoutProjectInput = {
+    create?: XOR<NotificationCreateWithoutProjectInput, NotificationUncheckedCreateWithoutProjectInput> | NotificationCreateWithoutProjectInput[] | NotificationUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutProjectInput | NotificationCreateOrConnectWithoutProjectInput[]
+    createMany?: NotificationCreateManyProjectInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
   export type TestCaseUncheckedCreateNestedManyWithoutProjectInput = {
     create?: XOR<TestCaseCreateWithoutProjectInput, TestCaseUncheckedCreateWithoutProjectInput> | TestCaseCreateWithoutProjectInput[] | TestCaseUncheckedCreateWithoutProjectInput[]
     connectOrCreate?: TestCaseCreateOrConnectWithoutProjectInput | TestCaseCreateOrConnectWithoutProjectInput[]
@@ -8927,6 +9042,13 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput> | UserCreateWithoutProjectsInput[] | UserUncheckedCreateWithoutProjectsInput[]
     connectOrCreate?: UserCreateOrConnectWithoutProjectsInput | UserCreateOrConnectWithoutProjectsInput[]
     connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type NotificationUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<NotificationCreateWithoutProjectInput, NotificationUncheckedCreateWithoutProjectInput> | NotificationCreateWithoutProjectInput[] | NotificationUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutProjectInput | NotificationCreateOrConnectWithoutProjectInput[]
+    createMany?: NotificationCreateManyProjectInputEnvelope
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
   export type EnumProjectStatusFieldUpdateOperationsInput = {
@@ -8978,6 +9100,20 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
+  export type NotificationUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<NotificationCreateWithoutProjectInput, NotificationUncheckedCreateWithoutProjectInput> | NotificationCreateWithoutProjectInput[] | NotificationUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutProjectInput | NotificationCreateOrConnectWithoutProjectInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutProjectInput | NotificationUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: NotificationCreateManyProjectInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutProjectInput | NotificationUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutProjectInput | NotificationUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
   export type NullableIntFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
@@ -9013,10 +9149,30 @@ export namespace Prisma {
     deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
+  export type NotificationUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<NotificationCreateWithoutProjectInput, NotificationUncheckedCreateWithoutProjectInput> | NotificationCreateWithoutProjectInput[] | NotificationUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: NotificationCreateOrConnectWithoutProjectInput | NotificationCreateOrConnectWithoutProjectInput[]
+    upsert?: NotificationUpsertWithWhereUniqueWithoutProjectInput | NotificationUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: NotificationCreateManyProjectInputEnvelope
+    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+    update?: NotificationUpdateWithWhereUniqueWithoutProjectInput | NotificationUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: NotificationUpdateManyWithWhereWithoutProjectInput | NotificationUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutNotificationsInput = {
     create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
     connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type ProjectCreateNestedOneWithoutNotificationsInput = {
+    create?: XOR<ProjectCreateWithoutNotificationsInput, ProjectUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutNotificationsInput
+    connect?: ProjectWhereUniqueInput
   }
 
   export type BoolFieldUpdateOperationsInput = {
@@ -9029,6 +9185,16 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutNotificationsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type ProjectUpdateOneWithoutNotificationsNestedInput = {
+    create?: XOR<ProjectCreateWithoutNotificationsInput, ProjectUncheckedCreateWithoutNotificationsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutNotificationsInput
+    upsert?: ProjectUpsertWithoutNotificationsInput
+    disconnect?: ProjectWhereInput | boolean
+    delete?: ProjectWhereInput | boolean
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutNotificationsInput, ProjectUpdateWithoutNotificationsInput>, ProjectUncheckedUpdateWithoutNotificationsInput>
   }
 
   export type ProjectCreateNestedOneWithoutTestCaseInput = {
@@ -9382,15 +9548,17 @@ export namespace Prisma {
 
   export type NotificationCreateWithoutUserInput = {
     message: string
-    createdAt?: Date | string
     read?: boolean
+    createdAt?: Date | string
+    project?: ProjectCreateNestedOneWithoutNotificationsInput
   }
 
   export type NotificationUncheckedCreateWithoutUserInput = {
     id?: number
     message: string
-    createdAt?: Date | string
     read?: boolean
+    createdAt?: Date | string
+    projectId?: number | null
   }
 
   export type NotificationCreateOrConnectWithoutUserInput = {
@@ -9414,6 +9582,7 @@ export namespace Prisma {
     deadline?: Date | string | null
     TestCase?: TestCaseCreateNestedManyWithoutProjectInput
     members?: UserCreateNestedManyWithoutProjectsInput
+    notifications?: NotificationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutUser_Project_createdByIdToUserInput = {
@@ -9428,6 +9597,7 @@ export namespace Prisma {
     deadline?: Date | string | null
     TestCase?: TestCaseUncheckedCreateNestedManyWithoutProjectInput
     members?: UserUncheckedCreateNestedManyWithoutProjectsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutUser_Project_createdByIdToUserInput = {
@@ -9451,6 +9621,7 @@ export namespace Prisma {
     deadline?: Date | string | null
     User_Project_createdByIdToUser?: UserCreateNestedOneWithoutProject_Project_createdByIdToUserInput
     TestCase?: TestCaseCreateNestedManyWithoutProjectInput
+    notifications?: NotificationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutMembersInput = {
@@ -9465,6 +9636,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     deadline?: Date | string | null
     TestCase?: TestCaseUncheckedCreateNestedManyWithoutProjectInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutMembersInput = {
@@ -9494,9 +9666,10 @@ export namespace Prisma {
     NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
     id?: IntFilter<"Notification"> | number
     message?: StringFilter<"Notification"> | string
-    userId?: IntFilter<"Notification"> | number
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
     read?: BoolFilter<"Notification"> | boolean
+    createdAt?: DateTimeFilter<"Notification"> | Date | string
+    userId?: IntFilter<"Notification"> | number
+    projectId?: IntNullableFilter<"Notification"> | number | null
   }
 
   export type ProjectUpsertWithWhereUniqueWithoutUser_Project_createdByIdToUserInput = {
@@ -9646,6 +9819,31 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutProjectsInput, UserUncheckedCreateWithoutProjectsInput>
   }
 
+  export type NotificationCreateWithoutProjectInput = {
+    message: string
+    read?: boolean
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutNotificationsInput
+  }
+
+  export type NotificationUncheckedCreateWithoutProjectInput = {
+    id?: number
+    message: string
+    read?: boolean
+    createdAt?: Date | string
+    userId: number
+  }
+
+  export type NotificationCreateOrConnectWithoutProjectInput = {
+    where: NotificationWhereUniqueInput
+    create: XOR<NotificationCreateWithoutProjectInput, NotificationUncheckedCreateWithoutProjectInput>
+  }
+
+  export type NotificationCreateManyProjectInputEnvelope = {
+    data: NotificationCreateManyProjectInput | NotificationCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutProject_Project_createdByIdToUserInput = {
     update: XOR<UserUpdateWithoutProject_Project_createdByIdToUserInput, UserUncheckedUpdateWithoutProject_Project_createdByIdToUserInput>
     create: XOR<UserCreateWithoutProject_Project_createdByIdToUserInput, UserUncheckedCreateWithoutProject_Project_createdByIdToUserInput>
@@ -9747,6 +9945,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
   }
 
+  export type NotificationUpsertWithWhereUniqueWithoutProjectInput = {
+    where: NotificationWhereUniqueInput
+    update: XOR<NotificationUpdateWithoutProjectInput, NotificationUncheckedUpdateWithoutProjectInput>
+    create: XOR<NotificationCreateWithoutProjectInput, NotificationUncheckedCreateWithoutProjectInput>
+  }
+
+  export type NotificationUpdateWithWhereUniqueWithoutProjectInput = {
+    where: NotificationWhereUniqueInput
+    data: XOR<NotificationUpdateWithoutProjectInput, NotificationUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type NotificationUpdateManyWithWhereWithoutProjectInput = {
+    where: NotificationScalarWhereInput
+    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutProjectInput>
+  }
+
   export type UserCreateWithoutNotificationsInput = {
     email: string
     name?: string | null
@@ -9777,6 +9991,40 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutNotificationsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
+  }
+
+  export type ProjectCreateWithoutNotificationsInput = {
+    description?: string | null
+    status?: $Enums.ProjectStatus
+    priority?: $Enums.ProjectPriority
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title?: string | null
+    startDate?: Date | string | null
+    deadline?: Date | string | null
+    User_Project_createdByIdToUser?: UserCreateNestedOneWithoutProject_Project_createdByIdToUserInput
+    TestCase?: TestCaseCreateNestedManyWithoutProjectInput
+    members?: UserCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectUncheckedCreateWithoutNotificationsInput = {
+    id?: number
+    description?: string | null
+    status?: $Enums.ProjectStatus
+    priority?: $Enums.ProjectPriority
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    title?: string | null
+    createdById?: number | null
+    startDate?: Date | string | null
+    deadline?: Date | string | null
+    TestCase?: TestCaseUncheckedCreateNestedManyWithoutProjectInput
+    members?: UserUncheckedCreateNestedManyWithoutProjectsInput
+  }
+
+  export type ProjectCreateOrConnectWithoutNotificationsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutNotificationsInput, ProjectUncheckedCreateWithoutNotificationsInput>
   }
 
   export type UserUpsertWithoutNotificationsInput = {
@@ -9817,6 +10065,46 @@ export namespace Prisma {
     projects?: ProjectUncheckedUpdateManyWithoutMembersNestedInput
   }
 
+  export type ProjectUpsertWithoutNotificationsInput = {
+    update: XOR<ProjectUpdateWithoutNotificationsInput, ProjectUncheckedUpdateWithoutNotificationsInput>
+    create: XOR<ProjectCreateWithoutNotificationsInput, ProjectUncheckedCreateWithoutNotificationsInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutNotificationsInput, ProjectUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type ProjectUpdateWithoutNotificationsInput = {
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    priority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    User_Project_createdByIdToUser?: UserUpdateOneWithoutProject_Project_createdByIdToUserNestedInput
+    TestCase?: TestCaseUpdateManyWithoutProjectNestedInput
+    members?: UserUpdateManyWithoutProjectsNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutNotificationsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+    priority?: EnumProjectPriorityFieldUpdateOperationsInput | $Enums.ProjectPriority
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    createdById?: NullableIntFieldUpdateOperationsInput | number | null
+    startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    TestCase?: TestCaseUncheckedUpdateManyWithoutProjectNestedInput
+    members?: UserUncheckedUpdateManyWithoutProjectsNestedInput
+  }
+
   export type ProjectCreateWithoutTestCaseInput = {
     description?: string | null
     status?: $Enums.ProjectStatus
@@ -9828,6 +10116,7 @@ export namespace Prisma {
     deadline?: Date | string | null
     User_Project_createdByIdToUser?: UserCreateNestedOneWithoutProject_Project_createdByIdToUserInput
     members?: UserCreateNestedManyWithoutProjectsInput
+    notifications?: NotificationCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectUncheckedCreateWithoutTestCaseInput = {
@@ -9842,6 +10131,7 @@ export namespace Prisma {
     startDate?: Date | string | null
     deadline?: Date | string | null
     members?: UserUncheckedCreateNestedManyWithoutProjectsInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutProjectInput
   }
 
   export type ProjectCreateOrConnectWithoutTestCaseInput = {
@@ -9892,6 +10182,7 @@ export namespace Prisma {
     deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     User_Project_createdByIdToUser?: UserUpdateOneWithoutProject_Project_createdByIdToUserNestedInput
     members?: UserUpdateManyWithoutProjectsNestedInput
+    notifications?: NotificationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutTestCaseInput = {
@@ -9906,6 +10197,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: UserUncheckedUpdateManyWithoutProjectsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type TestStepUpsertWithWhereUniqueWithoutTestCaseInput = {
@@ -10003,8 +10295,9 @@ export namespace Prisma {
   export type NotificationCreateManyUserInput = {
     id?: number
     message: string
-    createdAt?: Date | string
     read?: boolean
+    createdAt?: Date | string
+    projectId?: number | null
   }
 
   export type ProjectCreateManyUser_Project_createdByIdToUserInput = {
@@ -10021,22 +10314,25 @@ export namespace Prisma {
 
   export type NotificationUpdateWithoutUserInput = {
     message?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    project?: ProjectUpdateOneWithoutNotificationsNestedInput
   }
 
   export type NotificationUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     message?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type NotificationUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     message?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ProjectUpdateWithoutUser_Project_createdByIdToUserInput = {
@@ -10050,6 +10346,7 @@ export namespace Prisma {
     deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     TestCase?: TestCaseUpdateManyWithoutProjectNestedInput
     members?: UserUpdateManyWithoutProjectsNestedInput
+    notifications?: NotificationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutUser_Project_createdByIdToUserInput = {
@@ -10064,6 +10361,7 @@ export namespace Prisma {
     deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     TestCase?: TestCaseUncheckedUpdateManyWithoutProjectNestedInput
     members?: UserUncheckedUpdateManyWithoutProjectsNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutUser_Project_createdByIdToUserInput = {
@@ -10089,6 +10387,7 @@ export namespace Prisma {
     deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     User_Project_createdByIdToUser?: UserUpdateOneWithoutProject_Project_createdByIdToUserNestedInput
     TestCase?: TestCaseUpdateManyWithoutProjectNestedInput
+    notifications?: NotificationUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateWithoutMembersInput = {
@@ -10103,6 +10402,7 @@ export namespace Prisma {
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     TestCase?: TestCaseUncheckedUpdateManyWithoutProjectNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutProjectNestedInput
   }
 
   export type ProjectUncheckedUpdateManyWithoutMembersInput = {
@@ -10128,6 +10428,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt: Date | string
     module?: string | null
+  }
+
+  export type NotificationCreateManyProjectInput = {
+    id?: number
+    message: string
+    read?: boolean
+    createdAt?: Date | string
+    userId: number
   }
 
   export type TestCaseUpdateWithoutProjectInput = {
@@ -10204,6 +10512,29 @@ export namespace Prisma {
     clerkUserId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NotificationUpdateWithoutProjectInput = {
+    message?: StringFieldUpdateOperationsInput | string
+    read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutNotificationsNestedInput
+  }
+
+  export type NotificationUncheckedUpdateWithoutProjectInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    message?: StringFieldUpdateOperationsInput | string
+    read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type NotificationUncheckedUpdateManyWithoutProjectInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    message?: StringFieldUpdateOperationsInput | string
+    read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: IntFieldUpdateOperationsInput | number
   }
 
   export type TestStepCreateManyTestCaseInput = {

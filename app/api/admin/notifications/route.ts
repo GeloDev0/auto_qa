@@ -14,6 +14,16 @@ export async function GET() {
             imageUrl: true,
           },
         },
+        project: {
+          select: {
+            User_Project_createdByIdToUser: {
+              select: {
+                name: true,
+                imageUrl: true,
+              },
+            },
+          },
+        },
       },
     });
 

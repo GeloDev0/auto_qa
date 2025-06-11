@@ -38,15 +38,19 @@ model Project {
   User_Project_createdByIdToUser User?           @relation("Project_createdByIdToUser", fields: [createdById], references: [id])
   TestCase                       TestCase[]
   members                        User[]          @relation("UserProjects")
+  notifications                  Notification[] // optional, but useful
 }
 
 model Notification {
   id        Int      @id @default(autoincrement())
   message   String
-  userId    Int
-  createdAt DateTime @default(now())
   read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  userId    Int
   user      User     @relation(fields: [userId], references: [id])
+
+  projectId Int? // ✅ optional or required depending on your logic
+  project   Project? @relation(fields: [projectId], references: [id])
 }
 
 /**
