@@ -23,6 +23,8 @@ export default async function ProjectPage({ params }: PageProps) {
 
   const data = await res.json();
 
+  const testCases = Array.isArray(data.testCases) ? data.testCases : [];
+
   return (
     <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">
