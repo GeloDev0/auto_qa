@@ -11,6 +11,8 @@ export default async function AdminDashboard() {
     redirect("/");
   }
 
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   return (
     <div className="flex flex-1 flex-col">
       <div className="@container/main flex flex-1 flex-col gap-2">
