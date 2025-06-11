@@ -33,27 +33,26 @@ model Project {
   updatedAt                      DateTime        @updatedAt
   title                          String?
   createdById                    Int?
-  startDate                      DateTime?       // 👈 Add this
-  deadline                       DateTime?       // 👈 Add this
+  deadline                       DateTime?
+  startDate                      DateTime?
+  notifications                  Notification[]
   User_Project_createdByIdToUser User?           @relation("Project_createdByIdToUser", fields: [createdById], references: [id])
   TestCase                       TestCase[]
   members                        User[]          @relation("UserProjects")
-  notifications Notification[] // optional, but useful
 }
 
 model Notification {
   id        Int      @id @default(autoincrement())
   message   String
-  read      Boolean  @default(false)
-  createdAt DateTime @default(now())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-
-  projectId Int?     // ✅ optional or required depending on your logic
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+  projectId Int?
   project   Project? @relation(fields: [projectId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
 }
 
-/**** TestCase schema *****/
+/// *** TestCase schema ****
 model TestCase {
   id           Int              @id @default(autoincrement())
   title        String?
@@ -66,7 +65,7 @@ model TestCase {
   projectId    Int?
   module       String?
   Project      Project?         @relation(fields: [projectId], references: [id])
-  testSteps     TestStep[]
+  testSteps    TestStep[]
 }
 
 model TestStep {
@@ -74,7 +73,7 @@ model TestStep {
   action         String
   expectedResult String
   testCaseId     Int
-  TestCase       TestCase @relation(fields: [testCaseId], references: [id])
+  TestCase       TestCase @relation(fields: [testCaseId], references: [id], onDelete: Cascade)
 }
 
 enum ProjectStatus {

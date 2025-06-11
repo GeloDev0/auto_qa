@@ -4,13 +4,24 @@ import { DataTable } from "@/components/tables/testcase-table/data-table";
 import { testCases } from "@/types/dummy-data";
 
 interface PageProps {
-  params: { id: string };
+  params: { projectId: string };
 }
 
 export default async function ProjectPage({ params }: PageProps) {
-  const { id } = params;
+  const projectId = params.projectId;
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/admin/projects/${projectId}/testcases`,
+    {
+      cache: "no-store", // ensures fresh data on every request
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch test cases");
+  }
+
+  const data = await res.json();
 
   return (
     <div className="flex flex-1 flex-col">
@@ -23,12 +34,12 @@ export default async function ProjectPage({ params }: PageProps) {
               testSuitesCount={3}
               testCasesCount={testCases.length}
               createdAt="May 2025"
-              projectId={id}
+              projectId={projectId}
             />
           </div>
 
           <div className="px-4 lg:px-6">
-            <DataTable columns={columns} data={testCases} />
+            <DataTable columns={columns} data={data.testCases} />
           </div>
         </div>
       </div>
