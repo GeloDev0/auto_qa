@@ -1,11 +1,12 @@
 // app/user/projects/page.tsx
-import { ProjectBannerCard1 } from "@/components/cards/ProjectBannerCard1";
+
 import { UserDataTable } from "@/components/tables/project-table/user-data-table";
 import { checkRole } from "@/utils/roles";
 import { redirect } from "next/navigation";
 import { Project } from "@/components/tables/project-table/columns";
 import { getDummyProjects } from "@/lib/mockData";
 import { userColumns } from "@/components/tables/project-table/user-column";
+import { UserProjectBannerCard } from "@/components/cards/UserProjectBanner";
 
 async function getUserProjects(): Promise<Project[]> {
   // Backend will handle data fetching directly
@@ -30,7 +31,7 @@ export default async function UserProjects() {
       <div className="@container/main flex flex-1 flex-col gap-2">
         <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
           <div className="px-4 lg:px-6">
-            <ProjectBannerCard1
+            <UserProjectBannerCard
               title="My Projects"
               description="View your testing projects and track their progress."
             />
