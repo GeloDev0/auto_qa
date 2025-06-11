@@ -40,7 +40,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { ButtonLoader } from "../loader/Loader";  
+import { ButtonLoader } from "../loading/Loader";
 import {
   Popover,
   PopoverContent,
@@ -59,8 +59,8 @@ const projectFormSchema = z.object({
   status: z.enum(["ACTIVE", "INACTIVE", "COMPLETED"]),
   priority: z.enum(["HIGH", "MEDIUM", "LOW"]),
   startDate: z.date({
-  required_error: "Start date is required.",
-}),
+    required_error: "Start date is required.",
+  }),
   deadline: z.date().nullable().optional(),
   members: z.array(z.number()).optional(),
 });
@@ -172,7 +172,8 @@ export function CreateProject() {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 p-1">
+              className="space-y-4 p-1"
+            >
               <FormField
                 control={form.control}
                 name="title"
@@ -214,7 +215,8 @@ export function CreateProject() {
                       <FormLabel>Status</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}>
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select status" />
@@ -239,7 +241,8 @@ export function CreateProject() {
                       <FormLabel>Priority</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}>
+                        defaultValue={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select priority" />
@@ -260,53 +263,47 @@ export function CreateProject() {
               {/* Date Fields */}
               <div className="grid grid-cols-2 gap-4">
                 <FormField
-  control={form.control}
-  name="startDate"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Start Date</FormLabel>
-      <FormControl>
-        <DatePicker
-  className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
-  selected={field.value}
-  onChange={(date) => field.onChange(date)}
-  dateFormat="PPP"
-  placeholderText="Select a start date"
-  minDate={new Date()} // ✅ disables past dates
-/>
-
-
-      </FormControl>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
-
-
-
+                  control={form.control}
+                  name="startDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Start Date</FormLabel>
+                      <FormControl>
+                        <DatePicker
+                          className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
+                          selected={field.value}
+                          onChange={(date) => field.onChange(date)}
+                          dateFormat="PPP"
+                          placeholderText="Select a start date"
+                          minDate={new Date()} // ✅ disables past dates
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <FormField
-  control={form.control}
-  name="deadline"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Deadline (Optional)</FormLabel>
-      <FormControl>
-        <DatePicker
-  className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
-  selected={field.value}
-  onChange={(date) => field.onChange(date)}
-  dateFormat="PPP"
-  placeholderText="Select a deadline"
-  minDate={startDate || new Date()} // ✅ disables deadline dates before startDate
-  isClearable
-/>
-      </FormControl>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
-
+                  control={form.control}
+                  name="deadline"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Deadline (Optional)</FormLabel>
+                      <FormControl>
+                        <DatePicker
+                          className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
+                          selected={field.value}
+                          onChange={(date) => field.onChange(date)}
+                          dateFormat="PPP"
+                          placeholderText="Select a deadline"
+                          minDate={startDate || new Date()} // ✅ disables deadline dates before startDate
+                          isClearable
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
 
               <FormField
@@ -329,7 +326,8 @@ export function CreateProject() {
                         {selectedUsers.map((user) => (
                           <div
                             key={user.id}
-                            className="flex items-center gap-2 bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm">
+                            className="flex items-center gap-2 bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm"
+                          >
                             <img
                               src={user.imageUrl || "/default-avatar.png"}
                               alt={user.name}
@@ -347,7 +345,8 @@ export function CreateProject() {
                                   current.filter((id) => id !== user.id)
                                 );
                               }}
-                              className="ml-1 text-red-500 hover:text-red-700">
+                              className="ml-1 text-red-500 hover:text-red-700"
+                            >
                               &times;
                             </button>
                           </div>
@@ -398,7 +397,8 @@ export function CreateProject() {
                               return (
                                 <label
                                   key={user.id}
-                                  className="flex items-center gap-3 rounded-md px-2 py-1 transition hover:bg-gray-50">
+                                  className="flex items-center gap-3 rounded-md px-2 py-1 transition hover:bg-gray-50"
+                                >
                                   <input
                                     type="checkbox"
                                     value={user.id}
@@ -446,7 +446,8 @@ export function CreateProject() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="flex items-center justify-center gap-2 min-w-[140px]">
+                  className="flex items-center justify-center gap-2 min-w-[140px]"
+                >
                   {loading && <ButtonLoader />}
                   {loading ? "Creating..." : "Create Project"}
                 </Button>

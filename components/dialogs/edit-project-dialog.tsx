@@ -33,9 +33,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect, useState } from "react";
-import { ButtonLoader } from "../loader/Loader";
+import { ButtonLoader } from "../loading/Loader";
 import { Divide } from "lucide-react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -64,15 +64,15 @@ const projectFormSchema = z.object({
   priority: z.enum(["high", "medium", "low"]),
   members: z.array(z.number()).optional(),
   startDate: z.date({
-  required_error: "Start date is required.",
-}),
+    required_error: "Start date is required.",
+  }),
   deadline: z.date().nullable().optional(),
 });
 
 type ProjectFormData = z.infer<typeof projectFormSchema> & { id: number };
 
 interface EditProjectDialogProps {
-  project: {  
+  project: {
     id: number;
     title: string;
     description: string;
@@ -101,7 +101,10 @@ export function EditProjectDialog({
     defaultValues: {
       title: project.title,
       description: project.description,
-     status: project.status.toLowerCase() as "active" | "inactive" | "completed",
+      status: project.status.toLowerCase() as
+        | "active"
+        | "inactive"
+        | "completed",
       priority: project.priority.toLowerCase() as "high" | "medium" | "low",
       members: project.members ? project.members.map((m) => m.id) : [],
       startDate: project.startDate ? new Date(project.startDate) : undefined,
@@ -111,14 +114,17 @@ export function EditProjectDialog({
 
   const startDate = form.watch("startDate"); // ✅ watch the current startDate
 
-   useEffect(() => {
+  useEffect(() => {
     if (open) {
       // Reset form with project values
       console.log("Resetting form with project:", project);
       form.reset({
         title: project.title,
         description: project.description,
-        status: project.status.toLowerCase() as "active" | "inactive" | "completed",
+        status: project.status.toLowerCase() as
+          | "active"
+          | "inactive"
+          | "completed",
         priority: project.priority.toLowerCase() as "high" | "medium" | "low",
         members: project.members ? project.members.map((m) => m.id) : [],
         startDate: project.startDate ? new Date(project.startDate) : undefined,
@@ -202,220 +208,235 @@ export function EditProjectDialog({
             />
             <div className="grid grid-cols-2 gap-2">
               <FormField
-  control={form.control}
-  name="status"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Status</FormLabel>
-      <Select
-        onValueChange={field.onChange}
-        value={field.value?.toLowerCase()} // normalize if needed
-      >
-        <FormControl>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select status" />
-          </SelectTrigger>
-        </FormControl>
-        <SelectContent>
-          <SelectItem value="active">Active</SelectItem>
-          <SelectItem value="inactive">Inactive</SelectItem>
-          <SelectItem value="completed">Completed</SelectItem>
-        </SelectContent>
-      </Select>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value?.toLowerCase()} // normalize if needed
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="active">Active</SelectItem>
+                        <SelectItem value="inactive">Inactive</SelectItem>
+                        <SelectItem value="completed">Completed</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <FormField
-  control={form.control}
-  name="priority"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Priority</FormLabel>
-      <Select
-        onValueChange={field.onChange}
-        value={field.value?.toLowerCase()} // normalize if needed
-      >
-        <FormControl>
-          <SelectTrigger className="w-full">
-            <SelectValue placeholder="Select priority" />
-          </SelectTrigger>
-        </FormControl>
-        <SelectContent>
-          <SelectItem value="high">High</SelectItem>
-          <SelectItem value="medium">Medium</SelectItem>
-          <SelectItem value="low">Low</SelectItem>
-        </SelectContent>
-      </Select>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
-</div>
-
-{/* Date Fields */}
-              <div className="grid grid-cols-2 gap-4">
-                <FormField
-  control={form.control}
-  name="startDate"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Start Date</FormLabel>
-      <DatePicker
-        selected={field.value}
-        onChange={(date) => field.onChange(date)}
-        dateFormat="PPP"
-        placeholderText="Select a start date"
-        className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm"
-      />
-      <FormMessage />
-    </FormItem>
-  )}
-/>
-
-<FormField
-  control={form.control}
-  name="deadline"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Deadline (Optional)</FormLabel>
-      <DatePicker
-        selected={field.value}
-        onChange={(date) => field.onChange(date)}
-        dateFormat="PPP"
-        placeholderText="Select a deadline"
-        className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm"
-        isClearable
-        minDate={startDate || new Date()} // ✅ Ensure deadline is not before start
-      />
-      <FormMessage />
-    </FormItem>
-  )}
-/>
-
-
-              </div>
-
-<FormField
-  control={form.control}
-  name="members"
-  render={() => {
-    const selectedIds = form.watch("members") || [];
-    const selectedUsers = users.filter((u) => selectedIds.includes(u.id));
-    const [searchTerm, setSearchTerm] = useState("");
-
-    const filteredUsers = users.filter((user) =>
-      `${user.name} ${user.lname}`.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    return (
-      <FormItem>
-        <FormLabel className="text-base font-semibold">Assigned Members</FormLabel>
-
-        {/* Selected Users Display */}
-        <div className="flex flex-wrap gap-2 mb-3">
-          {selectedUsers.map((user) => (
-            <div
-              key={user.id}
-              className="flex items-center gap-2 bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm"
-            >
-              <img
-                src={user.imageUrl || "/default-avatar.png"}
-                alt={user.name}
-                className="w-5 h-5 rounded-full object-cover"
+                control={form.control}
+                name="priority"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Priority</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value?.toLowerCase()} // normalize if needed
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select priority" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="high">High</SelectItem>
+                        <SelectItem value="medium">Medium</SelectItem>
+                        <SelectItem value="low">Low</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              <span>{user.name} {user.lname}</span>
-              <button
-                type="button"
-                onClick={() => {
-                  const current = form.getValues("members") || [];
-                  form.setValue(
-                    "members",
-                    current.filter((id) => id !== user.id)
-                  );
-                }}
-                className="ml-1 text-red-500 hover:text-red-700"
-              >
-                &times;
-              </button>
             </div>
-          ))}
-        </div>
 
-        {/* Search Input */}
-        <input
-          type="text"
-          placeholder="Search members..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="mb-3 w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
-        />
+            {/* Date Fields */}
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="startDate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Start Date</FormLabel>
+                    <DatePicker
+                      selected={field.value}
+                      onChange={(date) => field.onChange(date)}
+                      dateFormat="PPP"
+                      placeholderText="Select a start date"
+                      className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm"
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-        {/* Select All */}
-        {filteredUsers.length > 0 && (
-          <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
-            <input
-              type="checkbox"
-              checked={filteredUsers.every((user) => selectedIds.includes(user.id))}
-              onChange={(e) => {
-                const filteredIds = filteredUsers.map((u) => u.id);
-                const newValues = e.target.checked
-                  ? Array.from(new Set([...selectedIds, ...filteredIds]))
-                  : selectedIds.filter((id) => !filteredIds.includes(id));
-                form.setValue("members", newValues);
+              <FormField
+                control={form.control}
+                name="deadline"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Deadline (Optional)</FormLabel>
+                    <DatePicker
+                      selected={field.value}
+                      onChange={(date) => field.onChange(date)}
+                      dateFormat="PPP"
+                      placeholderText="Select a deadline"
+                      className="w-full border border-input rounded-md px-3 py-2 text-sm shadow-sm"
+                      isClearable
+                      minDate={startDate || new Date()} // ✅ Ensure deadline is not before start
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="members"
+              render={() => {
+                const selectedIds = form.watch("members") || [];
+                const selectedUsers = users.filter((u) =>
+                  selectedIds.includes(u.id)
+                );
+                const [searchTerm, setSearchTerm] = useState("");
+
+                const filteredUsers = users.filter((user) =>
+                  `${user.name} ${user.lname}`
+                    .toLowerCase()
+                    .includes(searchTerm.toLowerCase())
+                );
+
+                return (
+                  <FormItem>
+                    <FormLabel className="text-base font-semibold">
+                      Assigned Members
+                    </FormLabel>
+
+                    {/* Selected Users Display */}
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {selectedUsers.map((user) => (
+                        <div
+                          key={user.id}
+                          className="flex items-center gap-2 bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm"
+                        >
+                          <img
+                            src={user.imageUrl || "/default-avatar.png"}
+                            alt={user.name}
+                            className="w-5 h-5 rounded-full object-cover"
+                          />
+                          <span>
+                            {user.name} {user.lname}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const current = form.getValues("members") || [];
+                              form.setValue(
+                                "members",
+                                current.filter((id) => id !== user.id)
+                              );
+                            }}
+                            className="ml-1 text-red-500 hover:text-red-700"
+                          >
+                            &times;
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Search Input */}
+                    <input
+                      type="text"
+                      placeholder="Search members..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="mb-3 w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none"
+                    />
+
+                    {/* Select All */}
+                    {filteredUsers.length > 0 && (
+                      <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
+                        <input
+                          type="checkbox"
+                          checked={filteredUsers.every((user) =>
+                            selectedIds.includes(user.id)
+                          )}
+                          onChange={(e) => {
+                            const filteredIds = filteredUsers.map((u) => u.id);
+                            const newValues = e.target.checked
+                              ? Array.from(
+                                  new Set([...selectedIds, ...filteredIds])
+                                )
+                              : selectedIds.filter(
+                                  (id) => !filteredIds.includes(id)
+                                );
+                            form.setValue("members", newValues);
+                          }}
+                        />
+                        Select All
+                      </label>
+                    )}
+
+                    {/* Scrollable List */}
+                    <div className="flex flex-col gap-2 max-h-[180px] overflow-y-auto rounded-md border p-2">
+                      {filteredUsers.length > 0 ? (
+                        filteredUsers.map((user) => {
+                          const isChecked = selectedIds.includes(user.id);
+                          return (
+                            <label
+                              key={user.id}
+                              className="flex items-center gap-3 rounded-md px-2 py-1 transition hover:bg-gray-50"
+                            >
+                              <input
+                                type="checkbox"
+                                value={user.id}
+                                checked={isChecked}
+                                onChange={(e) => {
+                                  const checked = e.target.checked;
+                                  const current =
+                                    form.getValues("members") || [];
+                                  form.setValue(
+                                    "members",
+                                    checked
+                                      ? [...current, user.id]
+                                      : current.filter((id) => id !== user.id)
+                                  );
+                                }}
+                              />
+                              <img
+                                src={user.imageUrl || "/default-avatar.png"}
+                                alt={`${user.name} ${user.lname}`}
+                                className="w-7 h-7 rounded-full object-cover"
+                              />
+                              <span className="text-sm font-medium text-gray-800">
+                                {user.name} {user.lname}
+                              </span>
+                            </label>
+                          );
+                        })
+                      ) : (
+                        <span className="text-sm text-gray-500 italic">
+                          No users found.
+                        </span>
+                      )}
+                    </div>
+
+                    <FormMessage />
+                  </FormItem>
+                );
               }}
             />
-            Select All
-          </label>
-        )}
-
-        {/* Scrollable List */}
-        <div className="flex flex-col gap-2 max-h-[180px] overflow-y-auto rounded-md border p-2">
-          {filteredUsers.length > 0 ? (
-            filteredUsers.map((user) => {
-              const isChecked = selectedIds.includes(user.id);
-              return (
-                <label
-                  key={user.id}
-                  className="flex items-center gap-3 rounded-md px-2 py-1 transition hover:bg-gray-50"
-                >
-                  <input
-                    type="checkbox"
-                    value={user.id}
-                    checked={isChecked}
-                    onChange={(e) => {
-                      const checked = e.target.checked;
-                      const current = form.getValues("members") || [];
-                      form.setValue(
-                        "members",
-                        checked
-                          ? [...current, user.id]
-                          : current.filter((id) => id !== user.id)
-                      );
-                    }}
-                  />
-                  <img
-                    src={user.imageUrl || "/default-avatar.png"}
-                    alt={`${user.name} ${user.lname}`}
-                    className="w-7 h-7 rounded-full object-cover"
-                  />
-                  <span className="text-sm font-medium text-gray-800">
-                    {user.name} {user.lname}
-                  </span>
-                </label>
-              );
-            })
-          ) : (
-            <span className="text-sm text-gray-500 italic">No users found.</span>
-          )}
-        </div>
-
-        <FormMessage />
-      </FormItem>
-    );
-  }}
-/>
             <DialogFooter>
               <Button
                 type="submit"

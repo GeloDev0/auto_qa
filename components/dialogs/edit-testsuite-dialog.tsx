@@ -32,7 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ButtonLoader } from "../loader/Loader";
+import { ButtonLoader } from "../loading/Loader";
 
 // Form schema
 const testSuiteSchema = z.object({

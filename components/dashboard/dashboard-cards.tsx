@@ -1,99 +1,81 @@
-import { TrendingDownIcon, TrendingUpIcon } from "lucide-react";
+import {
+  FolderIcon,
+  TestTubeIcon,
+  CheckCircleIcon,
+  XCircleIcon,
+  ShieldIcon,
+} from "lucide-react";
 
 import {
   Card,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 
 export function SectionCards() {
   return (
-    <div className="*:data-[slot=card]:shadow-xs @xl/main:grid-cols-3 @3xl/main:grid-cols-4 @5xl/main:grid-cols-5 grid grid-cols-1 gap-3 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/10 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card lg:px-6">
-      <Card className="@container/card">
-        <CardHeader className="relative">
-          <CardDescription>Projects</CardDescription>
+    <div className="grid grid-cols-1 gap-4 px-4 @xl/main:grid-cols-3 @3xl/main:grid-cols-4 @5xl/main:grid-cols-5 lg:px-6">
+      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-sky-100 via-sky-100 to-sky-200 text-slate-700 shadow-lg">
+        <CardHeader className="relative pb-4">
+          <CardDescription className="text-sky-600 font-medium">Projects</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             1500
           </CardTitle>
+          <div className="absolute right-4 top-4 rounded-full bg-white/60 p-2">
+            <FolderIcon className="h-5 w-5 text-sky-600 font-medium" />
+          </div>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <TrendingUpIcon className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Total numbers of projects created
-          </div>
-        </CardFooter>
       </Card>
-      <Card className="@container/card">
-        <CardHeader className="relative">
-          <CardDescription>Test Cases</CardDescription>
+
+      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-blue-100 via-blue-100 to-blue-200 text-slate-700 shadow-lg">
+        <CardHeader className="relative pb-4 ">
+          <CardDescription className="text-blue-600 font-medium">
+            Test Cases
+          </CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             1,234
           </CardTitle>
-          <div className="absolute right-4 top-4"></div>
+          <div className="absolute right-4 top-4 rounded-full bg-white/60 p-2">
+            <TestTubeIcon className="h-5 w-5 text-blue-600" />
+          </div>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <TrendingDownIcon className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Total number of testcases created
-          </div>
-        </CardFooter>
       </Card>
-      <Card className="@container/card">
-        <CardHeader className="relative">
-          <CardDescription>Passed</CardDescription>
+
+      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-emerald-100 via-emerald-100 to-emerald-200 text-slate-700 shadow-lg">
+        <CardHeader className="relative pb-4">
+          <CardDescription className="text-emerald-600 font-medium">Passed</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             45,678
           </CardTitle>
-          <div className="absolute right-4 top-4"></div>
+          <div className="absolute right-4 top-4 rounded-full bg-white/60 p-2">
+            <CheckCircleIcon className="h-5 w-5 text-emerald-600" />
+          </div>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <TrendingUpIcon className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Test cases that passed successfully
-          </div>
-        </CardFooter>
       </Card>
-      <Card className="@container/card">
-        <CardHeader className="relative">
-          <CardDescription>Failed</CardDescription>
+
+      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-rose-100 via-rose-100 to-rose-200 text-slate-700 shadow-lg">
+        <CardHeader className="relative pb-4">
+          <CardDescription className="text-rose-600 font-medium ">Failed</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             5
           </CardTitle>
-          <div className="absolute right-4 top-4"></div>
+          <div className="absolute right-4 top-4 rounded-full bg-white/60 p-2">
+            <XCircleIcon className="h-5 w-5 text-rose-600" />
+          </div>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance <TrendingUpIcon className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Test cases that failed during execution
-          </div>
-        </CardFooter>
       </Card>
-      <Card className="@container/card">
-        <CardHeader className="relative">
-          <CardDescription>Blocked</CardDescription>
+
+      <Card className="@container/card relative overflow-hidden border-0 bg-gradient-to-r from-yellow-100 via-yellow-100 to-yellow-200 text-slate-700 shadow-lg">
+        <CardHeader className="relative pb-4">
+          <CardDescription className="text-yellow-600 font-medium">Pending</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             5
           </CardTitle>
-          <div className="absolute right-4 top-4"></div>
+          <div className="absolute right-4 top-4 rounded-full bg-white/60 p-2">
+            <ShieldIcon className="h-5 w-5 text-yellow-600" />
+          </div>
         </CardHeader>
-        <CardFooter className="flex-col items-start gap-1 text-sm">
-          <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance <TrendingUpIcon className="size-4" />
-          </div>
-          <div className="text-muted-foreground">
-            Test cases blocked by issues
-          </div>
-        </CardFooter>
       </Card>
     </div>
   );
