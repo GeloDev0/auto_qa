@@ -3,6 +3,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/db";
 import { z } from "zod";
+import { auth } from "@clerk/nextjs/server";
 
 // Schema
 const projectSchema = z.object({
@@ -14,13 +15,28 @@ const projectSchema = z.object({
   startDate: z.string().datetime().optional(),  
   deadline: z.string().datetime().optional(),
 });
-// 🟢 API request to Create a project record
+// ✅ POST: Create a Project
 export async function POST(req: Request) {
   const body = await req.json();
   const parsed = projectSchema.safeParse(body);
 
   if (!parsed.success) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+  }
+
+  const { userId: clerkUserId } = await auth();
+
+  if (!clerkUserId) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Find the user in your DB using clerkUserId
+  const user = await prisma.user.findUnique({
+    where: { clerkUserId },
+  });
+
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
   const { members, startDate, deadline, ...projectData } = parsed.data;
@@ -30,46 +46,43 @@ export async function POST(req: Request) {
       ...projectData,
       startDate: startDate ? new Date(startDate) : undefined,
       deadline: deadline ? new Date(deadline) : undefined,
-      members: members ? {
-        connect: members.map((id) => ({ id })),
-      } : undefined,
+      createdById: user.id,
+      members: members?.length
+        ? {
+            connect: members.map((id) => ({ id })),
+          }
+        : undefined,
     },
     include: {
       members: true,
+      User_Project_createdByIdToUser: true, // 👈 gets creator object
     },
   });
 
-   // 🔔 Create notifications for each member
-  if (members && members.length > 0) {
-    const existingUsers = await prisma.user.findMany({
-      where: { id: { in: members } },
-      select: { id: true },
+  // Create notification for each member
+  if (members?.length) {
+    const notifications = members.map((id) => ({
+      userId: id,
+      projectId: project.id, // ✅ Add projectId here
+      message: `assigned you to project "${project.title}"`,
+    }));
+
+    await prisma.notification.createMany({
+      data: notifications,
     });
-
-    const validUserIds = existingUsers.map((u) => u.id);
-
-    if (validUserIds.length > 0) {
-      const notificationsData = validUserIds.map((userId) => ({
-        userId,
-        message: `You have been assigned to project "${project.title}"`,
-      }));
-
-      await prisma.notification.createMany({
-        data: notificationsData,
-        skipDuplicates: true,
-      });
-    }
   }
 
   return NextResponse.json(project, { status: 201 });
 }
 
-
-// 🔵 Get All Projects, ordered by id ascending
+// GET: All projects with creator
 export async function GET() {
   const projects = await prisma.project.findMany({
     orderBy: { id: "asc" },
-    include: { members: true },
+    include: {
+      members: true,
+      User_Project_createdByIdToUser: true, // 👈 createdBy user
+    },
   });
 
   return NextResponse.json(projects);
