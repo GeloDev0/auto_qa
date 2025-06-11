@@ -161,19 +161,17 @@ export function CreateProject() {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-hidden">
+        <DialogHeader>
+          <DialogTitle>Create New Project</DialogTitle>
+          <DialogDescription>
+            Fill in the details below to create a new project.
+          </DialogDescription>
+        </DialogHeader>
         <ScrollArea className="h-[80vh]  pr-4">
-          <DialogHeader>
-            <DialogTitle>Create New Project</DialogTitle>
-            <DialogDescription>
-              Fill in the details below to create a new project.
-            </DialogDescription>
-          </DialogHeader>
-
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 p-1"
-            >
+              className="space-y-4 p-1">
               <FormField
                 control={form.control}
                 name="title"
@@ -215,8 +213,7 @@ export function CreateProject() {
                       <FormLabel>Status</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                        defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select status" />
@@ -241,8 +238,7 @@ export function CreateProject() {
                       <FormLabel>Priority</FormLabel>
                       <Select
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
+                        defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger className="w-full">
                             <SelectValue placeholder="Select priority" />
@@ -326,8 +322,7 @@ export function CreateProject() {
                         {selectedUsers.map((user) => (
                           <div
                             key={user.id}
-                            className="flex items-center gap-2 bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm"
-                          >
+                            className="flex items-center gap-2 bg-blue-100 text-blue-800 rounded-full px-3 py-1 text-sm">
                             <img
                               src={user.imageUrl || "/default-avatar.png"}
                               alt={user.name}
@@ -345,8 +340,7 @@ export function CreateProject() {
                                   current.filter((id) => id !== user.id)
                                 );
                               }}
-                              className="ml-1 text-red-500 hover:text-red-700"
-                            >
+                              className="ml-1 text-red-500 hover:text-red-700">
                               &times;
                             </button>
                           </div>
@@ -397,8 +391,7 @@ export function CreateProject() {
                               return (
                                 <label
                                   key={user.id}
-                                  className="flex items-center gap-3 rounded-md px-2 py-1 transition hover:bg-gray-50"
-                                >
+                                  className="flex items-center gap-3 rounded-md px-2 py-1 transition hover:bg-gray-50">
                                   <input
                                     type="checkbox"
                                     value={user.id}
@@ -446,8 +439,7 @@ export function CreateProject() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="flex items-center justify-center gap-2 min-w-[140px]"
-                >
+                  className="flex items-center justify-center gap-2 min-w-[140px]">
                   {loading && <ButtonLoader />}
                   {loading ? "Creating..." : "Create Project"}
                 </Button>
