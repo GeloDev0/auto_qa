@@ -1,5 +1,7 @@
 import { DashboardBannerCard } from "@/components/cards/DashboardBannerCard";
-import Component from "@/components/charts/chart-pie-donut";
+import { ChartAreaGradient } from "@/components/charts/chart-area-gradient";
+
+import { ChartPieLabelCustom } from "@/components/charts/chart-pie-simple";
 import { SectionCards } from "@/components/dashboard/dashboard-cards";
 import { checkRole } from "@/utils/roles";
 import { redirect } from "next/navigation";
@@ -26,12 +28,14 @@ export default async function AdminDashboard() {
           {/* Chart section layout */}
           <div className="px-4 lg:px-6">
             <div className="flex flex-col md:flex-row gap-6">
-              <div className=" w-full md:w-1/3 ">
-                <Component /> {/* ✅ This will now be aligned to the left */}
+              <div className=" w-full md:w-1/3  ">
+                <ChartPieLabelCustom />{" "}
+                {/* ✅ This will now be aligned to the left */}
               </div>
               {/* Optional: placeholder for right side content */}
-              <div className="hidden md:block md:w-1/2">
-                {/* Add more content here if needed */}
+              <div className="w-full md:w-1/3 ">
+                {" "}
+                <ChartAreaGradient /> {/* Add more content here if needed */}
               </div>
             </div>
           </div>
