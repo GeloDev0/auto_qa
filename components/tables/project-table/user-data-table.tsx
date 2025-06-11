@@ -52,10 +52,10 @@ import { DataTablePagination } from "./pagination";
 function formatDate(dateString: string | null | undefined): string {
   if (!dateString) return "N/A";
   const date = new Date(dateString);
-  const month = date.getMonth() + 1;
+  const month = date.toLocaleString('en-US', { month: 'short' }); // e.g., "Jun"
   const day = date.getDate();
   const year = date.getFullYear();
-  return `${month}-${day}-${year}`;
+  return `${month}-${day}-${year}`; // e.g., "Jun-5-2025"
 }
 
 interface DataTableProps<TData, TValue> {
