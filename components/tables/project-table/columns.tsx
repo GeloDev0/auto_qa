@@ -50,6 +50,11 @@ export type Project = {
   createdBy: string;
   priority: "high" | "medium" | "low";
   members: Member[];
+  User_Project_createdByIdToUser?: {
+    name: string;
+    lname: string;
+    imageUrl?: string;
+  };
 };
 
 export const columns: ColumnDef<Project>[] = [
@@ -130,9 +135,31 @@ export const columns: ColumnDef<Project>[] = [
 
 
   {
-    accessorKey: "createdBy",
-    header: "Created By",
+  header: "Created By",
+  accessorKey: "User_Project_createdByIdToUser",
+  cell: ({ row }) => {
+    const creator = row.original.User_Project_createdByIdToUser;
+
+    if (!creator) return <span>Unknown</span>;
+
+    return (
+      <div className="flex items-center gap-2">
+        {creator.imageUrl ? (
+          <img
+            src={creator.imageUrl}
+            alt="creator"
+            className="h-5 w-5 rounded-full object-cover"
+          />
+        ) : (
+          <div className="h-8 w-8 rounded-full bg-gray-300" />
+        )}
+        <span className="text-sm font-medium">
+          {creator.name} {creator.lname}
+        </span>
+      </div>
+    );
   },
+},
   {
     accessorKey: "status",
     header: "Status",

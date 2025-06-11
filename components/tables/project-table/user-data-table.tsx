@@ -1,3 +1,6 @@
+//user-data-table.tsx
+
+
 "use client";
 import * as React from "react";
 import {
@@ -45,6 +48,15 @@ import { Progress } from "@/components/ui/progress";
 import { HiEye } from "react-icons/hi2";
 import Link from "next/link";
 import { DataTablePagination } from "./pagination";
+
+function formatDate(dateString: string | null | undefined): string {
+  if (!dateString) return "N/A";
+  const date = new Date(dateString);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${month}-${day}-${year}`;
+}
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -184,21 +196,25 @@ export function UserDataTable<TData, TValue>({
                     <FaCalendar className="text-gray-300 w-4 h-4" />
                     <span className="font-medium">Start:</span>
                     <span>
-                      {new Date(project.startDate).toLocaleDateString()}
+                      {formatDate(project.startDate)}
                     </span>
                   </div>
                   <div className="flex items-center gap-1">
                     <FaCalendarCheck className="text-gray-300 w-4 h-4" />
                     <span className="font-medium">Deadline:</span>
                     <span>
-                      {new Date(project.deadline).toLocaleDateString()}
+                      {formatDate(project.deadline)}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <FaUser className="text-gray-300 w-4 h-4" />
-                    <span className="font-medium">Created By:</span>
-                    <span>{project.createdBy}</span>
-                  </div>
+                  
+                   <div className="flex items-center text-sm gap-1">
+                      <FaUser className="text-gray-300 w-4 h-4" />
+                      <span className="font-medium">Created By:</span>
+                      <span className="ml-1 text-gray-700">
+                        {project.User_Project_createdByIdToUser?.name}{" "}
+                        {project.User_Project_createdByIdToUser?.lname}
+                      </span>
+                    </div>
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center p-4 gap-2">
@@ -225,13 +241,13 @@ export function UserDataTable<TData, TValue>({
                   )}
                 </div>
 
-                {/* Add member count if exists */}
+                {/* Add member count if exists
                 {project.members && project.members.length > 0 && (
                   <div className="flex items-center text-sm">
                     <FaUser className="text-gray-400 mr-1" />
                     <span>{project.members.length}</span>
                   </div>
-                )}
+                )} */}
                 <Button asChild variant="ghost" size="icon" className="w-6 h-6">
                   <Link href={`/user/projects/${project.id}`}>
                     <HiEye className="w-4 h-4 text-gray-400" />

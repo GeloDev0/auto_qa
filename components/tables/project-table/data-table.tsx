@@ -66,6 +66,11 @@ interface ProjectCardProps {
     priority?: string;
     startDate: string;
     deadline: string;
+    User_Project_createdByIdToUser?: {
+    name: string;
+    lname: string;
+    imageUrl?: string;
+  };
   };
 }
 interface DataTableProps<TData, TValue> {
@@ -240,8 +245,13 @@ export function DataTable<TData, TValue>({
 
                   <div className="flex items-center text-sm gap-1">
                     <FaUser className="text-gray-300 w-4 h-4" />
-                    <span className="font-medium">Created By: </span>{" "}
+                    <span className="font-medium">Created By:</span>
+                    <span className="ml-1 text-gray-700">
+                      {project.User_Project_createdByIdToUser?.name}{" "}
+                      {project.User_Project_createdByIdToUser?.lname}
+                    </span>
                   </div>
+
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between items-center p-4 gap-2 ">

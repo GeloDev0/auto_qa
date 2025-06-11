@@ -18,6 +18,15 @@ import { useRouter } from "next/navigation";
 import { EditProjectDialog } from "@/components/dialogs/edit-project-dialog";
 import { toast } from "sonner";
 
+function formatDate(dateString: string | null | undefined): string {
+  if (!dateString) return "N/A";
+  const date = new Date(dateString);
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const year = date.getFullYear();
+  return `${month}-${day}-${year}`;
+}
+
 // Helper to capitalize first letter
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -41,6 +50,11 @@ export type Project = {
   createdBy: string;
   priority: "high" | "medium" | "low";
   members: Member[];
+  User_Project_createdByIdToUser?: {
+  name: string;
+  lname: string;
+  imageUrl?: string;
+  };
 };
 
 export const userColumns: ColumnDef<Project>[] = [
@@ -103,17 +117,47 @@ export const userColumns: ColumnDef<Project>[] = [
     header: "Test Cases",
   },
   {
-    accessorKey: "startDate",
-    header: "Start Date",
+  accessorKey: "startDate",
+  header: "Start Date",
+  cell: ({ row }) => {
+    const startDate = row.original.startDate;
+    return <span>{formatDate(startDate)}</span>;
+  },
   },
   {
     accessorKey: "deadline",
-    header: "Deadline",
+  header: "Deadline",
+  cell: ({ row }) => {
+    const deadline = row.original.deadline;
+    return <span>{formatDate(deadline)}</span>;
   },
-  {
-    accessorKey: "createdBy",
-    header: "Created By",
   },
+ {
+  header: "Created By",
+  accessorKey: "User_Project_createdByIdToUser",
+  cell: ({ row }) => {
+    const creator = row.original.User_Project_createdByIdToUser;
+
+    if (!creator) return <span>Unknown</span>;
+
+    return (
+      <div className="flex items-center gap-2">
+        {creator.imageUrl ? (
+          <img
+            src={creator.imageUrl}
+            alt="creator"
+            className="h-5 w-5 rounded-full object-cover"
+          />
+        ) : (
+          <div className="h-8 w-8 rounded-full bg-gray-300" />
+        )}
+        <span className="text-sm font-medium">
+          {creator.name} {creator.lname}
+        </span>
+      </div>
+    );
+  },
+},
   {
     accessorKey: "status",
     header: "Status",
@@ -179,74 +223,6 @@ export const userColumns: ColumnDef<Project>[] = [
                 onClick={() => router.push(`/user/projects/${project.id}`)}>
                 View
               </Button>
-
-              <EditProjectDialog
-                project={{
-                  id: project.id,
-                  title: project.title,
-                  description: project.description,
-                  status: project.status,
-                  priority: project.priority,
-                  members: project.members,
-                }}
-                onEdit={async (updatedProject) => {
-                  try {
-                    const backendProject = {
-                      ...updatedProject,
-                      status: updatedProject.status.toUpperCase(),
-                      priority: updatedProject.priority.toUpperCase(),
-                    };
-
-                    const res = await fetch(
-                      `/api/user/projects/${project.id}`,
-                      {
-                        method: "PUT",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(backendProject),
-                      }
-                    );
-
-                    if (!res.ok) throw new Error("Failed to update project");
-
-                    toast.success("Project updated successfully!");
-                    router.refresh();
-                  } catch (err) {
-                    console.error("Update error:", err);
-                    toast.error("Failed to update project.");
-                  }
-                }}>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-left pl-3 text-gray-600">
-                  Edit
-                </Button>
-              </EditProjectDialog>
-
-              <DropdownMenuSeparator />
-
-              <DeleteDialog
-                onDelete={async () => {
-                  try {
-                    const res = await fetch(
-                      `/api/user/projects/${project.id}`,
-                      {
-                        method: "DELETE",
-                      }
-                    );
-                    if (!res.ok) throw new Error("Failed to delete project");
-                    router.refresh();
-                  } catch (err) {
-                    console.error("Delete error:", err);
-                  }
-                }}>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-left pl-3 text-red-400">
-                  Delete
-                </Button>
-              </DeleteDialog>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
