@@ -1,14 +1,11 @@
-// components/tables/project-table/table-only.tsx
 "use client";
 import * as React from "react";
 import {
   ColumnDef,
-  ColumnFiltersState,
   SortingState,
   VisibilityState,
   flexRender,
   getCoreRowModel,
-  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
@@ -21,13 +18,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "./pagination";
 
 interface TableOnlyProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  compact?: boolean; // Optional prop for tighter spacing
+  compact?: boolean;
 }
 
 export function TableOnly<TData, TValue>({
@@ -36,42 +32,28 @@ export function TableOnly<TData, TValue>({
   compact = false,
 }: TableOnlyProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
+  // Keep only the 10 most recent projects
+  const recentData = data.slice(0, 10);
+
   const table = useReactTable({
-    data,
+    data: recentData,
     columns,
     state: {
       sorting,
-      columnFilters,
       columnVisibility,
     },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
   });
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <Input
-          placeholder="Filter projects..."
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div>
-
       <div className="rounded-md border">
         <Table className={compact ? "compact-table" : ""}>
           <TableHeader className="bg-blue-50">
@@ -93,9 +75,7 @@ export function TableOnly<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}>
+                <TableRow key={row.id}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
@@ -120,8 +100,6 @@ export function TableOnly<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-
-      <DataTablePagination table={table} />
     </div>
   );
 }
