@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { TrendingUp } from "lucide-react";
 import { Pie, PieChart } from "recharts";
 
@@ -18,39 +19,43 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-export const description = "A pie chart with a custom label";
-
-// Update to show statuses
-const chartData = [
-  { status: "Passed", count: 100, fill: "var(--chart-1)" },
-  { status: "Failed", count: 110, fill: "var(--chart-2)" },
-  { status: "Blocked", count: 60, fill: "var(--chart-3)" },
-];
-
 const chartConfig = {
-  count: {
-    label: "Count",
-  },
-  Passed: {
-    label: "Passed",
-    color: "var(--chart-1)",
-  },
-  Failed: {
-    label: "Failed",
-    color: "var(--chart-2)",
-  },
-  Blocked: {
-    label: "Blocked",
-    color: "var(--chart-3)",
-  },
+  count: { label: "Count" },
+  LOW: { label: "Low", color: "var(--chart-1)" },
+  MEDIUM: { label: "Medium", color: "var(--chart-2)" },
+  HIGH: { label: "High", color: "var(--chart-3)" },
+  CRITICAL: { label: "Critical", color: "var(--chart-4)" },
 } satisfies ChartConfig;
 
+const PRIORITY_COLORS: Record<string, string> = {
+  LOW: "var(--chart-1)",
+  MEDIUM: "var(--chart-2)",
+  HIGH: "var(--chart-3)",
+  CRITICAL: "var(--chart-4)",
+};
+
 export function PriorityChartPie() {
+  const [data, setData] = useState<
+    { priority: string; count: number; fill: string }[]
+  >([]);
+
+  useEffect(() => {
+    fetch("/api/admin/dashboard/project-prio")
+      .then((res) => res.json())
+      .then((raw) => {
+        const withColor = raw.map((d: any) => ({
+          ...d,
+          fill: PRIORITY_COLORS[d.priority] || "var(--border)",
+        }));
+        setData(withColor);
+      });
+  }, []);
+
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Priority Distribution</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Project Priority Distribution</CardTitle>
+        <CardDescription>January – June 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -61,24 +66,22 @@ export function PriorityChartPie() {
               content={<ChartTooltipContent nameKey="count" hideLabel />}
             />
             <Pie
-              data={chartData}
+              data={data}
               dataKey="count"
+              nameKey="priority"
               labelLine={false}
-              label={({ payload, ...props }) => {
-                return (
-                  <text
-                    cx={props.cx}
-                    cy={props.cy}
-                    x={props.x}
-                    y={props.y}
-                    textAnchor={props.textAnchor}
-                    dominantBaseline={props.dominantBaseline}
-                    fill="hsla(var(--foreground))">
-                    {payload.count}
-                  </text>
-                );
-              }}
-              nameKey="status"
+              label={({ payload, ...props }) => (
+                <text
+                  cx={props.cx}
+                  cy={props.cy}
+                  x={props.x}
+                  y={props.y}
+                  textAnchor={props.textAnchor}
+                  dominantBaseline={props.dominantBaseline}
+                  fill="hsla(var(--foreground))">
+                  {payload.count}
+                </text>
+              )}
             />
           </PieChart>
         </ChartContainer>
@@ -88,7 +91,7 @@ export function PriorityChartPie() {
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="text-muted-foreground leading-none">
-          Showing status summary for the last 6 months
+          Showing priority summary for the last 6 months
         </div>
       </CardFooter>
     </Card>
