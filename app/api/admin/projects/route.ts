@@ -13,7 +13,7 @@ const projectSchema = z.object({
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
   members: z.array(z.number()).optional(),  // user IDs array
   startDate: z.string().datetime().optional(),  
-  deadline: z.string().datetime().optional(),
+  deadline: z.string().datetime().nullable().optional(),
 });
 // ✅ POST: Create a Project
 export async function POST(req: Request) {

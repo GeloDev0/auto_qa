@@ -226,7 +226,33 @@ export const columns: ColumnDef<Project>[] = [
                 View
               </Button>
 
-              <EditProjectDialog
+              <DropdownMenuSeparator />
+
+              <DeleteDialog
+                onDelete={async () => {
+                  try {
+                    const res = await fetch(
+                      `/api/admin/projects/${project.id}`,
+                      {
+                        method: "DELETE",
+                      }
+                    );
+                    if (!res.ok) throw new Error("Failed to delete project");
+                    router.refresh();
+                  } catch (err) {
+                    console.error("Delete error:", err);
+                  }
+                }}>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start text-left pl-3 text-red-400">
+                  Delete
+                </Button>
+              </DeleteDialog>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+             <EditProjectDialog
                 project={{
                   id: project.id,
                   title: project.title,
@@ -272,31 +298,6 @@ export const columns: ColumnDef<Project>[] = [
                 </Button>
               </EditProjectDialog>
 
-              <DropdownMenuSeparator />
-
-              <DeleteDialog
-                onDelete={async () => {
-                  try {
-                    const res = await fetch(
-                      `/api/admin/projects/${project.id}`,
-                      {
-                        method: "DELETE",
-                      }
-                    );
-                    if (!res.ok) throw new Error("Failed to delete project");
-                    router.refresh();
-                  } catch (err) {
-                    console.error("Delete error:", err);
-                  }
-                }}>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start text-left pl-3 text-red-400">
-                  Delete
-                </Button>
-              </DeleteDialog>
-            </DropdownMenuContent>
-          </DropdownMenu>
         </div>
       );
     },

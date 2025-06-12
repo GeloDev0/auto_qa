@@ -11,7 +11,7 @@ const projectSchema = z.object({
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]).optional(),
   members: z.array(z.number()).optional(),
   startDate: z.string().datetime().optional(),
-  deadline: z.string().datetime().optional(),
+  deadline: z.string().datetime().nullable().optional(),
 });
 
 // GET /api/admin/projects/[id]
