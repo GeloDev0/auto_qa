@@ -3,6 +3,7 @@ import { DashboardBannerCard } from "@/components/cards/DashboardBannerCard";
 import TeamCollaboration from "@/components/cards/recent-users";
 
 import { ChartAreaInteractive } from "@/components/charts/chart-area-interactive";
+import { ChartPieLabelCustom } from "@/components/charts/chart-pie-simple";
 
 import { SectionCards } from "@/components/dashboard/dashboard-cards";
 import { checkRole } from "@/utils/roles";
@@ -24,14 +25,17 @@ export default async function AdminDashboard() {
           <div className="px-4 lg:px-6">
             <DashboardBannerCard />
           </div>
+
           <SectionCards />
 
-          <div className="px-4 lg:px-6 ">
+          <div className="px-4 lg:px-6">
             <ChartAreaInteractive />
 
             {/* Two-column layout for cards */}
             <div className="flex flex-col md:flex-row py-4 md:gap-6 md:py-6">
-              <div className="w-full md:w-1/2"></div>
+              <div className="w-full md:w-1/2">
+                <ChartPieLabelCustom />
+              </div>
               <div className="w-full md:w-1/2">
                 <TeamCollaboration />
               </div>
