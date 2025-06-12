@@ -1,7 +1,9 @@
 import { DashboardBannerCard } from "@/components/cards/DashboardBannerCard";
-import { ChartAreaGradient } from "@/components/charts/chart-area-gradient";
 
-import { ChartPieLabelCustom } from "@/components/charts/chart-pie-simple";
+import TeamCollaboration from "@/components/cards/recent-users";
+
+import { ChartAreaInteractive } from "@/components/charts/chart-area-interactive";
+
 import { SectionCards } from "@/components/dashboard/dashboard-cards";
 import { checkRole } from "@/utils/roles";
 import { redirect } from "next/navigation";
@@ -20,22 +22,18 @@ export default async function AdminDashboard() {
       <div className="@container/main flex flex-1 flex-col gap-2">
         <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
           <div className="px-4 lg:px-6">
-            <DashboardBannerCard /> {/* ✅ drop the banner here */}
+            <DashboardBannerCard />
           </div>
-
           <SectionCards />
 
-          {/* Chart section layout */}
-          <div className="px-4 lg:px-6">
-            <div className="flex flex-col md:flex-row gap-6">
-              <div className=" w-full md:w-1/3  ">
-                <ChartPieLabelCustom />{" "}
-                {/* ✅ This will now be aligned to the left */}
-              </div>
-              {/* Optional: placeholder for right side content */}
-              <div className="w-full md:w-1/3 ">
-                {" "}
-                <ChartAreaGradient /> {/* Add more content here if needed */}
+          <div className="px-4 lg:px-6 ">
+            <ChartAreaInteractive />
+
+            {/* Two-column layout for cards */}
+            <div className="flex flex-col md:flex-row py-4 md:gap-6 md:py-6">
+              <div className="w-full md:w-1/2"></div>
+              <div className="w-full md:w-1/2">
+                <TeamCollaboration />
               </div>
             </div>
           </div>
