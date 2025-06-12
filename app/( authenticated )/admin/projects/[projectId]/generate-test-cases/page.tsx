@@ -40,13 +40,16 @@ import {
 } from "@/components/ui/select";
 import { TestCaseCard } from "@/components/testcase/test-case-card";
 import { FaRobot } from "react-icons/fa";
+import { useParams, useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { on } from "events";
 
 export default function GenerateTestCasePage() {
   const [userStory, setUserStory] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedTestCases, setGeneratedTestCases] = useState<TestCase[]>([]);
   const [formData, setFormData] = useState<{ priority: TestCase["priority"] }>({
-    priority: "Medium",
+    priority: "MEDIUM", // default priority
   });
 
   const generateTestCases = async () => {
@@ -78,6 +81,7 @@ export default function GenerateTestCasePage() {
           (tc: any, index: number) => ({
             id: tc.id ?? `TC-00${index + 1}`,
             title: tc.title,
+            status: "PENDING", // default status
             description: tc.description,
             module: tc.module,
             priority: tc.priority,
@@ -126,6 +130,7 @@ export default function GenerateTestCasePage() {
 
   const selectedCount = generatedTestCases.filter((tc) => tc.selected).length;
 
+
   const handleSelectAll = () => {
     const allSelected = generatedTestCases.every((tc) => tc.selected);
     setGeneratedTestCases((prev) =>
@@ -133,11 +138,77 @@ export default function GenerateTestCasePage() {
     );
   };
 
-  const handleAddToProject = () => {
+  // const router = useRouter();
+  // const handleDelete = async (id: number) => {
+  //   try {
+  //     const res = await fetch(`/api/admin/testcases/${id}`, {
+  //       method: "DELETE",
+  //     });
+
+  //     if (!res.ok) {
+  //       throw new Error("Failed to delete test case");
+  //     }
+
+  //     toast.success("Test case deleted successfully");
+  //     router.push("/testcases");
+  //     router.refresh(); // Refresh the list
+  //   } catch (error) {
+  //     console.error("Delete error:", error);
+  //     toast.error("Failed to delete test case");
+  //   }
+  // };
+
+  const { projectId } = useParams();  
+  const handleAddToProject = async () => {
     const selectedTestCases = generatedTestCases.filter((tc) => tc.selected);
-    console.log("Adding to project:", selectedTestCases);
-    alert(`Added ${selectedTestCases.length} test cases to project!`);
-  };
+
+    if (selectedTestCases.length === 0) {
+      alert("No test cases selected.");
+      return;
+    }
+
+    const projectIdNumber = Number(projectId);
+    if (isNaN(projectIdNumber)) {
+      console.error("Invalid project ID");
+      return;
+    }
+    const payload = {
+      projectId: projectIdNumber,
+      testCases: selectedTestCases.map((tc) => ({
+        title: tc.title,
+        description: tc.description,
+        module: tc.module,
+        priority: tc.priority,
+        status: "PENDING",
+        testSteps: tc.testSteps.map((step) => ({
+          id: step.id,
+          action: step.action,
+          expectedResult: step.expectedResult,
+        })),
+      })),
+    };
+
+    try {
+      const res = await fetch("/api/admin/testcases/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await res.json();
+
+      if (!res.ok) {
+        console.error("Failed to save test cases:", result);
+        alert("Error: " + JSON.stringify(result.error ?? result));
+        return;
+      }
+
+      alert(result.message);
+    } catch (error) {
+      console.error("Save failed:", error);
+      alert("Save failed. Check console for details.");
+    }
+};
 
   // Group test cases by module
   const groupedTestCases = generatedTestCases.reduce((groups, testCase) => {
@@ -240,19 +311,19 @@ export default function GenerateTestCasePage() {
                     <SelectValue placeholder="Select priority level" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Low">
+                    <SelectItem value="LOW">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-sm bg-gray-400" />
                         <span>Low Priority</span>
                       </div>
                     </SelectItem>
-                    <SelectItem value="Medium">
+                    <SelectItem value="MEDIUM">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-sm bg-yellow-400" />
                         <span>Medium Priority</span>
                       </div>
                     </SelectItem>
-                    <SelectItem value="High">
+                    <SelectItem value="HIGH">
                       <div className="flex items-center gap-2">
                         <div className="w-3 h-3 rounded-sm bg-orange-400" />
                         <span>High Priority</span>

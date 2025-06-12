@@ -26,29 +26,30 @@ import { toast } from "sonner"; // Import Sonner
 
 export type TestCase = {
   id: string;
-  testcase: string;
+  title: string;
   description: string;
   module: string;
-  priority: string;
-  status: string;
+  priority: "LOW" | "MEDIUM" | "HIGH";
+  status: "PENDING" | "PASS" | "FAIL";
   createdBy: string;
-  preconditions: string[];
-  steps: {
+  preconditions: string;
+  testSteps: Array<{
+    id: number;
     action: string;
-    expected: string;
-  }[];
+    expectedResult: string;
+  }>
 };
 
 const priorityColors = {
-  High: "bg-red-100 text-red-700 ",
-  Medium: "bg-yellow-100 text-yellow-700 ",
-  Low: "bg-green-100 text-green-700 ",
+  HIGH: "bg-red-100 text-red-700 ",
+  MEDIUM: "bg-yellow-100 text-yellow-700 ",
+  LOW: "bg-green-100 text-green-700 ",
 };
 
 const statusColors = {
-  Passed: "bg-green-100 text-green-700 ",
-  Failed: "bg-red-100 text-red-700 ",
-  Pending: "bg-yellow-100 text-yellow-700 ",
+  PENDING: "bg-yellow-100 text-yellow-700 ",
+  PASS: "bg-green-100 text-green-700 ",
+  FAIL: "bg-red-100 text-red-700 ",
 };
 
 interface TestCaseSheetProps {
@@ -95,7 +96,7 @@ export const TestCaseSheet = ({
     const spinnerPromise = new Promise((resolve) => {
       setTimeout(() => {
         resolve(null);
-      }, 5000);
+      }, 2000);
     });
 
     try {
@@ -112,53 +113,60 @@ export const TestCaseSheet = ({
     }
   };
 
-  const addPrecondition = () => {
-    setEditValues({
-      ...editValues,
-      preconditions: [...editValues.preconditions, ""],
-    });
-  };
+  // const addPrecondition = () => {
+  //   setEditValues({
+  //     ...editValues,
+  //     preconditions: [...editValues.preconditions, ""],
+  //   });
+  // };
 
-  const updatePrecondition = (index: number, value: string) => {
-    const newPreconditions = [...editValues.preconditions];
-    newPreconditions[index] = value;
-    setEditValues({
-      ...editValues,
-      preconditions: newPreconditions,
-    });
-  };
+  // const updatePrecondition = (index: number, value: string) => {
+  //   const newPreconditions = [...editValues.preconditions];
+  //   newPreconditions[index] = value;
+  //   setEditValues({
+  //     ...editValues,
+  //     preconditions: newPreconditions,
+  //   });
+  // };
 
-  const removePrecondition = (index: number) => {
-    setEditValues({
-      ...editValues,
-      preconditions: editValues.preconditions.filter((_, i) => i !== index),
-    });
-  };
+  // const removePrecondition = (index: number) => {
+  //   setEditValues({
+  //     ...editValues,
+  //     preconditions: editValues.preconditions.filter((_, i) => i !== index),
+  //   });
+  // };
 
   const addStep = () => {
-    setEditValues({
-      ...editValues,
-      steps: [...editValues.steps, { action: "", expected: "" }],
-    });
-  };
+  setEditValues((prev) => ({
+    ...prev,
+    testSteps: [
+      ...prev.testSteps,
+      {
+        id: prev.testSteps.length > 0 ? prev.testSteps[prev.testSteps.length - 1].id + 1 : 1,
+        action: "",
+        expectedResult: "",
+      },
+    ],
+  }));
+};
 
   const updateStep = (
     index: number,
-    field: keyof TestCase["steps"][0],
+    field: "action" | "expectedResult",
     value: string
   ) => {
-    const newSteps = [...editValues.steps];
+    const newSteps = [...editValues.testSteps];
     newSteps[index] = { ...newSteps[index], [field]: value };
     setEditValues({
       ...editValues,
-      steps: newSteps,
+      testSteps: newSteps,
     });
   };
 
   const removeStep = (index: number) => {
     setEditValues({
       ...editValues,
-      steps: editValues.steps.filter((_, i) => i !== index),
+      testSteps: editValues.testSteps.filter((_, i) => i !== index),
     });
   };
 
@@ -221,9 +229,9 @@ export const TestCaseSheet = ({
                   Title
                 </label>
                 <Input
-                  value={editValues.testcase}
+                  value={editValues.title}
                   onChange={(e) =>
-                    setEditValues({ ...editValues, testcase: e.target.value })
+                    setEditValues({ ...editValues, title: e.target.value })
                   }
                   className="text-base w-full"
                 />
@@ -268,7 +276,7 @@ export const TestCaseSheet = ({
                   </label>
                   <Select
                     value={editValues.priority}
-                    onValueChange={(value) =>
+                    onValueChange={(value: "LOW" | "MEDIUM" | "HIGH") =>
                       setEditValues({
                         ...editValues,
                         priority: value,
@@ -278,9 +286,9 @@ export const TestCaseSheet = ({
                       <SelectValue placeholder="Select priority" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Low">Low</SelectItem>
-                      <SelectItem value="Medium">Medium</SelectItem>
-                      <SelectItem value="High">High</SelectItem>
+                      <SelectItem value="LOW">Low</SelectItem>
+                      <SelectItem value="MEDIUM">Medium</SelectItem>
+                      <SelectItem value="HIGH">High</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -290,7 +298,7 @@ export const TestCaseSheet = ({
                   </label>
                   <Select
                     value={editValues.status}
-                    onValueChange={(value) =>
+                    onValueChange={(value: "PASS" | "FAIL" | "PENDING") =>
                       setEditValues({
                         ...editValues,
                         status: value,
@@ -300,16 +308,16 @@ export const TestCaseSheet = ({
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Passed">Passed</SelectItem>
-                      <SelectItem value="Failed">Failed</SelectItem>
-                      <SelectItem value="Pending">Pending</SelectItem>
+                      <SelectItem value="PASS">Passed</SelectItem>
+                      <SelectItem value="FAIL">Failed</SelectItem>
+                      <SelectItem value="PENDING">Pending</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
               {/* Preconditions */}
-              <div>
+              {/* <div>
                 <label className="text-sm font-medium text-gray-700 block mb-2">
                   Preconditions
                 </label>
@@ -345,7 +353,7 @@ export const TestCaseSheet = ({
                   <Plus className="h-4 w-4 mr-2" />
                   Add Precondition
                 </Button>
-              </div>
+              </div> */}
 
               {/* Steps */}
               <div>
@@ -353,7 +361,7 @@ export const TestCaseSheet = ({
                   Steps
                 </label>
                 <div className="space-y-2">
-                  {editValues.steps.map((step, index) => (
+                  {editValues.testSteps.map((step, index) => (
                     <div key={index} className="flex items-start gap-2 w-full">
                       <div className="flex-1">
                         <Textarea
@@ -385,15 +393,15 @@ export const TestCaseSheet = ({
                   Expected Results
                 </label>
                 <div className="space-y-2">
-                  {editValues.steps.map((step, index) => (
+                  {editValues.testSteps.map((step, index) => (
                     <div
                       key={`result-${index}`}
                       className="flex items-start gap-2 w-full">
                       <div className="flex-1">
                         <Textarea
-                          value={step.expected}
+                          value={step.expectedResult}
                           onChange={(e) =>
-                            updateStep(index, "expected", e.target.value)
+                            updateStep(index, "expectedResult", e.target.value)
                           }
                           className="min-h-[60px] w-full resize-none text-sm"
                           placeholder={`Expected result ${index + 1}...`}
@@ -434,7 +442,7 @@ export const TestCaseSheet = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Badge className="bg-blue-100 text-blue-500">
-                  {testcase.id}
+                  {`TC-00${testcase.id.toString()}`}
                 </Badge>
 
                 <Badge
@@ -468,7 +476,7 @@ export const TestCaseSheet = ({
 
           <div className="mt-6">
             <SheetTitle className="text-lg font-semibold text-gray-900 leading-tight">
-              {testcase.testcase}
+              {testcase.title}
             </SheetTitle>
           </div>
         </div>
@@ -500,7 +508,7 @@ export const TestCaseSheet = ({
             </div>
 
             {/* Preconditions */}
-            <div>
+            {/* <div>
               <h3 className="text-sm font-medium text-gray-900 mb-2">
                 Preconditions
               </h3>
@@ -515,13 +523,13 @@ export const TestCaseSheet = ({
                   No preconditions defined
                 </p>
               )}
-            </div>
+            </div> */}
 
             {/* Steps */}
             <div>
               <h3 className="text-sm font-medium text-gray-900 mb-2">Steps</h3>
               <ol className="space-y-2">
-                {testcase.steps.map((step, index) => (
+                {testcase.testSteps.map((step, index) => (
                   <li key={index} className="text-sm text-gray-600">
                     <span className="font-medium">{index + 1}.</span>{" "}
                     {step.action || (
@@ -540,10 +548,10 @@ export const TestCaseSheet = ({
                 Expected Results
               </h3>
               <ol className="space-y-2">
-                {testcase.steps.map((step, index) => (
+                {testcase.testSteps.map((step, index) => (
                   <li key={`result-${index}`} className="text-sm text-gray-600">
                     <span className="font-medium">{index + 1}.</span>{" "}
-                    {step.expected || (
+                    {step.expectedResult || (
                       <span className="text-gray-400 italic">
                         No expected result defined
                       </span>

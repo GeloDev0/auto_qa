@@ -11,8 +11,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
-import { getTestCaseById } from "@/types/dummy-data";
+import { useEffect, useState } from "react";
+// import { getTestCaseById } from "@/types/dummy-data";
 import { TestCase, TestCaseSheet } from "./test-case-details-sheets";
 
 export const columns: ColumnDef<TestCase>[] = [
@@ -43,8 +43,8 @@ export const columns: ColumnDef<TestCase>[] = [
     header: "Test Case ID",
   },
   {
-    accessorKey: "testcase",
-    header: "Test Case",
+    accessorKey: "title",
+    header: "Title",
   },
   {
     accessorKey: "description",
@@ -75,9 +75,28 @@ export const columns: ColumnDef<TestCase>[] = [
     cell: ({ row }) => {
       const testcase = row.original;
       const [isSheetOpen, setIsSheetOpen] = useState(false);
+      const [fullTestCase, setFullTestCase] = useState<TestCase | null>(null);
+      const [loading, setLoading] = useState(false);
 
       // Get full test case data with all details
-      const fullTestCase = getTestCaseById(testcase.id);
+      useEffect(() => {
+      if (isSheetOpen && !fullTestCase) {
+        setLoading(true);
+        fetch(`/api/admin/testcases/${testcase.id}`)
+          .then((res) => {
+            if (!res.ok) throw new Error("Failed to fetch test case");
+            return res.json();
+          })
+          .then((data) => {
+            const tc = Array.isArray(data) ? data[0] : data;
+            setFullTestCase(tc);
+          })
+          .catch((err) => {
+            console.error("Error fetching test case:", err);
+          })
+          .finally(() => setLoading(false));
+      }
+    }, [isSheetOpen, testcase.id]);
 
       return (
         <>
@@ -97,13 +116,12 @@ export const columns: ColumnDef<TestCase>[] = [
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {fullTestCase && (
+          {isSheetOpen && fullTestCase && (
             <TestCaseSheet
               testcase={fullTestCase}
               isOpen={isSheetOpen}
               onOpenChange={setIsSheetOpen}
               onSave={(updatedTestCase) => {
-                // Handle save logic here
                 console.log("Updated test case:", updatedTestCase);
               }}
             />
