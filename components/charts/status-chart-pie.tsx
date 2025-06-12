@@ -20,45 +20,36 @@ import {
 
 export const description = "A pie chart with a custom label";
 
+// Update to show statuses
 const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 90, fill: "var(--color-other)" },
+  { status: "Passed", count: 275, fill: "var(--chart-1)" },
+  { status: "Failed", count: 120, fill: "var(--chart-2)" },
+  { status: "Blocked", count: 90, fill: "var(--chart-3)" },
 ];
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  count: {
+    label: "Count",
   },
-  chrome: {
-    label: "Chrome",
+  Passed: {
+    label: "Passed",
     color: "var(--chart-1)",
   },
-  safari: {
-    label: "Safari",
+  Failed: {
+    label: "Failed",
     color: "var(--chart-2)",
   },
-  firefox: {
-    label: "Firefox",
+  Blocked: {
+    label: "Blocked",
     color: "var(--chart-3)",
-  },
-  edge: {
-    label: "Edge",
-    color: "var(--chart-4)",
-  },
-  other: {
-    label: "Other",
-    color: "var(--chart-5)",
   },
 } satisfies ChartConfig;
 
-export function ChartPieLabelCustom() {
+export function StatusChartPie() {
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Custom Label</CardTitle>
+        <CardTitle>Status Distribution</CardTitle>
         <CardDescription>January - June 2024</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
@@ -67,11 +58,11 @@ export function ChartPieLabelCustom() {
           className="mx-auto aspect-square max-h-[250px] px-0">
           <PieChart>
             <ChartTooltip
-              content={<ChartTooltipContent nameKey="visitors" hideLabel />}
+              content={<ChartTooltipContent nameKey="count" hideLabel />}
             />
             <Pie
               data={chartData}
-              dataKey="visitors"
+              dataKey="count"
               labelLine={false}
               label={({ payload, ...props }) => {
                 return (
@@ -83,11 +74,11 @@ export function ChartPieLabelCustom() {
                     textAnchor={props.textAnchor}
                     dominantBaseline={props.dominantBaseline}
                     fill="hsla(var(--foreground))">
-                    {payload.visitors}
+                    {payload.count}
                   </text>
                 );
               }}
-              nameKey="browser"
+              nameKey="status"
             />
           </PieChart>
         </ChartContainer>
@@ -97,7 +88,7 @@ export function ChartPieLabelCustom() {
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
         <div className="text-muted-foreground leading-none">
-          Showing total visitors for the last 6 months
+          Showing status summary for the last 6 months
         </div>
       </CardFooter>
     </Card>

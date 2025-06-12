@@ -10,7 +10,7 @@ import {
 
 export function SectionCards() {
   return (
-    <div className="*:data-[slot=card]:shadow-xs @xl/main:grid-cols-3 @3xl/main:grid-cols-4 @5xl/main:grid-cols-5 grid grid-cols-1 gap-3 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/10 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card lg:px-6">
+    <div className="*:data-[slot=card]:shadow-l @xl/main:grid-cols-3 @3xl/main:grid-cols-4 @5xl/main:grid-cols-5 grid grid-cols-1 gap-3 px-4  lg:px-6">
       <Card className="@container/card">
         <CardHeader className="relative">
           <CardDescription>Projects</CardDescription>
@@ -46,7 +46,7 @@ export function SectionCards() {
       </Card>
       <Card className="@container/card">
         <CardHeader className="relative">
-          <CardDescription>Passed</CardDescription>
+          <CardDescription>Completed</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             45,678
           </CardTitle>
@@ -57,13 +57,13 @@ export function SectionCards() {
             Strong user retention <TrendingUpIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            Test cases that passed successfully
+            Projects that have been successfully completed
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader className="relative">
-          <CardDescription>Failed</CardDescription>
+          <CardDescription>Inactive</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             5
           </CardTitle>
@@ -74,13 +74,13 @@ export function SectionCards() {
             Steady performance <TrendingUpIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            Test cases that failed during execution
+            Projects currently on hold or blocked due to issues
           </div>
         </CardFooter>
       </Card>
       <Card className="@container/card">
         <CardHeader className="relative">
-          <CardDescription>Blocked</CardDescription>
+          <CardDescription>Active</CardDescription>
           <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
             5
           </CardTitle>
@@ -91,7 +91,7 @@ export function SectionCards() {
             Steady performance <TrendingUpIcon className="size-4" />
           </div>
           <div className="text-muted-foreground">
-            Test cases blocked by issues
+            Projects currently in progress
           </div>
         </CardFooter>
       </Card>
