@@ -69,14 +69,14 @@ export function ProjectBannerCard({
           <div className="flex items-center gap-2 text-gray-500">
             {!isGeneratePage && (
               <>
-                <Button variant="outline">
+                {/* <Button variant="outline">
                   <FaFileExport className="mr-1 h-4 w-4" />
                   Export
                 </Button>
                 <Button variant="outline">
                   <FaJira className="mr-1 h-4 w-4" />
                   Export to Jira
-                </Button>
+                </Button> */}
                 <Button
                   onClick={() =>
                     router.push(
