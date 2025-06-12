@@ -40,10 +40,9 @@ interface TestCaseCardProps {
 }
 
 const priorityColors = {
-  Low: "bg-gray-50 text-gray-600 border-gray-200",
-  Medium: "bg-yellow-50 text-yellow-600 border-yellow-200",
-  High: "bg-orange-50 text-orange-600 border-orange-200",
-  Critical: "bg-red-50 text-red-600 border-red-200",
+  LOW: "bg-gray-50 text-gray-600 border-gray-200",
+  MEDIUM: "bg-yellow-50 text-yellow-600 border-yellow-200",
+  HIGH: "bg-red-50 text-red-600 border-red-200",
 };
 
 export function TestCaseCard({
@@ -108,6 +107,7 @@ export function TestCaseCard({
     setIsEditing(true);
   };
 
+  // Handle saving the edited test case
   const handleEditSave = async () => {
     setIsSaving(true);
 
@@ -127,7 +127,7 @@ export function TestCaseCard({
         title: editValues.title,
         description: editValues.description,
         module: editValues.module,
-        steps: editValues.steps,
+        testSteps: editValues.testSteps,
       });
 
       // Close edit mode after toast appears
@@ -155,7 +155,11 @@ export function TestCaseCard({
     setIsEditing(false);
   };
 
+  
+
+  
   if (isEditing) {
+    
     return (
       <Card className="border border-gray-200 bg-white shadow-sm pb-0 pt-0">
         {/* Edit Mode Header */}
@@ -398,9 +402,9 @@ export function TestCaseCard({
                     </div>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Low">Low</SelectItem>
-                    <SelectItem value="Medium">Medium</SelectItem>
-                    <SelectItem value="High">High</SelectItem>
+                    <SelectItem value="LOW">Low</SelectItem>
+                    <SelectItem value="MEDIUM">Medium</SelectItem>
+                    <SelectItem value="HIGH">High</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

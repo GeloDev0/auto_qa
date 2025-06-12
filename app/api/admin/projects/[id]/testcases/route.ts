@@ -21,7 +21,7 @@ export async function GET(
       include: {
         testSteps: true,
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: { createdAt: "asc" },
     });
 
     return NextResponse.json({ testCases }, { status: 200 });

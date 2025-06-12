@@ -168,7 +168,7 @@ export function DataTable<TData, TValue>({
                   <div className="p-4">
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="text-lg font-bold truncate">
-                        {testcase.testcase}
+                        {testcase.title}
                       </h3>
                     </div>
 
